@@ -1,0 +1,62 @@
+package api
+
+import (
+	"crypto/sha512"
+	"fmt"
+	"net/http"
+	"time"
+
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/labstack/echo/v4"
+	"github.com/rs/zerolog/log"
+)
+
+func (s *Server) Login(c echo.Context) error {
+	username := c.FormValue("username")
+	password := c.FormValue("password")
+
+	log.Debug().Str("password", stringToSha512(password)).Msg("Password")
+	user, err := s.db.Login(username, stringToSha512(password))
+	if err != nil {
+		log.Error().Err(err).Str("username", username).Msg("Failed to find user")
+		return echo.ErrUnauthorized
+	}
+
+	token := jwt.New(jwt.SigningMethodHS256)
+	claims := token.Claims.(jwt.MapClaims)
+	claims["id"] = user.ID
+	claims["email"] = user.Email
+	claims["nombre"] = user.Nombre
+	claims["apellidos"] = user.Apellidos
+	claims["restaurador"] = user.IsRestaurador
+	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
+
+	t, err := token.SignedString([]byte(s.cfg.JWTSecret))
+	if err != nil {
+		log.Error().Err(err).Str("username", username).Msg("Failed to sign JWT token")
+		return echo.ErrUnauthorized
+	}
+
+	log.Info().Str("username", username).Msg("User logged in")
+	return c.JSON(http.StatusOK, map[string]string{"token": t})
+}
+
+// Assert that the JWT token is from a restaurador user
+func requiresRestaurador(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		user := c.Get("user").(*jwt.Token)
+		claims := user.Claims.(jwt.MapClaims)
+		flag := claims["restaurado"].(bool)
+		if !flag {
+			return echo.ErrUnauthorized
+		}
+		return next(c)
+	}
+}
+
+// Generates SHA512 from a string
+func stringToSha512(s string) string {
+	h := sha512.New()
+	h.Write([]byte(s))
+	return fmt.Sprintf(`%x`, h.Sum(nil))
+}
