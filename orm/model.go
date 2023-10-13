@@ -30,14 +30,6 @@ type Usuario struct {
 	CarritoCompra Carrito  // has one
 }
 
-type Promocion struct {
-	gorm.Model
-	PlatoID uint // FK - pertenece a un plato
-	Inicio  time.Time
-	Fin     time.Time
-	Precio  float32 `gorm:"scale:2"`
-}
-
 type Ingrediente struct {
 	gorm.Model
 	Nombre string `gorm:"size:250"`
@@ -48,6 +40,14 @@ type Alergeno struct {
 	Nombre string `gorm:"size:250"`
 }
 
+type Promocion struct {
+	gorm.Model
+	PlatoID uint // FK - promocion pertenece a un plato
+	Inicio  time.Time
+	Fin     time.Time
+	Precio  float32 `gorm:"scale:2"`
+}
+
 type Plato struct {
 	gorm.Model
 	Nombre       string        `gorm:"unique;size:250"`
@@ -55,7 +55,7 @@ type Plato struct {
 	Ingredientes []Ingrediente `gorm:"many2many:plato_ingredientes;"`
 	Alergenos    []Alergeno    `gorm:"many2many:plato_alergenos;"`
 	Precio       float32       `gorm:"scale:2"`
-	Promociones  []Promocion
+	Promociones  []Promocion   // has many
 }
 
 type PedidoLinea struct {

@@ -40,6 +40,10 @@ func (d *Database) Migrate() error {
 	if err != nil {
 		return err
 	}
+	err = d.db.AutoMigrate(&Promocion{})
+	if err != nil {
+		return err
+	}
 	err = d.db.AutoMigrate(&Pedido{})
 	if err != nil {
 		return err

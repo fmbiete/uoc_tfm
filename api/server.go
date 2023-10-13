@@ -52,6 +52,13 @@ func (s *Server) Listen() error {
 	gPlatos.PATCH("/:id", s.PlatoModify, requiresLogin, requiresRestaurador)
 	gPlatos.DELETE("/:id", s.PlatoDelete, requiresLogin, requiresRestaurador)
 
+	gPromociones := s.e.Group("/promociones")
+	gPromociones.GET("/", s.PromocionList)
+	gPromociones.GET("/:id", s.PromocionDetails)
+	gPromociones.POST("/", s.PromocionCreate, requiresLogin, requiresRestaurador)
+	gPromociones.PATCH("/:id", s.PromocionModify, requiresLogin, requiresRestaurador)
+	gPromociones.DELETE("/:id", s.PromocionDelete, requiresLogin, requiresRestaurador)
+
 	s.e.GET("/todo", func(c echo.Context) error { return c.String(http.StatusOK, "OK") }, requiresLogin, requiresRestaurador)
 
 	return s.e.Start(fmt.Sprintf(`:%d`, s.cfg.Port))
