@@ -32,7 +32,7 @@ func (s *Server) UsuarioCrear(c echo.Context) error {
 func (s *Server) UsuarioEliminar(c echo.Context) error {
 	userId, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
-		log.Error().Err(err).Str("id", c.Param("id")).Msg("Failed to convert ID to int64")
+		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
 		return c.NoContent(http.StatusBadRequest)
 	}
 
@@ -48,7 +48,7 @@ func (s *Server) UsuarioEliminar(c echo.Context) error {
 func (s *Server) UsuarioGet(c echo.Context) error {
 	userId, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
-		log.Error().Err(err).Str("id", c.Param("id")).Msg("Failed to convert ID to int64")
+		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
 		return c.NoContent(http.StatusBadRequest)
 	}
 
@@ -64,7 +64,7 @@ func (s *Server) UsuarioGet(c echo.Context) error {
 func (s *Server) UsuarioModificar(c echo.Context) error {
 	userId, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
-		log.Error().Err(err).Str("id", c.Param("id")).Msg("Failed to convert ID to int64")
+		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
 		return c.NoContent(http.StatusBadRequest)
 	}
 

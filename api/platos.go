@@ -29,7 +29,7 @@ func (s *Server) PlatoCreate(c echo.Context) error {
 func (s *Server) PlatoDelete(c echo.Context) error {
 	platoId, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
-		log.Error().Err(err).Str("id", c.Param("id")).Msg("Failed to convert ID to int64")
+		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
 		return c.NoContent(http.StatusBadRequest)
 	}
 
@@ -45,7 +45,7 @@ func (s *Server) PlatoDelete(c echo.Context) error {
 func (s *Server) PlatoDetails(c echo.Context) error {
 	platoId, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
-		log.Error().Err(err).Str("id", c.Param("id")).Msg("Failed to convert ID to int64")
+		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
 		return c.NoContent(http.StatusBadRequest)
 	}
 
@@ -81,7 +81,7 @@ func (s *Server) PlatoList(c echo.Context) error {
 func (s *Server) PlatoModify(c echo.Context) error {
 	platoId, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
-		log.Error().Err(err).Str("id", c.Param("id")).Msg("Failed to convert ID to int64")
+		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
 		return c.NoContent(http.StatusBadRequest)
 	}
 

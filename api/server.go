@@ -20,6 +20,8 @@ type Server struct {
 	cfg *config.ConfigServer
 }
 
+const msgErrorIdToInt = "Failed to convert ID to int64"
+
 func NewServer(cfg config.ConfigServer, db *orm.Database) *Server {
 	s := Server{e: echo.New(), cfg: &cfg, db: db}
 	s.e.HideBanner = true
