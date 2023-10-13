@@ -46,7 +46,7 @@ func requiresRestaurador(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		user := c.Get("user").(*jwt.Token)
 		claims := user.Claims.(jwt.MapClaims)
-		flag := claims["restaurado"].(bool)
+		flag := claims["restaurador"].(bool)
 		if !flag {
 			return echo.ErrUnauthorized
 		}
