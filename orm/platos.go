@@ -13,7 +13,11 @@ func (d *Database) PlatoCreate(plato Plato) (Plato, error) {
 		return plato, result.Error
 	}
 
-	return plato, gorm.ErrDuplicatedKey
+	if err == nil {
+		return plato, gorm.ErrDuplicatedKey
+	}
+
+	return plato, err
 }
 
 func (d *Database) PlatoDelete(platoId int64) error {
@@ -35,6 +39,15 @@ func (d *Database) PlatoList(usuarioId int64) ([]Plato, error) {
 }
 
 func (d *Database) PlatoModify(plato Plato) (Plato, error) {
+	// replace alergenos and ingredientes - Update adds new records, but doesn't delete old ones
+	alergenos := plato.Alergenos
+	d.db.Unscoped().Model(&plato).Association("Alergenos").Unscoped().Clear()
+	plato.Alergenos = alergenos
+
+	ingredientes := plato.Ingredientes
+	d.db.Unscoped().Model(&plato).Association("Ingredientes").Unscoped().Clear()
+	plato.Ingredientes = ingredientes
+
 	result := d.db.Updates(&plato)
 	// returns only modified fields
 	if result.Error == nil {

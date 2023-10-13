@@ -16,7 +16,7 @@ Content-Type: application/json
 
 
 ### Platos Delete (requires login)
-DELETE http://localhost:8080/platos/{{{platoid}}}
+DELETE http://localhost:8080/platos/{{platoid}}
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
@@ -32,4 +32,4 @@ PATCH http://localhost:8080/platos/{{platoid}}
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
-{  }
+{ "nombre": "Paella", "descripcion": "Plato de arroz valenciano", "ingredientes": [ { "nombre": "arroz bomba" }, { "nombre": "pollo" }, { "nombre": "pimiento" } ], "alergenos": [ { "nombre": "gluten" }, { "nombre": "carne" }], "precio": 6.50 }

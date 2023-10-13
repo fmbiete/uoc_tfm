@@ -51,7 +51,7 @@ func (s *Server) PlatoDetails(c echo.Context) error {
 
 	plato, err := s.db.PlatoDetails(platoId)
 	if err != nil {
-		log.Error().Err(err).Interface("id", platoId).Msg("Failed to create plato")
+		log.Error().Err(err).Interface("id", platoId).Msg("Failed to read plato")
 		return c.NoContent(http.StatusInternalServerError)
 	}
 

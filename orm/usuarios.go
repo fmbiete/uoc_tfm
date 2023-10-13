@@ -13,7 +13,11 @@ func (d *Database) UsuarioCrear(user Usuario) (Usuario, error) {
 		return user, result.Error
 	}
 
-	return user, gorm.ErrDuplicatedKey
+	if err == nil {
+		return user, gorm.ErrDuplicatedKey
+	}
+
+	return user, err
 }
 
 func (d *Database) UsuarioEliminar(userId int64) error {
