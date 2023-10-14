@@ -1,16 +1,16 @@
 ## Paste here token returned by login
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGVsbGlkb3MiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AdGZtLmVzIiwiZXhwIjoxNjk3Mjk5NTE2LCJpZCI6MCwibm9tYnJlIjoiQWRtaW4iLCJyZXN0YXVyYWRvciI6dHJ1ZX0.6PhHPGhLcefgPOCQY-3s8oHImdv576eDyvhb2fpDZYY
-@pedidoid = 6
-@usuarioid = 1
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGVsbGlkb3MiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AdGZtLmVzIiwiZXhwIjoxNjk3MzgxNzc3LCJpZCI6MSwibm9tYnJlIjoiQWRtaW4iLCJyZXN0YXVyYWRvciI6dHJ1ZX0.2vKa_Ry7ELri94fJPe0UNA1lBeC2vV2X4eIAR0-ATXw
+@pedidoid = 5
+
 
 ### Pedidos Create From Carrito (requires login and carrito content)
-POST http://localhost:8080/pedidos/{{usuarioid}}
+POST http://localhost:8080/pedidos/
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 
 ### Pedidos List
-GET http://localhost:8080/pedidos/?day=2023-10-13
+GET http://localhost:8080/pedidos/?day=2023-10-14
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
@@ -27,7 +27,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 
-@lineaid = 7
+@lineaid = 1
 
 ### Pedidos Modify Linea - Existing (requires login)
 PATCH http://localhost:8080/pedidos/{{pedidoid}}/linea/{{lineaid}}

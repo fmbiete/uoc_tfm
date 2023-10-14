@@ -19,6 +19,7 @@ func (d *Database) PedidoCreateFromCarrito(userId uint64) (Pedido, error) {
 	}
 
 	// initialize pedido
+	log.Debug().Uint64("userId", userId).Msg("PedidoCreateFromCarrito")
 	var pedido Pedido
 	pedido.UsuarioID = userId
 	pedido.Entrega, err = d.configTodayEntrega()

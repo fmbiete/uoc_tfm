@@ -1,5 +1,5 @@
 ## Paste here token returned by login
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGVsbGlkb3MiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AdGZtLmVzIiwiZXhwIjoxNjk3Mjk5NTE2LCJpZCI6MCwibm9tYnJlIjoiQWRtaW4iLCJyZXN0YXVyYWRvciI6dHJ1ZX0.6PhHPGhLcefgPOCQY-3s8oHImdv576eDyvhb2fpDZYY
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGVsbGlkb3MiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AdGZtLmVzIiwiZXhwIjoxNjk3MzgxNzc3LCJpZCI6MSwibm9tYnJlIjoiQWRtaW4iLCJyZXN0YXVyYWRvciI6dHJ1ZX0.2vKa_Ry7ELri94fJPe0UNA1lBeC2vV2X4eIAR0-ATXw
 @platoid = 1
 
 ### Platos Create (requires login)
@@ -20,6 +20,10 @@ Content-Type: application/json
 GET http://localhost:8080/platos/
 Content-Type: application/json
 
+### Platos List (optional login)
+GET http://localhost:8080/platos/
+Authorization: Bearer {{token}}
+Content-Type: application/json
 
 ### Platos Delete (requires login)
 DELETE http://localhost:8080/platos/{{platoid}}

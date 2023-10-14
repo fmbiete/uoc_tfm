@@ -1,6 +1,7 @@
 package api
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -35,6 +36,19 @@ func NewServer(cfg config.ConfigServer, db *orm.Database) *Server {
 
 func (s *Server) Listen() error {
 	var requiresLogin = echojwt.WithConfig(echojwt.Config{SigningKey: []byte(s.cfg.JWTSecret)})
+	var optionalLogin = echojwt.WithConfig(
+		echojwt.Config{
+			SigningKey:             []byte(s.cfg.JWTSecret),
+			ContinueOnIgnoredError: true,
+			ErrorHandler: func(c echo.Context, err error) error {
+				fmt.Println(err)
+				if errors.Is(err, echojwt.ErrJWTMissing) {
+					return nil
+				}
+				return err
+			},
+		},
+	)
 
 	s.e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "TFM Backend API")
@@ -55,7 +69,8 @@ func (s *Server) Listen() error {
 
 	// Platos API
 	gPlatos := s.e.Group("/platos")
-	gPlatos.GET("/", s.PlatoList)
+	// platos is authenticated (show list of favourite platos for user) and unauthenticated (show list of favourite platos for everybody)
+	gPlatos.GET("/", s.PlatoList, optionalLogin)
 	gPlatos.GET("/:id", s.PlatoDetails)
 	gPlatos.POST("/", s.PlatoCreate, requiresLogin, requiresRestaurador)
 	gPlatos.PATCH("/:id", s.PlatoModify, requiresLogin, requiresRestaurador)

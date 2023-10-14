@@ -60,13 +60,8 @@ func (s *Server) PlatoDetails(c echo.Context) error {
 
 func (s *Server) PlatoList(c echo.Context) error {
 	var userId int64 = -1
-	var err error
-	if len(c.QueryParam("usuarioId")) > 0 {
-		userId, err = strconv.ParseInt(c.QueryParam("usuarioId"), 10, 64)
-		if err != nil {
-			log.Error().Err(err).Str("id", c.QueryParam("usuarioId")).Msg("Failed to convert usuarioId to int64")
-			return c.NoContent(http.StatusBadRequest)
-		}
+	if authenticated(c) {
+		userId = int64(authenticatedUserId(c))
 	}
 
 	platos, err := s.db.PlatoList(userId)

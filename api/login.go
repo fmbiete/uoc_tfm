@@ -15,7 +15,6 @@ func (s *Server) Login(c echo.Context) error {
 	username := c.FormValue("username")
 	password := c.FormValue("password")
 
-	log.Debug().Str("password", stringToSha512(password)).Msg("Password")
 	user, err := s.db.Login(username, stringToSha512(password))
 	if err != nil {
 		log.Error().Err(err).Str("username", username).Msg("Failed to find user")
@@ -54,6 +53,10 @@ func requiresRestaurador(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
+func authenticated(c echo.Context) bool {
+	return c.Get("user") != nil
+}
+
 func authenticatedIsRestaurador(c echo.Context) bool {
 	user := c.Get("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
@@ -63,7 +66,7 @@ func authenticatedIsRestaurador(c echo.Context) bool {
 func authenticatedUserId(c echo.Context) uint64 {
 	user := c.Get("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
-	return claims["id"].(uint64)
+	return uint64(claims["id"].(float64))
 }
 
 // Generates SHA512 from a string

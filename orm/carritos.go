@@ -41,6 +41,9 @@ func (d *Database) CarritoDetails(userId uint64) (Carrito, error) {
 func (d *Database) CarritoSave(carrito Carrito) (Carrito, error) {
 	var err error
 
+	// temp save of lineas
+	lineas := carrito.CarritoLineas
+
 	// If there is no carrito ID, find the carrito for the user
 	if carrito.ID == 0 {
 		carrito, err = d.CarritoDetails(carrito.UsuarioID)
@@ -50,7 +53,6 @@ func (d *Database) CarritoSave(carrito Carrito) (Carrito, error) {
 	}
 
 	// existing lineas: delete + insert
-	lineas := carrito.CarritoLineas
 	d.db.Unscoped().Model(&carrito).Association("CarritoLineas").Unscoped().Clear()
 	carrito.CarritoLineas = lineas
 
