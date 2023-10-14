@@ -75,8 +75,8 @@ func (d *Database) PedidoDelete(pedidoId uint64) error {
 
 func (d *Database) PedidoDetails(pedidoId uint64) (Pedido, error) {
 	var pedido Pedido
-	result := d.db.Preload("PedidoLineas").First(&pedido, pedidoId)
-	return pedido, result.Error
+	err := d.db.Preload("PedidoLineas").First(&pedido, pedidoId).Error
+	return pedido, err
 }
 
 func (d *Database) PedidoList(userId int64, day string) ([]Pedido, error) {
@@ -91,8 +91,8 @@ func (d *Database) PedidoList(userId int64, day string) ([]Pedido, error) {
 		queryDb = queryDb.Where("usuario_id = ?", userId)
 	}
 
-	result := queryDb.Find(&pedidos)
-	return pedidos, result.Error
+	err := queryDb.Find(&pedidos).Error
+	return pedidos, err
 }
 
 func (d *Database) pedidoCalcularPrecio(pedido Pedido) (Pedido, error) {

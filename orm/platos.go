@@ -9,15 +9,16 @@ import (
 func (d *Database) PlatoCreate(plato Plato) (Plato, error) {
 	err := d.db.Where("nombre = ?", plato.Nombre).First(&Plato{}).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		result := d.db.Create(&plato)
-		return plato, result.Error
+		err := d.db.Create(&plato).Error
+		return plato, err
 	}
 
-	if err == nil {
-		return plato, gorm.ErrDuplicatedKey
+	if err != nil {
+		return plato, err
 	}
 
-	return plato, err
+	// No error, we have found a matching plato - return duplicated error
+	return plato, gorm.ErrDuplicatedKey
 }
 
 func (d *Database) PlatoDelete(platoId uint64) error {
@@ -26,16 +27,16 @@ func (d *Database) PlatoDelete(platoId uint64) error {
 
 func (d *Database) PlatoDetails(platoId uint64) (Plato, error) {
 	var plato Plato
-	result := d.db.Preload("Alergenos").Preload("Ingredientes").First(&plato, platoId)
-	return plato, result.Error
+	err := d.db.Preload("Alergenos").Preload("Ingredientes").First(&plato, platoId).Error
+	return plato, err
 }
 
 func (d *Database) PlatoList(usuarioId int64) ([]Plato, error) {
 	var platos []Plato
 	// TODO: filter by usuarioId if != -1, order by user sales
 	// TODO: order by global sales
-	result := d.db.Preload("Alergenos").Find(&platos)
-	return platos, result.Error
+	err := d.db.Preload("Alergenos").Find(&platos).Error
+	return platos, err
 }
 
 func (d *Database) PlatoModify(plato Plato) (Plato, error) {
@@ -48,12 +49,12 @@ func (d *Database) PlatoModify(plato Plato) (Plato, error) {
 	d.db.Unscoped().Model(&plato).Association("Ingredientes").Unscoped().Clear()
 	plato.Ingredientes = ingredientes
 
-	result := d.db.Updates(&plato)
-	// returns only modified fields
-	if result.Error == nil {
-		return d.PlatoDetails(uint64(plato.ID))
+	err := d.db.Updates(&plato).Error
+	if err != nil {
+		return plato, err
 	}
-	return plato, result.Error
+
+	return d.PlatoDetails(uint64(plato.ID))
 }
 
 func (d *Database) platoCurrentPrecio(platoId uint64) (float64, error) {

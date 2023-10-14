@@ -9,18 +9,17 @@ import (
 
 func (d *Database) ConfiguracionDetails() (Configuracion, error) {
 	var config Configuracion
-	result := d.db.First(&config)
-	return config, result.Error
+	err := d.db.First(&config).Error
+	return config, err
 }
 
 func (d *Database) ConfiguracionModify(config Configuracion) (Configuracion, error) {
-	result := d.db.Model(&config).Updates(&config)
-	// returns only modified fields
-	if result.Error == nil {
-		return d.ConfiguracionDetails()
+	err := d.db.Model(&config).Updates(&config).Error
+	if err != nil {
+		return config, err
 	}
-	log.Error().Err(result.Error).Msg("HERE")
-	return config, result.Error
+
+	return d.ConfiguracionDetails()
 }
 
 func (d *Database) configChangesAllowed() error {

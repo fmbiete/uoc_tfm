@@ -11,15 +11,15 @@ func (d *Database) PromocionCreate(promocion Promocion) (Promocion, error) {
 	// don't allow 2 active promotions for the same plato
 	err := d.db.Where("plato_id = ? and ? between inicio and fin", promocion.PlatoID, time.Now()).First(&Promocion{}).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		result := d.db.Create(&promocion)
-		return promocion, result.Error
+		err := d.db.Create(&promocion).Error
+		return promocion, err
 	}
 
-	if err == nil {
-		return promocion, gorm.ErrDuplicatedKey
+	if err != nil {
+		return promocion, err
 	}
 
-	return promocion, err
+	return promocion, gorm.ErrDuplicatedKey
 }
 
 func (d *Database) PromocionDelete(promocionId uint64) error {
@@ -28,21 +28,21 @@ func (d *Database) PromocionDelete(promocionId uint64) error {
 
 func (d *Database) PromocionDetails(promocionId uint64) (Promocion, error) {
 	var promocion Promocion
-	result := d.db.First(&promocion, promocionId)
-	return promocion, result.Error
+	err := d.db.First(&promocion, promocionId).Error
+	return promocion, err
 }
 
 func (d *Database) PromocionList() ([]Promocion, error) {
 	var promociones []Promocion
-	result := d.db.Where("? between inicio and fin", time.Now()).Find(&promociones)
-	return promociones, result.Error
+	err := d.db.Where("? between inicio and fin", time.Now()).Find(&promociones).Error
+	return promociones, err
 }
 
 func (d *Database) PromocionModify(promocion Promocion) (Promocion, error) {
-	result := d.db.Updates(&promocion)
-	// returns only modified fields
-	if result.Error == nil {
-		return d.PromocionDetails(uint64(promocion.ID))
+	err := d.db.Updates(&promocion).Error
+	if err != nil {
+		return promocion, err
 	}
-	return promocion, result.Error
+
+	return d.PromocionDetails(uint64(promocion.ID))
 }

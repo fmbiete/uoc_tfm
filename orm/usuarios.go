@@ -9,15 +9,16 @@ import (
 func (d *Database) UsuarioCrear(user Usuario) (Usuario, error) {
 	err := d.db.Where("email = ?", user.Email).First(&Usuario{}).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		result := d.db.Create(&user)
-		return user, result.Error
+		err := d.db.Create(&user).Error
+		return user, err
 	}
 
-	if err == nil {
-		return user, gorm.ErrDuplicatedKey
+	if err != nil {
+		return user, err
 	}
 
-	return user, err
+	// No error, we have found a matching user - return duplicated error
+	return user, gorm.ErrDuplicatedKey
 }
 
 func (d *Database) UsuarioEliminar(userId uint64) error {
@@ -26,19 +27,19 @@ func (d *Database) UsuarioEliminar(userId uint64) error {
 
 func (d *Database) UsuarioGet(userId uint64) (Usuario, error) {
 	var user Usuario
-	result := d.db.First(&user, userId)
+	err := d.db.First(&user, userId).Error
 	// Don't return the password hash
 	user.Password = ""
-	return user, result.Error
+	return user, err
 }
 
 func (d *Database) UsuarioModificar(user Usuario) (Usuario, error) {
-	result := d.db.Updates(&user)
-	// returns only modified fields
-	if result.Error == nil {
-		return d.UsuarioGet(uint64(user.ID))
-	}
+	err := d.db.Updates(&user).Error
 	// Don't return the password hash
 	user.Password = ""
-	return user, result.Error
+	if err != nil {
+		return user, err
+	}
+
+	return d.UsuarioGet(uint64(user.ID))
 }
