@@ -12,7 +12,7 @@ func (s *Server) ConfiguracionDetails(c echo.Context) error {
 	config, err := s.db.ConfiguracionDetails()
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to read configuracion")
-		return c.NoContent(http.StatusInternalServerError)
+		return err
 	}
 
 	return c.JSON(http.StatusOK, config)
@@ -23,13 +23,13 @@ func (s *Server) ConfiguracionModify(c echo.Context) error {
 	err := c.Bind(&config)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to bind configuracion")
-		return c.NoContent(http.StatusBadRequest)
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	config, err = s.db.ConfiguracionModify(config)
 	if err != nil {
 		log.Error().Err(err).Interface("config", config).Msg("Failed to modify configuracion")
-		return c.NoContent(http.StatusInternalServerError)
+		return err
 	}
 
 	return c.JSON(http.StatusOK, config)

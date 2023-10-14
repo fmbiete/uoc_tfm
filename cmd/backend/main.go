@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"os"
 
+	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 
 	"tfm_backend/api"
@@ -12,6 +13,8 @@ import (
 )
 
 func main() {
+	zerolog.SetGlobalLevel(zerolog.DebugLevel)
+
 	var cfg config.Config
 	raw, err := os.ReadFile("config.json")
 	if err != nil {

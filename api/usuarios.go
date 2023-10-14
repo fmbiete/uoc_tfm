@@ -14,7 +14,7 @@ func (s *Server) UsuarioCrear(c echo.Context) error {
 	err := c.Bind(&user)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to bind usuario")
-		return c.NoContent(http.StatusBadRequest)
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	if len(user.Password) > 0 {
@@ -23,7 +23,7 @@ func (s *Server) UsuarioCrear(c echo.Context) error {
 	user, err = s.db.UsuarioCrear(user)
 	if err != nil {
 		log.Error().Err(err).Interface("user", user).Msg("Failed to create user")
-		return c.NoContent(http.StatusInternalServerError)
+		return err
 	}
 
 	return c.JSON(http.StatusCreated, user)
@@ -38,14 +38,14 @@ func (s *Server) UsuarioEliminar(c echo.Context) error {
 		userId, err = strconv.ParseUint(c.Param("id"), 10, 64)
 		if err != nil {
 			log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
-			return c.NoContent(http.StatusBadRequest)
+			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 		}
 	}
 
 	err = s.db.UsuarioEliminar(userId)
 	if err != nil {
 		log.Error().Err(err).Uint64("id", userId).Msg("Failed to delete user")
-		return c.NoContent(http.StatusInternalServerError)
+		return err
 	}
 
 	return c.NoContent(http.StatusOK)
@@ -60,14 +60,14 @@ func (s *Server) UsuarioGet(c echo.Context) error {
 		userId, err = strconv.ParseUint(c.Param("id"), 10, 64)
 		if err != nil {
 			log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
-			return c.NoContent(http.StatusBadRequest)
+			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 		}
 	}
 
 	user, err := s.db.UsuarioGet(userId)
 	if err != nil {
 		log.Error().Err(err).Uint64("id", userId).Msg("Failed to read user")
-		return c.NoContent(http.StatusInternalServerError)
+		return err
 	}
 
 	return c.JSON(http.StatusOK, user)
@@ -82,7 +82,7 @@ func (s *Server) UsuarioModificar(c echo.Context) error {
 		userId, err = strconv.ParseUint(c.Param("id"), 10, 64)
 		if err != nil {
 			log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
-			return c.NoContent(http.StatusBadRequest)
+			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 		}
 	}
 
@@ -90,7 +90,7 @@ func (s *Server) UsuarioModificar(c echo.Context) error {
 	err = c.Bind(&user)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to bind usuario")
-		return c.NoContent(http.StatusBadRequest)
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 	user.ID = userId
 
@@ -102,7 +102,7 @@ func (s *Server) UsuarioModificar(c echo.Context) error {
 	user, err = s.db.UsuarioModificar(user)
 	if err != nil {
 		log.Error().Err(err).Interface("user", user).Msg("Failed to modify user")
-		return c.NoContent(http.StatusInternalServerError)
+		return err
 	}
 
 	return c.JSON(http.StatusOK, user)
