@@ -26,17 +26,21 @@ func NewServer(cfg config.ConfigServer, db *orm.Database) *Server {
 	s := Server{e: echo.New(), cfg: &cfg, db: db}
 	s.e.HideBanner = true
 	s.e.Logger = lecho.New(os.Stdout, lecho.WithLevel(log.DEBUG), lecho.WithTimestamp(), lecho.WithCaller())
+
+	// s.e.Use(middleware.Logger())
+	s.e.Use(middleware.Recover())
+
 	return &s
 }
 
 func (s *Server) Listen() error {
 	var requiresLogin = echojwt.WithConfig(echojwt.Config{SigningKey: []byte(s.cfg.JWTSecret)})
+
 	s.e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "TFM Backend API")
 	})
 
-	s.e.Use(middleware.Recover())
-
+	// Config API
 	gConfig := s.e.Group("/config")
 	gConfig.GET("/", s.ConfiguracionDetails, requiresLogin, requiresRestaurador)
 	gConfig.PATCH("/", s.ConfiguracionModify, requiresLogin, requiresRestaurador)
@@ -49,6 +53,7 @@ func (s *Server) Listen() error {
 	gUsuario.PATCH("/:id", s.UsuarioModificar, requiresLogin)
 	gUsuario.DELETE("/:id", s.UsuarioEliminar, requiresLogin)
 
+	// Platos API
 	gPlatos := s.e.Group("/platos")
 	gPlatos.GET("/", s.PlatoList)
 	gPlatos.GET("/:id", s.PlatoDetails)
@@ -56,6 +61,7 @@ func (s *Server) Listen() error {
 	gPlatos.PATCH("/:id", s.PlatoModify, requiresLogin, requiresRestaurador)
 	gPlatos.DELETE("/:id", s.PlatoDelete, requiresLogin, requiresRestaurador)
 
+	// Promociones API
 	gPromociones := s.e.Group("/promociones")
 	gPromociones.GET("/", s.PromocionList)
 	gPromociones.GET("/:id", s.PromocionDetails)
@@ -63,21 +69,21 @@ func (s *Server) Listen() error {
 	gPromociones.PATCH("/:id", s.PromocionModify, requiresLogin, requiresRestaurador)
 	gPromociones.DELETE("/:id", s.PromocionDelete, requiresLogin, requiresRestaurador)
 
+	// Carrito API
 	gCarritos := s.e.Group("/carritos")
-	gCarritos.GET("/:usuarioid", s.CarritoDetails, requiresLogin)
-	gCarritos.POST("/:usuarioid", s.CarritoSave, requiresLogin)
-	gCarritos.DELETE("/:usuarioid", s.CarritoDelete, requiresLogin)
+	gCarritos.GET("/", s.CarritoDetails, requiresLogin)
+	gCarritos.POST("/", s.CarritoSave, requiresLogin)
+	gCarritos.DELETE("/", s.CarritoDelete, requiresLogin)
 
+	// Pedidos API
 	gPedidos := s.e.Group("/pedidos")
-	gPedidos.POST("/:usuarioid", s.PedidoCreateFromCarrito, requiresLogin)
+	gPedidos.POST("/", s.PedidoCreateFromCarrito, requiresLogin)
 	gPedidos.GET("/", s.PedidoList, requiresLogin)
 	gPedidos.GET("/:id", s.PedidoDetails, requiresLogin)
 	gPedidos.DELETE("/:id", s.PedidoCancel, requiresLogin)
 	gPedidos.POST("/:id/linea/", s.PedidoLineaCreate, requiresLogin)
 	gPedidos.PATCH("/:id/linea/:lineaid", s.PedidoLineaModify, requiresLogin)
 	gPedidos.DELETE("/:id/linea/:lineaid", s.PedidoLineaDelete, requiresLogin)
-
-	s.e.GET("/todo", func(c echo.Context) error { return c.String(http.StatusOK, "OK") }, requiresLogin, requiresRestaurador)
 
 	return s.e.Start(fmt.Sprintf(`:%d`, s.cfg.Port))
 }

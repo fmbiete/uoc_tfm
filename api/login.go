@@ -54,6 +54,18 @@ func requiresRestaurador(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
+func authenticatedIsRestaurador(c echo.Context) bool {
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	return claims["restaurador"].(bool)
+}
+
+func authenticatedUserId(c echo.Context) uint64 {
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	return claims["id"].(uint64)
+}
+
 // Generates SHA512 from a string
 func stringToSha512(s string) string {
 	h := sha512.New()

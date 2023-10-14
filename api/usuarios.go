@@ -30,10 +30,16 @@ func (s *Server) UsuarioCrear(c echo.Context) error {
 }
 
 func (s *Server) UsuarioEliminar(c echo.Context) error {
-	userId, err := strconv.ParseUint(c.Param("id"), 10, 64)
-	if err != nil {
-		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
-		return c.NoContent(http.StatusBadRequest)
+	var userId = authenticatedUserId(c)
+	var err error
+
+	if authenticatedIsRestaurador(c) {
+		// Only a restaurador can delete other users
+		userId, err = strconv.ParseUint(c.Param("id"), 10, 64)
+		if err != nil {
+			log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
+			return c.NoContent(http.StatusBadRequest)
+		}
 	}
 
 	err = s.db.UsuarioEliminar(userId)
@@ -46,10 +52,16 @@ func (s *Server) UsuarioEliminar(c echo.Context) error {
 }
 
 func (s *Server) UsuarioGet(c echo.Context) error {
-	userId, err := strconv.ParseUint(c.Param("id"), 10, 64)
-	if err != nil {
-		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
-		return c.NoContent(http.StatusBadRequest)
+	var userId = authenticatedUserId(c)
+	var err error
+
+	if authenticatedIsRestaurador(c) {
+		// Only a restaurador can read other users
+		userId, err = strconv.ParseUint(c.Param("id"), 10, 64)
+		if err != nil {
+			log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
+			return c.NoContent(http.StatusBadRequest)
+		}
 	}
 
 	user, err := s.db.UsuarioGet(userId)
@@ -62,10 +74,16 @@ func (s *Server) UsuarioGet(c echo.Context) error {
 }
 
 func (s *Server) UsuarioModificar(c echo.Context) error {
-	userId, err := strconv.ParseUint(c.Param("id"), 10, 64)
-	if err != nil {
-		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
-		return c.NoContent(http.StatusBadRequest)
+	var userId = authenticatedUserId(c)
+	var err error
+
+	if authenticatedIsRestaurador(c) {
+		// Only a restaurador can modify other users
+		userId, err = strconv.ParseUint(c.Param("id"), 10, 64)
+		if err != nil {
+			log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
+			return c.NoContent(http.StatusBadRequest)
+		}
 	}
 
 	var user orm.Usuario

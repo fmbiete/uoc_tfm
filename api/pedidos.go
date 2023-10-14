@@ -26,13 +26,7 @@ func (s *Server) PedidoCancel(c echo.Context) error {
 }
 
 func (s *Server) PedidoCreateFromCarrito(c echo.Context) error {
-	userId, err := strconv.ParseUint(c.Param("usuarioid"), 10, 64)
-	if err != nil {
-		log.Error().Err(err).Str("usuarioid", c.Param("usuarioid")).Msg(msgErrorIdToInt)
-		return c.NoContent(http.StatusBadRequest)
-	}
-
-	pedido, err := s.db.PedidoCreateFromCarrito(userId)
+	pedido, err := s.db.PedidoCreateFromCarrito(authenticatedUserId(c))
 	if err != nil {
 		log.Error().Err(err).Interface("pedido", pedido).Msg("Failed to create pedido from carrito")
 		return c.String(http.StatusInternalServerError, err.Error())
@@ -58,18 +52,12 @@ func (s *Server) PedidoDetails(c echo.Context) error {
 }
 
 func (s *Server) PedidoList(c echo.Context) error {
-	var userId int64 = -1
-	var dayFilter string = ""
-
-	var err error
-	if len(c.QueryParam("usuarioId")) > 0 {
-		userId, err = strconv.ParseInt(c.QueryParam("usuarioId"), 10, 64)
-		if err != nil {
-			log.Error().Err(err).Str("id", c.QueryParam("usuarioId")).Msg("Failed to convert usuarioId to int64")
-			return c.NoContent(http.StatusBadRequest)
-		}
+	var userId int64 = int64(authenticatedUserId(c))
+	if authenticatedIsRestaurador(c) {
+		userId = -1
 	}
-	dayFilter = c.QueryParam("day")
+
+	var dayFilter string = c.QueryParam("day")
 
 	pedidos, err := s.db.PedidoList(userId, dayFilter)
 	if err != nil {
