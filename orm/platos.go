@@ -20,11 +20,11 @@ func (d *Database) PlatoCreate(plato Plato) (Plato, error) {
 	return plato, err
 }
 
-func (d *Database) PlatoDelete(platoId int64) error {
+func (d *Database) PlatoDelete(platoId uint64) error {
 	return d.db.Delete(&Plato{}, platoId).Error
 }
 
-func (d *Database) PlatoDetails(platoId int64) (Plato, error) {
+func (d *Database) PlatoDetails(platoId uint64) (Plato, error) {
 	var plato Plato
 	result := d.db.Preload("Alergenos").Preload("Ingredientes").First(&plato, platoId)
 	return plato, result.Error
@@ -51,7 +51,7 @@ func (d *Database) PlatoModify(plato Plato) (Plato, error) {
 	result := d.db.Updates(&plato)
 	// returns only modified fields
 	if result.Error == nil {
-		return d.PlatoDetails(int64(plato.ID))
+		return d.PlatoDetails(uint64(plato.ID))
 	}
 	return plato, result.Error
 }

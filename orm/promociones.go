@@ -22,11 +22,11 @@ func (d *Database) PromocionCreate(promocion Promocion) (Promocion, error) {
 	return promocion, err
 }
 
-func (d *Database) PromocionDelete(promocionId int64) error {
+func (d *Database) PromocionDelete(promocionId uint64) error {
 	return d.db.Delete(&Promocion{}, promocionId).Error
 }
 
-func (d *Database) PromocionDetails(promocionId int64) (Promocion, error) {
+func (d *Database) PromocionDetails(promocionId uint64) (Promocion, error) {
 	var promocion Promocion
 	result := d.db.First(&promocion, promocionId)
 	return promocion, result.Error
@@ -42,7 +42,7 @@ func (d *Database) PromocionModify(promocion Promocion) (Promocion, error) {
 	result := d.db.Updates(&promocion)
 	// returns only modified fields
 	if result.Error == nil {
-		return d.PromocionDetails(int64(promocion.ID))
+		return d.PromocionDetails(uint64(promocion.ID))
 	}
 	return promocion, result.Error
 }

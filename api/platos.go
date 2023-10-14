@@ -27,7 +27,7 @@ func (s *Server) PlatoCreate(c echo.Context) error {
 }
 
 func (s *Server) PlatoDelete(c echo.Context) error {
-	platoId, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	platoId, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
 		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
 		return c.NoContent(http.StatusBadRequest)
@@ -35,7 +35,7 @@ func (s *Server) PlatoDelete(c echo.Context) error {
 
 	err = s.db.PlatoDelete(platoId)
 	if err != nil {
-		log.Error().Err(err).Int64("id", platoId).Msg("Failed to delete plato")
+		log.Error().Err(err).Uint64("id", platoId).Msg("Failed to delete plato")
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
@@ -43,7 +43,7 @@ func (s *Server) PlatoDelete(c echo.Context) error {
 }
 
 func (s *Server) PlatoDetails(c echo.Context) error {
-	platoId, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	platoId, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
 		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
 		return c.NoContent(http.StatusBadRequest)
@@ -51,7 +51,7 @@ func (s *Server) PlatoDetails(c echo.Context) error {
 
 	plato, err := s.db.PlatoDetails(platoId)
 	if err != nil {
-		log.Error().Err(err).Interface("id", platoId).Msg("Failed to read plato")
+		log.Error().Err(err).Uint64("id", platoId).Msg("Failed to read plato")
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
@@ -71,7 +71,7 @@ func (s *Server) PlatoList(c echo.Context) error {
 
 	platos, err := s.db.PlatoList(userId)
 	if err != nil {
-		log.Error().Err(err).Interface("usuarioId", userId).Msg("Failed to list platos")
+		log.Error().Err(err).Int64("usuarioId", userId).Msg("Failed to list platos")
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
@@ -79,7 +79,7 @@ func (s *Server) PlatoList(c echo.Context) error {
 }
 
 func (s *Server) PlatoModify(c echo.Context) error {
-	platoId, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	platoId, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
 		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
 		return c.NoContent(http.StatusBadRequest)
