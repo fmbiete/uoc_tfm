@@ -37,6 +37,10 @@ func (s *Server) Listen() error {
 
 	s.e.Use(middleware.Recover())
 
+	gConfig := s.e.Group("/config")
+	gConfig.GET("/", s.ConfiguracionDetails, requiresLogin, requiresRestaurador)
+	gConfig.PATCH("/", s.ConfiguracionModify, requiresLogin, requiresRestaurador)
+
 	// Usuario API
 	gUsuario := s.e.Group("/usuarios")
 	gUsuario.POST("/login", s.Login)
@@ -58,6 +62,13 @@ func (s *Server) Listen() error {
 	gPromociones.POST("/", s.PromocionCreate, requiresLogin, requiresRestaurador)
 	gPromociones.PATCH("/:id", s.PromocionModify, requiresLogin, requiresRestaurador)
 	gPromociones.DELETE("/:id", s.PromocionDelete, requiresLogin, requiresRestaurador)
+
+	gPedidos := s.e.Group("/pedidos")
+	gPedidos.GET("/", s.PedidoList, requiresLogin)
+	gPedidos.GET("/:id", s.PedidoDetails, requiresLogin)
+	gPedidos.POST("/", s.PedidoCreate, requiresLogin)
+	gPedidos.PATCH("/:id", s.PedidoModify, requiresLogin)
+	gPedidos.DELETE("/:id", s.PedidoDelete, requiresLogin)
 
 	s.e.GET("/todo", func(c echo.Context) error { return c.String(http.StatusOK, "OK") }, requiresLogin, requiresRestaurador)
 
