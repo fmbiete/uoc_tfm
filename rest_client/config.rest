@@ -1,0 +1,17 @@
+## Paste here token returned by login
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGVsbGlkb3MiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AdGZtLmVzIiwiZXhwIjoxNjk3Mjk5NTE2LCJpZCI6MCwibm9tYnJlIjoiQWRtaW4iLCJyZXN0YXVyYWRvciI6dHJ1ZX0.6PhHPGhLcefgPOCQY-3s8oHImdv576eDyvhb2fpDZYY
+
+
+### Configuracion Details (requires login)
+GET http://localhost:8080/config/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+
+
+### Configuracion Modify (requires login)
+PATCH http://localhost:8080/config/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "id": 1, "entregaTime": "2000-01-01T12:00:00.000+00:00", "cambiosTime": "2000-01-01T11:30:00.000+00:00", "precioSubvencion": 10.00 }
