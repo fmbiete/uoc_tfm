@@ -1,19 +1,16 @@
 ## Paste here token returned by login
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGVsbGlkb3MiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AdGZtLmVzIiwiZXhwIjoxNjk3Mjk5NTE2LCJpZCI6MCwibm9tYnJlIjoiQWRtaW4iLCJyZXN0YXVyYWRvciI6dHJ1ZX0.6PhHPGhLcefgPOCQY-3s8oHImdv576eDyvhb2fpDZYY
-@pedidoid = 3
-@platoid = 1
+@pedidoid = 6
 @usuarioid = 1
 
-### Pedidos Create (requires login)
-POST http://localhost:8080/pedidos/
+### Pedidos Create From Carrito (requires login and carrito content)
+POST http://localhost:8080/pedidos/{{usuarioid}}
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
-{ "usuarioId": {{usuarioid}},  "pedidoLineas": [ { "nombre": "Paella", "precioUnidad": 6.5, "cantidad": 3 } ]  }
-
 
 ### Pedidos List
-GET http://localhost:8080/pedidos/
+GET http://localhost:8080/pedidos/?day=2023-10-13
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
@@ -30,10 +27,19 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 
+@lineaid = 7
 
-### Pedidos Modify (requires login)
-PATCH http://localhost:8080/pedidos/{{pedidoid}}
+### Pedidos Modify Linea - Existing (requires login)
+PATCH http://localhost:8080/pedidos/{{pedidoid}}/linea/{{lineaid}}
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
-{ "usuarioId": {{usuarioid}},  "pedidoLineas": [ { "nombre": "Paella", "precioUnidad": 6.5, "cantidad": 2 } ] }
+{ "cantidad": 2 }
+
+
+### Pedidos Modify Linea - New (requires login)
+POST http://localhost:8080/pedidos/{{pedidoid}}/linea/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "platoId": 2, "cantidad": 1 }

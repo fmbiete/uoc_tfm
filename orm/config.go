@@ -34,7 +34,7 @@ func (d *Database) configChangesAllowed() error {
 
 	if time.Now().After(todayLimit) {
 		log.Info().Msg("CambiosTime has passed for today")
-		return errors.New("no more changes allowed")
+		return errors.New("kitchen is closed, no more pedidos or changes allowed")
 	}
 
 	return nil

@@ -9,24 +9,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func (s *Server) PedidoCreate(c echo.Context) error {
-	var pedido orm.Pedido
-	err := c.Bind(&pedido)
-	if err != nil {
-		log.Error().Err(err).Msg("Failed to bind pedido")
-		return c.NoContent(http.StatusBadRequest)
-	}
-
-	pedido, err = s.db.PedidoCreate(pedido)
-	if err != nil {
-		log.Error().Err(err).Interface("pedido", pedido).Msg("Failed to create pedido")
-		return c.NoContent(http.StatusInternalServerError)
-	}
-
-	return c.JSON(http.StatusCreated, pedido)
-}
-
-func (s *Server) PedidoDelete(c echo.Context) error {
+func (s *Server) PedidoCancel(c echo.Context) error {
 	pedidoId, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
 		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
@@ -36,10 +19,26 @@ func (s *Server) PedidoDelete(c echo.Context) error {
 	err = s.db.PedidoDelete(pedidoId)
 	if err != nil {
 		log.Error().Err(err).Uint64("id", pedidoId).Msg("Failed to delete pedido")
-		return c.NoContent(http.StatusInternalServerError)
+		return c.String(http.StatusInternalServerError, err.Error())
 	}
 
 	return c.NoContent(http.StatusOK)
+}
+
+func (s *Server) PedidoCreateFromCarrito(c echo.Context) error {
+	userId, err := strconv.ParseUint(c.Param("usuarioid"), 10, 64)
+	if err != nil {
+		log.Error().Err(err).Str("usuarioid", c.Param("usuarioid")).Msg(msgErrorIdToInt)
+		return c.NoContent(http.StatusBadRequest)
+	}
+
+	pedido, err := s.db.PedidoCreateFromCarrito(userId)
+	if err != nil {
+		log.Error().Err(err).Interface("pedido", pedido).Msg("Failed to create pedido from carrito")
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusCreated, pedido)
 }
 
 func (s *Server) PedidoDetails(c echo.Context) error {
@@ -60,6 +59,8 @@ func (s *Server) PedidoDetails(c echo.Context) error {
 
 func (s *Server) PedidoList(c echo.Context) error {
 	var userId int64 = -1
+	var dayFilter string = ""
+
 	var err error
 	if len(c.QueryParam("usuarioId")) > 0 {
 		userId, err = strconv.ParseInt(c.QueryParam("usuarioId"), 10, 64)
@@ -68,34 +69,86 @@ func (s *Server) PedidoList(c echo.Context) error {
 			return c.NoContent(http.StatusBadRequest)
 		}
 	}
+	dayFilter = c.QueryParam("day")
 
-	pedidos, err := s.db.PedidoList(userId)
+	pedidos, err := s.db.PedidoList(userId, dayFilter)
 	if err != nil {
-		log.Error().Err(err).Int64("usuario", userId).Msg("Failed to list pedidos")
+		log.Error().Err(err).Int64("usuario", userId).Str("day", dayFilter).Msg("Failed to list pedidos")
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
 	return c.JSON(http.StatusOK, pedidos)
 }
 
-func (s *Server) PedidoModify(c echo.Context) error {
+func (s *Server) PedidoLineaCreate(c echo.Context) error {
 	pedidoId, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
 		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
 		return c.NoContent(http.StatusBadRequest)
 	}
 
-	var pedido orm.Pedido
-	err = c.Bind(&pedido)
+	var linea orm.CarritoLinea
+	err = c.Bind(&linea)
 	if err != nil {
-		log.Error().Err(err).Msg("Failed to bind pedido")
+		log.Error().Err(err).Msg("Failed to bind carrito linea")
 		return c.NoContent(http.StatusBadRequest)
 	}
-	pedido.ID = uint(pedidoId)
 
-	pedido, err = s.db.PedidoModify(pedido)
+	pedido, err := s.db.PedidoLineaCreate(pedidoId, linea)
 	if err != nil {
-		log.Error().Err(err).Interface("pedido", pedido).Msg("Failed to modify pedido")
+		log.Error().Err(err).Interface("pedido", pedido).Msg("Failed to create pedido linea")
+		return c.NoContent(http.StatusInternalServerError)
+	}
+
+	return c.JSON(http.StatusOK, pedido)
+}
+func (s *Server) PedidoLineaDelete(c echo.Context) error {
+	pedidoId, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	if err != nil {
+		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
+		return c.NoContent(http.StatusBadRequest)
+	}
+
+	lineaId, err := strconv.ParseUint(c.Param("lineaid"), 10, 64)
+	if err != nil {
+		log.Error().Err(err).Str("lineaid", c.Param("lineaid")).Msg(msgErrorIdToInt)
+		return c.NoContent(http.StatusBadRequest)
+	}
+
+	pedido, err := s.db.PedidoLineaDelete(pedidoId, lineaId)
+	if err != nil {
+		log.Error().Err(err).Interface("pedido", pedido).Msg("Failed to delete pedido linea")
+		return c.NoContent(http.StatusInternalServerError)
+	}
+
+	return c.JSON(http.StatusOK, pedido)
+}
+
+func (s *Server) PedidoLineaModify(c echo.Context) error {
+	pedidoId, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	if err != nil {
+		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
+		return c.NoContent(http.StatusBadRequest)
+	}
+
+	lineaId, err := strconv.ParseUint(c.Param("lineaid"), 10, 64)
+	if err != nil {
+		log.Error().Err(err).Str("lineaid", c.Param("lineaid")).Msg(msgErrorIdToInt)
+		return c.NoContent(http.StatusBadRequest)
+	}
+
+	var linea orm.PedidoLinea
+	err = c.Bind(&linea)
+	if err != nil {
+		log.Error().Err(err).Msg("Failed to bind pedidoLinea")
+		return c.NoContent(http.StatusBadRequest)
+	}
+	linea.PedidoID = pedidoId
+	linea.ID = lineaId
+
+	pedido, err := s.db.PedidoLineaModify(linea)
+	if err != nil {
+		log.Error().Err(err).Interface("pedido", pedido).Msg("Failed to modify pedido linea")
 		return c.NoContent(http.StatusInternalServerError)
 	}
 

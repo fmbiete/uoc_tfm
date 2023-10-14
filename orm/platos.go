@@ -55,3 +55,13 @@ func (d *Database) PlatoModify(plato Plato) (Plato, error) {
 	}
 	return plato, result.Error
 }
+
+func (d *Database) platoCurrentPrecio(platoId uint64) (float64, error) {
+	var err error
+	var plato Plato
+
+	err = d.db.Select("precio").First(&plato, platoId).Error
+	return plato.Precio, err
+
+	// TODO: promociones
+}
