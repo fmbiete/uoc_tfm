@@ -13,84 +13,84 @@ type BaseModel struct {
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
 
-type Configuracion struct {
+type Configuration struct {
 	BaseModel
-	EntregaTime      time.Time
-	CambiosTime      time.Time
-	PrecioSubvencion float64
+	DeliveryTime time.Time
+	ChangesTime  time.Time
+	Subvention   float64
 }
 
-type Usuario struct {
+type User struct {
 	BaseModel
-	Email         string `gorm:"size:100;index:ix_login,priority:1"`
-	Password      string `gorm:"size:250;index:ix_login,priority:2"`
-	Nombre        string `gorm:"size:250"`
-	Apellidos     string `gorm:"size:250"`
-	Direccion1    string `gorm:"size:250"`
-	Direccion2    string `gorm:"size:250"`
-	Direccion3    string `gorm:"size:250"`
-	Ciudad        string `gorm:"size:250"`
-	CodigoPostal  string `gorm:"size:10"`
-	Telefono      string `gorm:"size:20"`
-	IsRestaurador bool
-	Pedidos       []Pedido // has many
-	CarritoCompra Carrito  // has one
+	Email      string `gorm:"size:100;index:ix_login,priority:1"`
+	Password   string `gorm:"size:250;index:ix_login,priority:2"`
+	Name       string `gorm:"size:250"`
+	Surname    string `gorm:"size:250"`
+	Address1   string `gorm:"size:250"`
+	Address2   string `gorm:"size:250"`
+	Address3   string `gorm:"size:250"`
+	City       string `gorm:"size:250"`
+	PostalCode string `gorm:"size:10"`
+	Phone      string `gorm:"size:20"`
+	IsAdmin    bool
+	Orders     []Order // has many
+	CartOrder  Cart    // has one
 }
 
-type Ingrediente struct {
+type Ingredient struct {
 	BaseModel
-	Nombre string `gorm:"size:250"`
+	Name string `gorm:"size:250"`
 }
 
-type Alergeno struct {
+type Allergen struct {
 	BaseModel
-	Nombre string `gorm:"size:250"`
+	Name string `gorm:"size:250"`
 }
 
-type Promocion struct {
+type Promotion struct {
 	BaseModel
-	PlatoID uint // FK - promocion pertenece a un plato
-	Inicio  time.Time
-	Fin     time.Time
-	Precio  float64 `gorm:"scale:2"`
+	DishID uint // FK - Promotion belongs to Dish
+	Start  time.Time
+	End    time.Time
+	Cost   float64 `gorm:"scale:2"`
 }
 
-type Plato struct {
+type Dish struct {
 	BaseModel
-	Nombre       string        `gorm:"unique;size:250"`
-	Descripcion  string        `gorm:"size:2000"`
-	Ingredientes []Ingrediente `gorm:"many2many:plato_ingredientes;"`
-	Alergenos    []Alergeno    `gorm:"many2many:plato_alergenos;"`
-	Precio       float64       `gorm:"scale:2"`
-	Promociones  []Promocion   // has many
+	Name        string       `gorm:"unique;size:250"`
+	Description string       `gorm:"size:2000"`
+	Ingredients []Ingredient `gorm:"many2many:dish_ingredients;"`
+	Allergens   []Allergen   `gorm:"many2many:dish_allergens;"`
+	Cost        float64      `gorm:"scale:2"`
+	Promotions  []Promotion  // has many
 }
 
-type PedidoLinea struct {
+type OrderLine struct {
 	BaseModel
-	PedidoID     uint64  // FK - linea pertenece a un pedido
-	Nombre       string  `gorm:"size:250"` // no usamos platos, nombre, precio, ingredientes podria cambiar
-	PrecioUnidad float64 `gorm:"scale:2"`
-	Cantidad     uint
+	OrderID  uint64  // FK - line belongs to Order
+	Name     string  `gorm:"size:250"` // don't use dish references - attributes will change
+	CostUnit float64 `gorm:"scale:2"`
+	Quantity uint
 }
 
-type Pedido struct {
+type Order struct {
 	BaseModel
-	PedidoLineas []PedidoLinea
-	UsuarioID    uint64  // FK - pedido pertenece a un usuario
-	PrecioTotal  float64 `gorm:"scale:2"`
-	PrecioPagar  float64 `gorm:"scale:2"` // FK - precio a pagar tras subvenciones
-	Entrega      time.Time
+	OrderLines []OrderLine
+	UserID     uint64  // FK - Order belongs to User
+	CostTotal  float64 `gorm:"scale:2"`
+	CostToPay  float64 `gorm:"scale:2"` // FK - cost to pay after subvention
+	Delivery   time.Time
 }
 
-type CarritoLinea struct {
+type CartLine struct {
 	BaseModel
-	CarritoID uint64 // FK - linea pertenece a un carrito
-	PlatoID   uint64 // FK - linea tiene un plato
-	Cantidad  uint
+	CartID   uint64 // FK - CartLine belongs to Cart
+	DishID   uint64 // FK - CartLine has 1 Dish
+	Quantity uint
 }
 
-type Carrito struct {
+type Cart struct {
 	BaseModel
-	CarritoLineas []CarritoLinea
-	UsuarioID     uint64 // FK - carrito pertenece a un usuario
+	CartLines []CartLine
+	UserID    uint64 // FK - Cart belongs to User
 }

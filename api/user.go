@@ -9,18 +9,18 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func (s *Server) UsuarioCreate(c echo.Context) error {
-	var user orm.Usuario
+func (s *Server) UserCreate(c echo.Context) error {
+	var user orm.User
 	err := c.Bind(&user)
 	if err != nil {
-		log.Error().Err(err).Msg("Failed to bind usuario")
+		log.Error().Err(err).Msg("Failed to bind user")
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	if len(user.Password) > 0 {
 		user.Password = stringToSha512(user.Password)
 	}
-	user, err = s.db.UsuarioCreate(user)
+	user, err = s.db.UserCreate(user)
 	if err != nil {
 		log.Error().Err(err).Interface("user", user).Msg("Failed to create user")
 		return err
@@ -29,7 +29,7 @@ func (s *Server) UsuarioCreate(c echo.Context) error {
 	return c.JSON(http.StatusCreated, user)
 }
 
-func (s *Server) UsuarioDelete(c echo.Context) error {
+func (s *Server) UserDelete(c echo.Context) error {
 	var userId = authenticatedUserId(c)
 	var err error
 
@@ -42,7 +42,7 @@ func (s *Server) UsuarioDelete(c echo.Context) error {
 		}
 	}
 
-	err = s.db.UsuarioDelete(userId)
+	err = s.db.UserDelete(userId)
 	if err != nil {
 		log.Error().Err(err).Uint64("id", userId).Msg("Failed to delete user")
 		return err
@@ -51,7 +51,7 @@ func (s *Server) UsuarioDelete(c echo.Context) error {
 	return c.NoContent(http.StatusOK)
 }
 
-func (s *Server) UsuarioDetails(c echo.Context) error {
+func (s *Server) UserDetails(c echo.Context) error {
 	var userId = authenticatedUserId(c)
 	var err error
 
@@ -64,7 +64,7 @@ func (s *Server) UsuarioDetails(c echo.Context) error {
 		}
 	}
 
-	user, err := s.db.UsuarioDetails(userId)
+	user, err := s.db.UserDetails(userId)
 	if err != nil {
 		log.Error().Err(err).Uint64("id", userId).Msg("Failed to read user")
 		return err
@@ -73,7 +73,7 @@ func (s *Server) UsuarioDetails(c echo.Context) error {
 	return c.JSON(http.StatusOK, user)
 }
 
-func (s *Server) UsuarioModify(c echo.Context) error {
+func (s *Server) UserModify(c echo.Context) error {
 	var userId = authenticatedUserId(c)
 	var err error
 
@@ -86,10 +86,10 @@ func (s *Server) UsuarioModify(c echo.Context) error {
 		}
 	}
 
-	var user orm.Usuario
+	var user orm.User
 	err = c.Bind(&user)
 	if err != nil {
-		log.Error().Err(err).Msg("Failed to bind usuario")
+		log.Error().Err(err).Msg("Failed to bind user")
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 	user.ID = userId
@@ -99,7 +99,7 @@ func (s *Server) UsuarioModify(c echo.Context) error {
 		user.Password = stringToSha512(user.Password)
 	}
 
-	user, err = s.db.UsuarioModify(user)
+	user, err = s.db.UserModify(user)
 	if err != nil {
 		log.Error().Err(err).Interface("user", user).Msg("Failed to modify user")
 		return err

@@ -3,15 +3,15 @@
 
 
 ### Configuracion Details (requires login)
-GET http://localhost:8080/config/
+GET http://localhost:8080/configuration/
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 
 
 ### Configuracion Modify (requires login)
-PATCH http://localhost:8080/config/
+PATCH http://localhost:8080/configuration/
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
-{ "id": 1, "entregaTime": "2000-01-01T20:00:00.000+00:00", "cambiosTime": "2000-01-01T20:30:00.000+00:00", "precioSubvencion": 10.00 }
+{ "id": 1, "deliveryTime": "2000-01-01T20:00:00.000+00:00", "changesTime": "2000-01-01T20:30:00.000+00:00", "subvention": 10.00 }

@@ -28,35 +28,35 @@ func (d *Database) Migrate() error {
 		return err
 	}
 
-	err = d.db.AutoMigrate(&Configuracion{})
+	err = d.db.AutoMigrate(&Configuration{})
 	if err != nil {
 		return err
 	}
-	err = d.db.AutoMigrate(&Usuario{})
+	err = d.db.AutoMigrate(&User{})
 	if err != nil {
 		return err
 	}
-	err = d.db.AutoMigrate(&Plato{})
+	err = d.db.AutoMigrate(&Dish{})
 	if err != nil {
 		return err
 	}
-	err = d.db.AutoMigrate(&Promocion{})
+	err = d.db.AutoMigrate(&Promotion{})
 	if err != nil {
 		return err
 	}
-	err = d.db.AutoMigrate(&Pedido{})
+	err = d.db.AutoMigrate(&Order{})
 	if err != nil {
 		return err
 	}
-	err = d.db.AutoMigrate(&PedidoLinea{})
+	err = d.db.AutoMigrate(&OrderLine{})
 	if err != nil {
 		return err
 	}
-	err = d.db.AutoMigrate(&Carrito{})
+	err = d.db.AutoMigrate(&Cart{})
 	if err != nil {
 		return err
 	}
-	err = d.db.AutoMigrate(&CarritoLinea{})
+	err = d.db.AutoMigrate(&CartLine{})
 	if err != nil {
 		return err
 	}

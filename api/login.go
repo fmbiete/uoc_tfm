@@ -25,9 +25,9 @@ func (s *Server) Login(c echo.Context) error {
 	claims := token.Claims.(jwt.MapClaims)
 	claims["id"] = user.ID
 	claims["email"] = user.Email
-	claims["nombre"] = user.Nombre
-	claims["apellidos"] = user.Apellidos
-	claims["restaurador"] = user.IsRestaurador
+	claims["nombre"] = user.Name
+	claims["apellidos"] = user.Surname
+	claims["restaurador"] = user.IsAdmin
 	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
 
 	t, err := token.SignedString([]byte(s.cfg.JWTSecret))

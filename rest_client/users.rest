@@ -1,0 +1,32 @@
+## Paste here token returned by login
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGVsbGlkb3MiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AdGZtLmVzIiwiZXhwIjoxNjk3MzgxNzc3LCJpZCI6MSwibm9tYnJlIjoiQWRtaW4iLCJyZXN0YXVyYWRvciI6dHJ1ZX0.2vKa_Ry7ELri94fJPe0UNA1lBeC2vV2X4eIAR0-ATXw
+@userid = 2
+
+### User Create
+POST http://localhost:8080/user/
+Content-Type: application/json
+
+{ "email": "user1@tfm.es", "password": "password", "name": "User 1", "surname": "Apellido1 Apellido2", "address1": "Calle del Percebe", "address2": "Numero 5 Piso 2", "city": "Madrid", "postal_code": "12345", "phone": "987376767218" }
+
+
+### User Delete
+DELETE http://localhost:8080/user/{{userid}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+
+
+### User Details (requires login)
+GET http://localhost:8080/user/{{userid}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+
+
+### User Modify (requires login)
+PATCH http://localhost:8080/user/{{userid}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "id": {{userid}}, "password": "password", "phone": "187376767218" }
+

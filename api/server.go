@@ -69,51 +69,51 @@ func (s *Server) Listen() error {
 		return c.String(http.StatusOK, "TFM Backend API")
 	})
 
-	// Config API
-	gConfig := s.e.Group("/config")
-	gConfig.GET("/", s.ConfiguracionDetails, s.requiresLogin, requiresRestaurador)
-	gConfig.PATCH("/", s.ConfiguracionModify, s.requiresLogin, requiresRestaurador)
+	// Configuration API
+	gConfiguration := s.e.Group("/configuration")
+	gConfiguration.GET("/", s.ConfigurationDetails, s.requiresLogin, requiresRestaurador)
+	gConfiguration.PATCH("/", s.ConfigurationModify, s.requiresLogin, requiresRestaurador)
 
-	// Usuario API
-	gUsuario := s.e.Group("/usuarios")
-	gUsuario.POST("/login", s.Login)
-	gUsuario.POST("/", s.UsuarioCreate)
-	gUsuario.GET("/:id", s.UsuarioDetails)
-	gUsuario.PATCH("/:id", s.UsuarioModify, s.requiresLogin)
-	gUsuario.DELETE("/:id", s.UsuarioDelete, s.requiresLogin)
+	// User API
+	gUser := s.e.Group("/user")
+	gUser.POST("/login", s.Login)
+	gUser.POST("/", s.UserCreate)
+	gUser.GET("/:id", s.UserDetails)
+	gUser.PATCH("/:id", s.UserModify, s.requiresLogin)
+	gUser.DELETE("/:id", s.UserDelete, s.requiresLogin)
 
-	// Platos API
-	gPlatos := s.e.Group("/platos")
-	// platos is authenticated (show list of favourite platos for user) and unauthenticated (show list of favourite platos for everybody)
-	gPlatos.GET("/", s.PlatoList, s.optionalLogin)
-	gPlatos.GET("/:id", s.PlatoDetails)
-	gPlatos.POST("/", s.PlatoCreate, s.requiresLogin, requiresRestaurador)
-	gPlatos.PATCH("/:id", s.PlatoModify, s.requiresLogin, requiresRestaurador)
-	gPlatos.DELETE("/:id", s.PlatoDelete, s.requiresLogin, requiresRestaurador)
+	// Dishes API
+	gDishes := s.e.Group("/dish")
+	gDishes.GET("/:id", s.DishDetails)
+	gDishes.POST("/", s.DishCreate, s.requiresLogin, requiresRestaurador)
+	gDishes.PATCH("/:id", s.DishModify, s.requiresLogin, requiresRestaurador)
+	gDishes.DELETE("/:id", s.DishDelete, s.requiresLogin, requiresRestaurador)
+	// /dishes/ is authenticated (show list of favourite dishes for user) and unauthenticated (show list of favourite dishes for everybody)
+	s.e.GET("/dishes/", s.DishList, s.optionalLogin)
 
-	// Promociones API
-	gPromociones := s.e.Group("/promociones")
-	gPromociones.GET("/", s.PromocionList)
-	gPromociones.GET("/:id", s.PromocionDetails)
-	gPromociones.POST("/", s.PromocionCreate, s.requiresLogin, requiresRestaurador)
-	gPromociones.PATCH("/:id", s.PromocionModify, s.requiresLogin, requiresRestaurador)
-	gPromociones.DELETE("/:id", s.PromocionDelete, s.requiresLogin, requiresRestaurador)
+	// Promotions API
+	gPromotions := s.e.Group("/promotion")
+	gPromotions.GET("/:id", s.PromotionDetails)
+	gPromotions.POST("/", s.PromotionCreate, s.requiresLogin, requiresRestaurador)
+	gPromotions.PATCH("/:id", s.PromotionModify, s.requiresLogin, requiresRestaurador)
+	gPromotions.DELETE("/:id", s.PromotionDelete, s.requiresLogin, requiresRestaurador)
+	s.e.GET("/promotions/", s.PromotionList)
 
-	// Carrito API
-	gCarritos := s.e.Group("/carritos")
-	gCarritos.GET("/", s.CarritoDetails, s.requiresLogin)
-	gCarritos.POST("/", s.CarritoSave, s.requiresLogin)
-	gCarritos.DELETE("/", s.CarritoDelete, s.requiresLogin)
+	// Cart API
+	gCarts := s.e.Group("/cart")
+	gCarts.GET("/", s.CartDetails, s.requiresLogin)
+	gCarts.POST("/", s.CartSave, s.requiresLogin)
+	gCarts.DELETE("/", s.CartDelete, s.requiresLogin)
 
-	// Pedidos API
-	gPedidos := s.e.Group("/pedidos")
-	gPedidos.POST("/", s.PedidoCreateFromCarrito, s.requiresLogin)
-	gPedidos.GET("/", s.PedidoList, s.requiresLogin)
-	gPedidos.GET("/:id", s.PedidoDetails, s.requiresLogin)
-	gPedidos.DELETE("/:id", s.PedidoCancel, s.requiresLogin)
-	gPedidos.POST("/:id/linea/", s.PedidoLineaCreate, s.requiresLogin)
-	gPedidos.PATCH("/:id/linea/:lineaid", s.PedidoLineaModify, s.requiresLogin)
-	gPedidos.DELETE("/:id/linea/:lineaid", s.PedidoLineaDelete, s.requiresLogin)
+	// Orders API
+	gOrders := s.e.Group("/order")
+	gOrders.POST("/", s.OrderCreateFromCart, s.requiresLogin)
+	gOrders.GET("/:id", s.OrderDetails, s.requiresLogin)
+	gOrders.DELETE("/:id", s.OrderCancel, s.requiresLogin)
+	gOrders.POST("/:id/line/", s.OrderLineCreate, s.requiresLogin)
+	gOrders.PATCH("/:id/line/:lineid", s.OrderLineModify, s.requiresLogin)
+	gOrders.DELETE("/:id/line/:lineid", s.OrderLineDelete, s.requiresLogin)
+	s.e.GET("/orders/", s.OrderList, s.requiresLogin)
 
 	return s.e.Start(fmt.Sprintf(`:%d`, s.cfg.Port))
 }
