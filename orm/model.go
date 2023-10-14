@@ -6,15 +6,22 @@ import (
 	"gorm.io/gorm"
 )
 
+type BaseModel struct {
+	ID        uint64 `gorm:"primaryKey"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt `gorm:"index"`
+}
+
 type Configuracion struct {
-	gorm.Model
+	BaseModel
 	EntregaTime      time.Time
 	CambiosTime      time.Time
 	PrecioSubvencion float64
 }
 
 type Usuario struct {
-	gorm.Model
+	BaseModel
 	Email         string `gorm:"size:100;index:ix_login,priority:1"`
 	Password      string `gorm:"size:250;index:ix_login,priority:2"`
 	Nombre        string `gorm:"size:250"`
@@ -31,17 +38,17 @@ type Usuario struct {
 }
 
 type Ingrediente struct {
-	gorm.Model
+	BaseModel
 	Nombre string `gorm:"size:250"`
 }
 
 type Alergeno struct {
-	gorm.Model
+	BaseModel
 	Nombre string `gorm:"size:250"`
 }
 
 type Promocion struct {
-	gorm.Model
+	BaseModel
 	PlatoID uint // FK - promocion pertenece a un plato
 	Inicio  time.Time
 	Fin     time.Time
@@ -49,7 +56,7 @@ type Promocion struct {
 }
 
 type Plato struct {
-	gorm.Model
+	BaseModel
 	Nombre       string        `gorm:"unique;size:250"`
 	Descripcion  string        `gorm:"size:2000"`
 	Ingredientes []Ingrediente `gorm:"many2many:plato_ingredientes;"`
@@ -59,7 +66,7 @@ type Plato struct {
 }
 
 type PedidoLinea struct {
-	gorm.Model
+	BaseModel
 	PedidoID     uint64  // FK - linea pertenece a un pedido
 	Nombre       string  `gorm:"size:250"` // no usamos platos, nombre, precio, ingredientes podria cambiar
 	PrecioUnidad float64 `gorm:"scale:2"`
@@ -67,7 +74,7 @@ type PedidoLinea struct {
 }
 
 type Pedido struct {
-	gorm.Model
+	BaseModel
 	PedidoLineas []PedidoLinea
 	UsuarioID    uint64  // FK - pedido pertenece a un usuario
 	PrecioTotal  float64 `gorm:"scale:2"`
@@ -76,14 +83,14 @@ type Pedido struct {
 }
 
 type CarritoLinea struct {
-	gorm.Model
+	BaseModel
 	CarritoID uint64 // FK - linea pertenece a un carrito
 	PlatoID   uint64 // FK - linea tiene un plato
 	Cantidad  uint
 }
 
 type Carrito struct {
-	gorm.Model
+	BaseModel
 	CarritoLineas []CarritoLinea
 	UsuarioID     uint64 // FK - carrito pertenece a un usuario
 }

@@ -91,7 +91,7 @@ func (s *Server) PlatoModify(c echo.Context) error {
 		log.Error().Err(err).Msg("Failed to bind plato")
 		return c.NoContent(http.StatusBadRequest)
 	}
-	plato.ID = uint(platoId)
+	plato.ID = platoId
 
 	plato, err = s.db.PlatoModify(plato)
 	if err != nil {

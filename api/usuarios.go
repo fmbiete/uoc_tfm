@@ -74,7 +74,7 @@ func (s *Server) UsuarioModificar(c echo.Context) error {
 		log.Error().Err(err).Msg("Failed to bind usuario")
 		return c.NoContent(http.StatusBadRequest)
 	}
-	user.ID = uint(userId)
+	user.ID = userId
 
 	// If we have a new password, we generate the hash
 	if len(user.Password) > 0 {

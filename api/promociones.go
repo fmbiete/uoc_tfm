@@ -81,7 +81,7 @@ func (s *Server) PromocionModify(c echo.Context) error {
 		log.Error().Err(err).Msg("Failed to bind promocion")
 		return c.NoContent(http.StatusBadRequest)
 	}
-	promocion.ID = uint(promocionId)
+	promocion.ID = promocionId
 
 	promocion, err = s.db.PromocionModify(promocion)
 	if err != nil {
