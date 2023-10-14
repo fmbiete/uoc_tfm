@@ -10,7 +10,7 @@ type Configuracion struct {
 	gorm.Model
 	EntregaTime      time.Time
 	CambiosTime      time.Time
-	PrecioSubvencion float32
+	PrecioSubvencion float64
 }
 
 type Usuario struct {
@@ -45,7 +45,7 @@ type Promocion struct {
 	PlatoID uint // FK - promocion pertenece a un plato
 	Inicio  time.Time
 	Fin     time.Time
-	Precio  float32 `gorm:"scale:2"`
+	Precio  float64 `gorm:"scale:2"`
 }
 
 type Plato struct {
@@ -54,34 +54,36 @@ type Plato struct {
 	Descripcion  string        `gorm:"size:2000"`
 	Ingredientes []Ingrediente `gorm:"many2many:plato_ingredientes;"`
 	Alergenos    []Alergeno    `gorm:"many2many:plato_alergenos;"`
-	Precio       float32       `gorm:"scale:2"`
+	Precio       float64       `gorm:"scale:2"`
 	Promociones  []Promocion   // has many
 }
 
 type PedidoLinea struct {
 	gorm.Model
-	PedidoID     uint    // FK - linea pertenece a un pedido
+	PedidoID     uint64  // FK - linea pertenece a un pedido
 	Nombre       string  `gorm:"size:250"` // no usamos platos, nombre, precio, ingredientes podria cambiar
-	PrecioUnidad float32 `gorm:"scale:2"`
+	PrecioUnidad float64 `gorm:"scale:2"`
 	Cantidad     uint
 }
 
 type Pedido struct {
 	gorm.Model
 	PedidoLineas []PedidoLinea
-	UsuarioID    uint    // FK - pedido pertenece a un usuario
-	PrecioTotal  float32 `gorm:"scale:2"`
-	PrecioPagar  float32 `gorm:"scale:2"` // FK - precio a pagar tras subvenciones
+	UsuarioID    uint64  // FK - pedido pertenece a un usuario
+	PrecioTotal  float64 `gorm:"scale:2"`
+	PrecioPagar  float64 `gorm:"scale:2"` // FK - precio a pagar tras subvenciones
 	Entrega      time.Time
 }
 
 type CarritoLinea struct {
 	gorm.Model
-	CarritoID uint // FK - linea pertenece a un carrito
-	PlatoID   uint // FK - linea tiene un plato
+	CarritoID uint64 // FK - linea pertenece a un carrito
+	PlatoID   uint64 // FK - linea tiene un plato
+	Cantidad  uint
 }
+
 type Carrito struct {
 	gorm.Model
 	CarritoLineas []CarritoLinea
-	UsuarioID     int // FK - carrito pertenece a un usuario
+	UsuarioID     uint64 // FK - carrito pertenece a un usuario
 }

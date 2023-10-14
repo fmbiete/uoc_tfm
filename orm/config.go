@@ -40,13 +40,13 @@ func (d *Database) configChangesAllowed() error {
 	return nil
 }
 
-func (d *Database) configPrecioSubvencion() (float32, error) {
+func (d *Database) configPrecioSubvencion() (float64, error) {
 	config, err := d.ConfiguracionDetails()
 	if err != nil {
 		return 0, err
 	}
 
-	return float32(config.PrecioSubvencion), nil
+	return config.PrecioSubvencion, nil
 }
 
 func (d *Database) configTodayEntrega() (time.Time, error) {

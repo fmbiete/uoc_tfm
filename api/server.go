@@ -63,12 +63,10 @@ func (s *Server) Listen() error {
 	gPromociones.PATCH("/:id", s.PromocionModify, requiresLogin, requiresRestaurador)
 	gPromociones.DELETE("/:id", s.PromocionDelete, requiresLogin, requiresRestaurador)
 
-	gPedidos := s.e.Group("/pedidos")
-	gPedidos.GET("/", s.PedidoList, requiresLogin)
-	gPedidos.GET("/:id", s.PedidoDetails, requiresLogin)
-	gPedidos.POST("/", s.PedidoCreate, requiresLogin)
-	gPedidos.PATCH("/:id", s.PedidoModify, requiresLogin)
-	gPedidos.DELETE("/:id", s.PedidoDelete, requiresLogin)
+	gCarritos := s.e.Group("/carritos")
+	gCarritos.GET("/:usuarioid", s.CarritoDetails, requiresLogin)
+	gCarritos.POST("/:usuarioid", s.CarritoSave, requiresLogin)
+	gCarritos.DELETE("/:usuarioid", s.CarritoDelete, requiresLogin)
 
 	s.e.GET("/todo", func(c echo.Context) error { return c.String(http.StatusOK, "OK") }, requiresLogin, requiresRestaurador)
 

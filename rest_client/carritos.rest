@@ -1,0 +1,24 @@
+## Paste here token returned by login
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGVsbGlkb3MiOiJBZG1pbiIsImVtYWlsIjoiYWRtaW5AdGZtLmVzIiwiZXhwIjoxNjk3Mjk5NTE2LCJpZCI6MCwibm9tYnJlIjoiQWRtaW4iLCJyZXN0YXVyYWRvciI6dHJ1ZX0.6PhHPGhLcefgPOCQY-3s8oHImdv576eDyvhb2fpDZYY
+@userid = 1
+@carritoid = 7
+
+### Carritos Details (requires login)
+GET http://localhost:8080/carritos/{{userid}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+
+
+### Carritos Save (requires login)
+POST http://localhost:8080/carritos/{{userid}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "id": {{carritoid}}, "usuarioId": {{userid}}, "carritoLineas": [ { "platoId": 1, "cantidad": 2 }] }
+
+
+### Carritos Delete (requires login)
+DELETE http://localhost:8080/carritos/{{userid}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
