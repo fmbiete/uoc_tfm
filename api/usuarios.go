@@ -9,7 +9,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func (s *Server) UsuarioCrear(c echo.Context) error {
+func (s *Server) UsuarioCreate(c echo.Context) error {
 	var user orm.Usuario
 	err := c.Bind(&user)
 	if err != nil {
@@ -20,7 +20,7 @@ func (s *Server) UsuarioCrear(c echo.Context) error {
 	if len(user.Password) > 0 {
 		user.Password = stringToSha512(user.Password)
 	}
-	user, err = s.db.UsuarioCrear(user)
+	user, err = s.db.UsuarioCreate(user)
 	if err != nil {
 		log.Error().Err(err).Interface("user", user).Msg("Failed to create user")
 		return err
@@ -29,7 +29,7 @@ func (s *Server) UsuarioCrear(c echo.Context) error {
 	return c.JSON(http.StatusCreated, user)
 }
 
-func (s *Server) UsuarioEliminar(c echo.Context) error {
+func (s *Server) UsuarioDelete(c echo.Context) error {
 	var userId = authenticatedUserId(c)
 	var err error
 
@@ -42,7 +42,7 @@ func (s *Server) UsuarioEliminar(c echo.Context) error {
 		}
 	}
 
-	err = s.db.UsuarioEliminar(userId)
+	err = s.db.UsuarioDelete(userId)
 	if err != nil {
 		log.Error().Err(err).Uint64("id", userId).Msg("Failed to delete user")
 		return err
@@ -51,7 +51,7 @@ func (s *Server) UsuarioEliminar(c echo.Context) error {
 	return c.NoContent(http.StatusOK)
 }
 
-func (s *Server) UsuarioGet(c echo.Context) error {
+func (s *Server) UsuarioDetails(c echo.Context) error {
 	var userId = authenticatedUserId(c)
 	var err error
 
@@ -64,7 +64,7 @@ func (s *Server) UsuarioGet(c echo.Context) error {
 		}
 	}
 
-	user, err := s.db.UsuarioGet(userId)
+	user, err := s.db.UsuarioDetails(userId)
 	if err != nil {
 		log.Error().Err(err).Uint64("id", userId).Msg("Failed to read user")
 		return err
@@ -73,7 +73,7 @@ func (s *Server) UsuarioGet(c echo.Context) error {
 	return c.JSON(http.StatusOK, user)
 }
 
-func (s *Server) UsuarioModificar(c echo.Context) error {
+func (s *Server) UsuarioModify(c echo.Context) error {
 	var userId = authenticatedUserId(c)
 	var err error
 
@@ -99,7 +99,7 @@ func (s *Server) UsuarioModificar(c echo.Context) error {
 		user.Password = stringToSha512(user.Password)
 	}
 
-	user, err = s.db.UsuarioModificar(user)
+	user, err = s.db.UsuarioModify(user)
 	if err != nil {
 		log.Error().Err(err).Interface("user", user).Msg("Failed to modify user")
 		return err

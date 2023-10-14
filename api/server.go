@@ -77,10 +77,10 @@ func (s *Server) Listen() error {
 	// Usuario API
 	gUsuario := s.e.Group("/usuarios")
 	gUsuario.POST("/login", s.Login)
-	gUsuario.POST("/", s.UsuarioCrear)
-	gUsuario.GET("/:id", s.UsuarioGet)
-	gUsuario.PATCH("/:id", s.UsuarioModificar, s.requiresLogin)
-	gUsuario.DELETE("/:id", s.UsuarioEliminar, s.requiresLogin)
+	gUsuario.POST("/", s.UsuarioCreate)
+	gUsuario.GET("/:id", s.UsuarioDetails)
+	gUsuario.PATCH("/:id", s.UsuarioModify, s.requiresLogin)
+	gUsuario.DELETE("/:id", s.UsuarioDelete, s.requiresLogin)
 
 	// Platos API
 	gPlatos := s.e.Group("/platos")
