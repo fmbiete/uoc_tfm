@@ -3,14 +3,14 @@ package api
 import (
 	"net/http"
 	"strconv"
-	"tfm_backend/orm"
+	"tfm_backend/models"
 
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog/log"
 )
 
 func (s *Server) PromotionCreate(c echo.Context) error {
-	var promotion orm.Promotion
+	var promotion models.Promotion
 	err := c.Bind(&promotion)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to bind promotion")
@@ -75,7 +75,7 @@ func (s *Server) PromotionModify(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	var promotion orm.Promotion
+	var promotion models.Promotion
 	err = c.Bind(&promotion)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to bind promotion")

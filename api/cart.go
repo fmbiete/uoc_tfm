@@ -2,7 +2,7 @@ package api
 
 import (
 	"net/http"
-	"tfm_backend/orm"
+	"tfm_backend/models"
 
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog/log"
@@ -29,7 +29,7 @@ func (s *Server) CartDetails(c echo.Context) error {
 }
 
 func (s *Server) CartSave(c echo.Context) error {
-	var cart orm.Cart
+	var cart models.Cart
 	err := c.Bind(&cart)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to bind cart")

@@ -1,4 +1,4 @@
-package orm
+package models
 
 import (
 	"time"
@@ -49,10 +49,10 @@ type Allergen struct {
 
 type Promotion struct {
 	BaseModel
-	DishID uint // FK - Promotion belongs to Dish
-	Start  time.Time
-	End    time.Time
-	Cost   float64 `gorm:"scale:2"`
+	DishID    uint // FK - Promotion belongs to Dish
+	StartTime time.Time
+	EndTime   time.Time
+	Cost      float64 `gorm:"scale:2"`
 }
 
 type Dish struct {

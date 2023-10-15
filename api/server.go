@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"tfm_backend/config"
+	"tfm_backend/models"
 	"tfm_backend/orm"
 
 	"github.com/google/uuid"
@@ -18,14 +18,14 @@ import (
 type Server struct {
 	e             *echo.Echo
 	db            *orm.Database
-	cfg           *config.ConfigServer
+	cfg           *models.ConfigServer
 	requiresLogin echo.MiddlewareFunc
 	optionalLogin echo.MiddlewareFunc
 }
 
 const msgErrorIdToInt = "Failed to convert ID to int64"
 
-func NewServer(cfg config.ConfigServer, db *orm.Database) *Server {
+func NewServer(cfg models.ConfigServer, db *orm.Database) *Server {
 	s := Server{e: echo.New(), cfg: &cfg, db: db}
 
 	s.requiresLogin = echojwt.WithConfig(echojwt.Config{SigningKey: []byte(s.cfg.JWTSecret)})
@@ -78,7 +78,7 @@ func (s *Server) Listen() error {
 	gUser := s.e.Group("/user")
 	gUser.POST("/login", s.Login)
 	gUser.POST("/", s.UserCreate)
-	gUser.GET("/:id", s.UserDetails)
+	gUser.GET("/:id", s.UserDetails, s.requiresLogin)
 	gUser.PATCH("/:id", s.UserModify, s.requiresLogin)
 	gUser.DELETE("/:id", s.UserDelete, s.requiresLogin)
 

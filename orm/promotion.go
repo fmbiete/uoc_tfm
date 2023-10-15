@@ -2,14 +2,15 @@ package orm
 
 import (
 	"errors"
+	"tfm_backend/models"
 	"time"
 
 	"gorm.io/gorm"
 )
 
-func (d *Database) PromotionCreate(promotion Promotion) (Promotion, error) {
+func (d *Database) PromotionCreate(promotion models.Promotion) (models.Promotion, error) {
 	// don't allow 2 active promotions for the same dish
-	err := d.db.Where("dish_id = ? and ? between start and end", promotion.DishID, time.Now()).First(&Promotion{}).Error
+	err := d.db.Where("dish_id = ? and ? between start_time and end_time", promotion.DishID, time.Now()).First(&models.Promotion{}).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		err := d.db.Create(&promotion).Error
 		return promotion, err
@@ -23,22 +24,22 @@ func (d *Database) PromotionCreate(promotion Promotion) (Promotion, error) {
 }
 
 func (d *Database) PromotionDelete(promotionId uint64) error {
-	return d.db.Delete(&Promotion{}, promotionId).Error
+	return d.db.Delete(&models.Promotion{}, promotionId).Error
 }
 
-func (d *Database) PromotionDetails(promotionId uint64) (Promotion, error) {
-	var promotion Promotion
+func (d *Database) PromotionDetails(promotionId uint64) (models.Promotion, error) {
+	var promotion models.Promotion
 	err := d.db.First(&promotion, promotionId).Error
 	return promotion, err
 }
 
-func (d *Database) PromotionList() ([]Promotion, error) {
-	var promotiones []Promotion
-	err := d.db.Where("? between start and end", time.Now()).Find(&promotiones).Error
+func (d *Database) PromotionList() ([]models.Promotion, error) {
+	var promotiones []models.Promotion
+	err := d.db.Where("? between start_time and end_time", time.Now()).Find(&promotiones).Error
 	return promotiones, err
 }
 
-func (d *Database) PromotionModify(promotion Promotion) (Promotion, error) {
+func (d *Database) PromotionModify(promotion models.Promotion) (models.Promotion, error) {
 	err := d.db.Updates(&promotion).Error
 	if err != nil {
 		return promotion, err

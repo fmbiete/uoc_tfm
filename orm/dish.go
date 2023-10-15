@@ -2,12 +2,13 @@ package orm
 
 import (
 	"errors"
+	"tfm_backend/models"
 
 	"gorm.io/gorm"
 )
 
-func (d *Database) DishCreate(dish Dish) (Dish, error) {
-	err := d.db.Where("name = ?", dish.Name).First(&Dish{}).Error
+func (d *Database) DishCreate(dish models.Dish) (models.Dish, error) {
+	err := d.db.Where("name = ?", dish.Name).First(&models.Dish{}).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		err := d.db.Create(&dish).Error
 		return dish, err
@@ -22,24 +23,24 @@ func (d *Database) DishCreate(dish Dish) (Dish, error) {
 }
 
 func (d *Database) DishDelete(dishId uint64) error {
-	return d.db.Delete(&Dish{}, dishId).Error
+	return d.db.Delete(&models.Dish{}, dishId).Error
 }
 
-func (d *Database) DishDetails(dishId uint64) (Dish, error) {
-	var dish Dish
+func (d *Database) DishDetails(dishId uint64) (models.Dish, error) {
+	var dish models.Dish
 	err := d.db.Preload("Allergens").Preload("Ingredients").First(&dish, dishId).Error
 	return dish, err
 }
 
-func (d *Database) DishList(userId int64) ([]Dish, error) {
-	var dishes []Dish
+func (d *Database) DishList(userId int64) ([]models.Dish, error) {
+	var dishes []models.Dish
 	// TODO: filter by userId if != -1, order by user sales
 	// TODO: order by global sales
 	err := d.db.Preload("Allergens").Find(&dishes).Error
 	return dishes, err
 }
 
-func (d *Database) DishModify(dish Dish) (Dish, error) {
+func (d *Database) DishModify(dish models.Dish) (models.Dish, error) {
 	// replace alergenos and ingredientes - Update adds new records, but doesn't delete old ones
 	alergenos := dish.Allergens
 	d.db.Unscoped().Model(&dish).Association("Allergens").Unscoped().Clear()
@@ -59,7 +60,7 @@ func (d *Database) DishModify(dish Dish) (Dish, error) {
 
 func (d *Database) dishCurrentCost(dishId uint64) (float64, error) {
 	var err error
-	var dish Dish
+	var dish models.Dish
 
 	err = d.db.Select("cost").First(&dish, dishId).Error
 	return dish.Cost, err

@@ -3,14 +3,14 @@ package api
 import (
 	"net/http"
 	"strconv"
-	"tfm_backend/orm"
+	"tfm_backend/models"
 
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog/log"
 )
 
 func (s *Server) UserCreate(c echo.Context) error {
-	var user orm.User
+	var user models.User
 	err := c.Bind(&user)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to bind user")
@@ -86,7 +86,7 @@ func (s *Server) UserModify(c echo.Context) error {
 		}
 	}
 
-	var user orm.User
+	var user models.User
 	err = c.Bind(&user)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to bind user")

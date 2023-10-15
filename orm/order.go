@@ -1,54 +1,58 @@
 package orm
 
-import "github.com/rs/zerolog/log"
+import (
+	"tfm_backend/models"
 
-func (d *Database) OrderCreateFromCart(userId uint64) (Order, error) {
+	"github.com/rs/zerolog/log"
+)
+
+func (d *Database) OrderCreateFromCart(userId uint64) (models.Order, error) {
 	var err error
 
 	// is the kitchen open?
 	err = d.configChangesAllowed()
 	if err != nil {
-		return Order{}, err
+		return models.Order{}, err
 	}
 
 	// get cart
 	cart, err := d.CartDetails(userId)
 	if err != nil {
 		log.Error().Err(err).Uint64("userId", userId).Msg("Failed to read cart")
-		return Order{}, err
+		return models.Order{}, err
 	}
 
 	// initialize order
-	var order Order
+	var order models.Order
 	order.UserID = userId
 	order.Delivery, err = d.configTodayDelivery()
 	if err != nil {
-		return Order{}, err
+		return models.Order{}, err
 	}
 
 	// Copy cart lines to order lines
-	var dish Dish
+	var dish models.Dish
 	var costUnit float64
 	for _, line := range cart.CartLines {
 		err = d.db.Select("name").First(&dish, line.DishID).Error
 		if err != nil {
 			log.Error().Err(err).Interface("line", line).Msg("Failed to read dish from cart line")
-			return Order{}, err
+			return models.Order{}, err
 		}
 		costUnit, err = d.dishCurrentCost(line.DishID)
 		if err != nil {
 			log.Error().Err(err).Uint64("dishId", line.DishID).Msg("Failed to read cost from dish")
-			return Order{}, err
+			return models.Order{}, err
 		}
 
-		order.OrderLines = append(order.OrderLines, OrderLine{Name: dish.Name, Quantity: line.Quantity, CostUnit: costUnit})
+		order.OrderLines = append(order.OrderLines, models.OrderLine{Name: dish.Name, Quantity: line.Quantity, CostUnit: costUnit})
 	}
 
 	// calculate order total
 	order, err = d.orderCalculateCost(order)
 	if err != nil {
 		log.Error().Err(err).Interface("order", order).Msg("Failed to calculate cost order")
-		return Order{}, err
+		return models.Order{}, err
 	}
 
 	// Transaction block
@@ -60,20 +64,20 @@ func (d *Database) OrderCreateFromCart(userId uint64) (Order, error) {
 		err = tx.Save(&order).Error
 		if err != nil {
 			log.Error().Err(err).Interface("order", order).Msg("Failed to create order")
-			return Order{}, err
+			return models.Order{}, err
 		}
 
 		// delete cart lines, we don't need to modify Cart
 		err = tx.Unscoped().Model(&cart).Association("CartLines").Unscoped().Clear()
 		if err != nil {
 			log.Error().Err(err).Uint64("userId", userId).Msg("Failed to delete cart after order conversion")
-			return Order{}, err
+			return models.Order{}, err
 		}
 
 		err = tx.Commit().Error
 		if err != nil {
 			log.Error().Err(err).Uint64("userId", userId).Msg(errMsgTxCommit)
-			return Order{}, err
+			return models.Order{}, err
 		}
 	}
 
@@ -81,17 +85,17 @@ func (d *Database) OrderCreateFromCart(userId uint64) (Order, error) {
 }
 
 func (d *Database) OrderDelete(orderId uint64) error {
-	return d.db.Delete(&Order{}, orderId).Error
+	return d.db.Delete(&models.Order{}, orderId).Error
 }
 
-func (d *Database) OrderDetails(orderId uint64) (Order, error) {
-	var order Order
+func (d *Database) OrderDetails(orderId uint64) (models.Order, error) {
+	var order models.Order
 	err := d.db.Preload("OrderLines").First(&order, orderId).Error
 	return order, err
 }
 
-func (d *Database) OrderList(userId int64, day string) ([]Order, error) {
-	var orders []Order
+func (d *Database) OrderList(userId int64, day string) ([]models.Order, error) {
+	var orders []models.Order
 
 	queryDb := d.db.Where("1 = 1")
 
@@ -106,7 +110,7 @@ func (d *Database) OrderList(userId int64, day string) ([]Order, error) {
 	return orders, err
 }
 
-func (d *Database) orderCalculateCost(order Order) (Order, error) {
+func (d *Database) orderCalculateCost(order models.Order) (models.Order, error) {
 	// Allowed: multiple orders per day
 	// TODO: apply subvention only in the first order
 	subvention, err := d.configSubvention()
@@ -119,7 +123,7 @@ func (d *Database) orderCalculateCost(order Order) (Order, error) {
 	return order, nil
 }
 
-func (d *Database) orderCalculateCostNoDB(lines []OrderLine, subvention float64) (float64, float64) {
+func (d *Database) orderCalculateCostNoDB(lines []models.OrderLine, subvention float64) (float64, float64) {
 	var costTotal, costToPay float64 = 0, 0
 
 	// Calculate total

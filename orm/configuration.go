@@ -2,6 +2,7 @@ package orm
 
 import (
 	"errors"
+	"tfm_backend/models"
 	"time"
 
 	"github.com/rs/zerolog/log"
@@ -9,13 +10,13 @@ import (
 
 const errMsgReadConfig string = "Failed to read config"
 
-func (d *Database) ConfigurationDetails() (Configuration, error) {
-	var config Configuration
+func (d *Database) ConfigurationDetails() (models.Configuration, error) {
+	var config models.Configuration
 	err := d.db.First(&config).Error
 	return config, err
 }
 
-func (d *Database) ConfigurationModify(config Configuration) (Configuration, error) {
+func (d *Database) ConfigurationModify(config models.Configuration) (models.Configuration, error) {
 	err := d.db.Model(&config).Updates(&config).Error
 	if err != nil {
 		return config, err
@@ -26,7 +27,7 @@ func (d *Database) ConfigurationModify(config Configuration) (Configuration, err
 
 func (d *Database) configChangesAllowed() error {
 	// Read ChangesTime
-	var config Configuration
+	var config models.Configuration
 	err := d.db.Select("changes_time").First(&config).Error
 	if err != nil {
 		log.Error().Err(err).Msg(errMsgReadConfig)
@@ -45,7 +46,7 @@ func (d *Database) configChangesAllowed() error {
 
 func (d *Database) configSubvention() (float64, error) {
 	// Read Subvention
-	var config Configuration
+	var config models.Configuration
 	err := d.db.Select("subvention").First(&config).Error
 	if err != nil {
 		log.Error().Err(err).Msg(errMsgReadConfig)
@@ -57,7 +58,7 @@ func (d *Database) configSubvention() (float64, error) {
 
 func (d *Database) configTodayDelivery() (time.Time, error) {
 	// Read DeliveryTime
-	var config Configuration
+	var config models.Configuration
 	err := d.db.Select("delivery_time").First(&config).Error
 	if err != nil {
 		log.Error().Err(err).Msg(errMsgReadConfig)

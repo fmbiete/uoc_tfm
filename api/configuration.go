@@ -2,7 +2,7 @@ package api
 
 import (
 	"net/http"
-	"tfm_backend/orm"
+	"tfm_backend/models"
 
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog/log"
@@ -19,7 +19,7 @@ func (s *Server) ConfigurationDetails(c echo.Context) error {
 }
 
 func (s *Server) ConfigurationModify(c echo.Context) error {
-	var config orm.Configuration
+	var config models.Configuration
 	err := c.Bind(&config)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to bind configuracion")

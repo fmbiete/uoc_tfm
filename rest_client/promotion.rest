@@ -8,7 +8,7 @@ POST http://localhost:8080/promotion/
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
-{ "dishId": {{dishid}}, "start": "2023-01-01T00:00:00+01:00", "fin": "2023-12-12T00:00:00+01:00", "cost": 5.50  }
+{ "dishId": {{dishid}}, "startTime": "2023-01-01T00:00:00+01:00", "endTime": "2023-12-12T00:00:00+01:00", "cost": 5.50  }
 
 
 ### Promotions List
@@ -33,4 +33,4 @@ PATCH http://localhost:8080/promotion/{{promotionid}}
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
-{ "dishId": {{dishid}}, "start": "2023-01-01T00:00:00+01:00", "fin": "2023-12-12T00:00:00+01:00", "cost": 4.50 }
+{ "dishId": {{dishid}}, "startTime": "2023-01-01T00:00:00+01:00", "endTime": "2023-12-12T00:00:00+01:00", "cost": 4.50 }

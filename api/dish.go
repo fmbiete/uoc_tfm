@@ -3,14 +3,14 @@ package api
 import (
 	"net/http"
 	"strconv"
-	"tfm_backend/orm"
+	"tfm_backend/models"
 
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog/log"
 )
 
 func (s *Server) DishCreate(c echo.Context) error {
-	var dish orm.Dish
+	var dish models.Dish
 	err := c.Bind(&dish)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to bind dish")
@@ -80,7 +80,7 @@ func (s *Server) DishModify(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	var dish orm.Dish
+	var dish models.Dish
 	err = c.Bind(&dish)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to bind dish")

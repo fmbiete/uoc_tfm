@@ -8,14 +8,14 @@ import (
 	"github.com/rs/zerolog/log"
 
 	"tfm_backend/api"
-	"tfm_backend/config"
+	"tfm_backend/models"
 	"tfm_backend/orm"
 )
 
 func main() {
 	zerolog.SetGlobalLevel(zerolog.DebugLevel)
 
-	var cfg config.Config
+	var cfg models.Config
 	raw, err := os.ReadFile("config.json")
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to read config file")
@@ -23,10 +23,10 @@ func main() {
 	}
 	json.Unmarshal(raw, &cfg)
 
-	database := orm.NewDatabase(cfg.Database)
+	database := orm.NewDatabase(&cfg)
 	server := api.NewServer(cfg.Server, database)
 
-	err = database.Migrate()
+	err = database.Setup()
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to initialize database")
 		return

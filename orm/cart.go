@@ -2,14 +2,15 @@ package orm
 
 import (
 	"errors"
+	"tfm_backend/models"
 
 	"github.com/rs/zerolog/log"
 	"gorm.io/gorm"
 )
 
-func (d *Database) CartDelete(userId uint64) (Cart, error) {
+func (d *Database) CartDelete(userId uint64) (models.Cart, error) {
 	var err error
-	var cart Cart
+	var cart models.Cart
 
 	// Get the cart id
 	err = d.db.Select("id, user_id").Where("user_id = ?", userId).First(&cart).Error
@@ -22,7 +23,7 @@ func (d *Database) CartDelete(userId uint64) (Cart, error) {
 		err = d.db.Save(&cart).Error
 		if err != nil {
 			log.Error().Err(err).Uint64("userId", userId).Msg("Failed to create new cart")
-			return Cart{}, err
+			return models.Cart{}, err
 		}
 	} else {
 		// Delete lines
@@ -36,17 +37,17 @@ func (d *Database) CartDelete(userId uint64) (Cart, error) {
 	return d.CartDetails(cart.UserID)
 }
 
-func (d *Database) CartDetails(userId uint64) (Cart, error) {
-	var cart Cart
+func (d *Database) CartDetails(userId uint64) (models.Cart, error) {
+	var cart models.Cart
 	err := d.db.Preload("CartLines").Where("user_id = ?", userId).First(&cart).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		// No cart, return one empty
-		return Cart{UserID: userId}, nil
+		return models.Cart{UserID: userId}, nil
 	}
 	return cart, err
 }
 
-func (d *Database) CartSave(cart Cart) (Cart, error) {
+func (d *Database) CartSave(cart models.Cart) (models.Cart, error) {
 	var err error
 
 	// temp save of lines
@@ -66,7 +67,7 @@ func (d *Database) CartSave(cart Cart) (Cart, error) {
 		defer tx.Rollback()
 
 		// existing lines: [hard] delete + insert
-		err = tx.Unscoped().Where("cart_id = ?", cart.ID).Delete(&CartLine{}).Error
+		err = tx.Unscoped().Where("cart_id = ?", cart.ID).Delete(&models.CartLine{}).Error
 		if err != nil {
 			log.Error().Err(err).Uint64("cartId", cart.ID).Msg("Failed to remove lines from cart")
 		}

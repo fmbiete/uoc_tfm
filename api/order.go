@@ -3,7 +3,7 @@ package api
 import (
 	"net/http"
 	"strconv"
-	"tfm_backend/orm"
+	"tfm_backend/models"
 
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog/log"
@@ -75,7 +75,7 @@ func (s *Server) OrderLineCreate(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	var line orm.CartLine
+	var line models.CartLine
 	err = c.Bind(&line)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to bind cart line")
@@ -125,7 +125,7 @@ func (s *Server) OrderLineModify(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	var line orm.OrderLine
+	var line models.OrderLine
 	err = c.Bind(&line)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to bind order line")

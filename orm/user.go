@@ -2,14 +2,15 @@ package orm
 
 import (
 	"errors"
+	"tfm_backend/models"
 
 	"gorm.io/gorm"
 )
 
-func (d *Database) UserCreate(user User) (User, error) {
-	err := d.db.Where("email = ?", user.Email).First(&User{}).Error
+func (d *Database) UserCreate(user models.User) (models.User, error) {
+	err := d.db.Where("email = ?", user.Email).First(&models.User{}).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		err := d.db.Create(&user).Error
+		err = d.db.Create(&user).Error
 		return user, err
 	}
 
@@ -22,18 +23,18 @@ func (d *Database) UserCreate(user User) (User, error) {
 }
 
 func (d *Database) UserDelete(userId uint64) error {
-	return d.db.Delete(&User{}, userId).Error
+	return d.db.Delete(&models.User{}, userId).Error
 }
 
-func (d *Database) UserDetails(userId uint64) (User, error) {
-	var user User
+func (d *Database) UserDetails(userId uint64) (models.User, error) {
+	var user models.User
 	err := d.db.First(&user, userId).Error
 	// Don't return the password hash
 	user.Password = ""
 	return user, err
 }
 
-func (d *Database) UserModify(user User) (User, error) {
+func (d *Database) UserModify(user models.User) (models.User, error) {
 	err := d.db.Updates(&user).Error
 	// Don't return the password hash
 	user.Password = ""

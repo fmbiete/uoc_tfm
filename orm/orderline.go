@@ -1,13 +1,15 @@
 package orm
 
 import (
+	"tfm_backend/models"
+
 	"github.com/rs/zerolog/log"
 	"gorm.io/gorm"
 )
 
 const errMsgTxCommit string = "Failed to commit changes to database for order conversion"
 
-func (d *Database) OrderLineCreate(orderId uint64, lineCart CartLine) (Order, error) {
+func (d *Database) OrderLineCreate(orderId uint64, lineCart models.CartLine) (models.Order, error) {
 	var err error
 
 	// Changes must be done before kitchen starts preparing the food
@@ -17,10 +19,10 @@ func (d *Database) OrderLineCreate(orderId uint64, lineCart CartLine) (Order, er
 	}
 
 	// Convert line cart to line order
-	var line OrderLine = OrderLine{Quantity: lineCart.Quantity, OrderID: orderId}
+	var line models.OrderLine = models.OrderLine{Quantity: lineCart.Quantity, OrderID: orderId}
 
-	var dish Dish
-	err = d.db.Select("nombre").First(&dish, lineCart.DishID).Error
+	var dish models.Dish
+	err = d.db.Select("name").First(&dish, lineCart.DishID).Error
 	if err != nil {
 		log.Error().Err(err).Interface("line", line).Msg("Failed to read dish from cart line")
 		return d.OrderDetails(orderId)
@@ -67,7 +69,7 @@ func (d *Database) OrderLineCreate(orderId uint64, lineCart CartLine) (Order, er
 	return d.OrderDetails(orderId)
 }
 
-func (d *Database) OrderLineDelete(orderId uint64, lineId uint64) (Order, error) {
+func (d *Database) OrderLineDelete(orderId uint64, lineId uint64) (models.Order, error) {
 	var err error
 
 	// Changes must be done before kitchen starts preparing the food
@@ -81,7 +83,7 @@ func (d *Database) OrderLineDelete(orderId uint64, lineId uint64) (Order, error)
 		tx := d.db.Begin()
 		defer tx.Rollback()
 
-		err = tx.Delete(&OrderLine{}, lineId).Error
+		err = tx.Delete(&models.OrderLine{}, lineId).Error
 		if err != nil {
 			log.Error().Err(err).Uint64("lineId", lineId).Msg("Failed to delete line order")
 			// explicit rollback - we will call a non-tx function
@@ -108,7 +110,7 @@ func (d *Database) OrderLineDelete(orderId uint64, lineId uint64) (Order, error)
 	return d.OrderDetails(orderId)
 }
 
-func (d *Database) OrderLineModify(line OrderLine) (Order, error) {
+func (d *Database) OrderLineModify(line models.OrderLine) (models.Order, error) {
 	var err error
 
 	// Changes must be done before kitchen starts preparing the food
@@ -123,7 +125,7 @@ func (d *Database) OrderLineModify(line OrderLine) (Order, error) {
 		defer tx.Rollback()
 
 		// existing line - update cantidad ONLY
-		err = tx.Model(&line).Update("cantidad", line.Quantity).Error
+		err = tx.Model(&line).Update("quantity", line.Quantity).Error
 		if err != nil {
 			log.Error().Err(err).Interface("line", line).Msg("Failed to save order line")
 			// explicit rollback - we will call a non-tx function
@@ -155,7 +157,7 @@ func (d *Database) orderUpdateCost(tx *gorm.DB, orderId uint64) error {
 	// Anything in this function needs to run using the transaction
 
 	// Get subvention
-	var config Configuration
+	var config models.Configuration
 	err := tx.Select("subvention").First(&config).Error
 	if err != nil {
 		log.Error().Err(err).Uint64("id", orderId).Msg("Failed to read subvention")
@@ -163,7 +165,7 @@ func (d *Database) orderUpdateCost(tx *gorm.DB, orderId uint64) error {
 	}
 
 	// Get lines
-	var lines []OrderLine
+	var lines []models.OrderLine
 	err = tx.Select("cost_unit", "quantity").Where("order_id = ?", orderId).Find(&lines).Error
 	if err != nil {
 		log.Error().Err(err).Uint64("id", orderId).Msg("Failed to read order")
@@ -174,9 +176,9 @@ func (d *Database) orderUpdateCost(tx *gorm.DB, orderId uint64) error {
 	var costTotal, costToPay float64 = d.orderCalculateCostNoDB(lines, config.Subvention)
 
 	// Update Order cost values
-	var curOrder Order
+	var curOrder models.Order
 	curOrder.ID = orderId
-	err = tx.Model(&curOrder).Updates(Order{CostTotal: costTotal, CostToPay: costToPay}).Error
+	err = tx.Model(&curOrder).Updates(models.Order{CostTotal: costTotal, CostToPay: costToPay}).Error
 	if err != nil {
 		log.Error().Err(err).Uint64("orderId", orderId).Msg("Failed to update order")
 		return err
