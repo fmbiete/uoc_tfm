@@ -68,6 +68,7 @@ type Dish struct {
 type OrderLine struct {
 	BaseModel
 	OrderID  uint64  // FK - line belongs to Order
+	DishID   uint64  // FK - line has 1 Dish
 	Name     string  `gorm:"size:250"` // don't use dish references - attributes will change
 	CostUnit float64 `gorm:"scale:2"`
 	Quantity uint
@@ -84,8 +85,8 @@ type Order struct {
 
 type CartLine struct {
 	BaseModel
-	CartID   uint64 // FK - CartLine belongs to Cart
-	DishID   uint64 // FK - CartLine has 1 Dish
+	CartID   uint64 // FK - line belongs to Cart
+	DishID   uint64 // FK - line has 1 Dish
 	Quantity uint
 }
 
