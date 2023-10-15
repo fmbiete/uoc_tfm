@@ -3,6 +3,7 @@ package orm
 import (
 	"errors"
 
+	"github.com/rs/zerolog/log"
 	"gorm.io/gorm"
 )
 
@@ -16,15 +17,22 @@ func (d *Database) CartDelete(userId uint64) (Cart, error) {
 		return cart, err
 	}
 
-	if cart.ID != 0 {
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		cart.UserID = userId
+		err = d.db.Save(&cart).Error
+		if err != nil {
+			log.Error().Err(err).Uint64("userId", userId).Msg("Failed to create new cart")
+			return Cart{}, err
+		}
+	} else {
 		// Delete lines
-		d.db.Unscoped().Model(&cart).Association("CartLines").Unscoped().Clear()
+		err = d.db.Unscoped().Model(&cart).Association("CartLines").Unscoped().Clear()
+		if err != nil {
+			log.Error().Err(err).Uint64("userId", userId).Msg("Failed to delete cart lines from existing cart")
+			return d.CartDetails(cart.UserID)
+		}
 	}
 
-	err = d.db.Save(&cart).Error
-	if err != nil {
-		return cart, err
-	}
 	return d.CartDetails(cart.UserID)
 }
 
@@ -52,13 +60,31 @@ func (d *Database) CartSave(cart Cart) (Cart, error) {
 		}
 	}
 
-	// existing lines: delete + insert
-	d.db.Unscoped().Model(&cart).Association("CartLines").Unscoped().Clear()
-	cart.CartLines = lines
+	// transaction block
+	{
+		tx := d.db.Begin()
+		defer tx.Rollback()
 
-	err = d.db.Save(&cart).Error
-	if err != nil {
-		return cart, err
+		// existing lines: [hard] delete + insert
+		err = tx.Unscoped().Where("cart_id = ?", cart.ID).Delete(&CartLine{}).Error
+		if err != nil {
+			log.Error().Err(err).Uint64("cartId", cart.ID).Msg("Failed to remove lines from cart")
+		}
+		cart.CartLines = lines
+
+		err = tx.Save(&cart).Error
+		if err != nil {
+			return cart, err
+		}
+
+		err = tx.Commit().Error
+		if err != nil {
+			log.Error().Err(err).Uint64("cartId", cart.ID).Msg("Failed to commit changes to cart")
+			// Explicit rollback - next function is non-tx
+			tx.Rollback()
+			return d.CartDetails(cart.UserID)
+		}
 	}
+
 	return d.CartDetails(cart.UserID)
 }

@@ -7,6 +7,8 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+const errMsgReadConfig string = "Failed to read config"
+
 func (d *Database) ConfigurationDetails() (Configuration, error) {
 	var config Configuration
 	err := d.db.First(&config).Error
@@ -23,16 +25,18 @@ func (d *Database) ConfigurationModify(config Configuration) (Configuration, err
 }
 
 func (d *Database) configChangesAllowed() error {
-	config, err := d.ConfigurationDetails()
+	// Read ChangesTime
+	var config Configuration
+	err := d.db.Select("changes_time").First(&config).Error
 	if err != nil {
+		log.Error().Err(err).Msg(errMsgReadConfig)
 		return err
 	}
 
-	// current time is before cambiosTime
+	// current time is before ChangesTime
 	todayLimit := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), config.ChangesTime.Hour(), config.ChangesTime.Minute(), 0, 0, time.Now().Location())
 
 	if time.Now().After(todayLimit) {
-		log.Info().Msg("Today ChangesTime has passed")
 		return errors.New("kitchen is closed, no more orders or changes allowed")
 	}
 
@@ -40,8 +44,11 @@ func (d *Database) configChangesAllowed() error {
 }
 
 func (d *Database) configSubvention() (float64, error) {
-	config, err := d.ConfigurationDetails()
+	// Read Subvention
+	var config Configuration
+	err := d.db.Select("subvention").First(&config).Error
 	if err != nil {
+		log.Error().Err(err).Msg(errMsgReadConfig)
 		return 0, err
 	}
 
@@ -49,8 +56,11 @@ func (d *Database) configSubvention() (float64, error) {
 }
 
 func (d *Database) configTodayDelivery() (time.Time, error) {
-	config, err := d.ConfigurationDetails()
+	// Read DeliveryTime
+	var config Configuration
+	err := d.db.Select("delivery_time").First(&config).Error
 	if err != nil {
+		log.Error().Err(err).Msg(errMsgReadConfig)
 		return time.Now(), err
 	}
 

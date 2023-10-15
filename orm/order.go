@@ -51,18 +51,30 @@ func (d *Database) OrderCreateFromCart(userId uint64) (Order, error) {
 		return Order{}, err
 	}
 
-	// save order
-	err = d.db.Save(&order).Error
-	if err != nil {
-		log.Error().Err(err).Interface("order", order).Msg("Failed to create order")
-		return Order{}, err
-	}
+	// Transaction block
+	{
+		tx := d.db.Begin()
+		defer tx.Rollback()
 
-	// delete cart
-	_, err = d.CartDelete(userId)
-	if err != nil {
-		log.Error().Err(err).Uint64("userId", userId).Msg("Failed to delete cart after order conversion")
-		// TODO: rollback?
+		// save order
+		err = tx.Save(&order).Error
+		if err != nil {
+			log.Error().Err(err).Interface("order", order).Msg("Failed to create order")
+			return Order{}, err
+		}
+
+		// delete cart lines, we don't need to modify Cart
+		err = tx.Unscoped().Model(&cart).Association("CartLines").Unscoped().Clear()
+		if err != nil {
+			log.Error().Err(err).Uint64("userId", userId).Msg("Failed to delete cart after order conversion")
+			return Order{}, err
+		}
+
+		err = tx.Commit().Error
+		if err != nil {
+			log.Error().Err(err).Uint64("userId", userId).Msg(errMsgTxCommit)
+			return Order{}, err
+		}
 	}
 
 	return order, err
@@ -102,40 +114,23 @@ func (d *Database) orderCalculateCost(order Order) (Order, error) {
 		return order, err
 	}
 
-	// Calculate total
-	order.CostTotal = 0
-	for i, _ := range order.OrderLines {
-		order.CostTotal += float64(order.OrderLines[i].Quantity) * order.OrderLines[i].CostUnit
-	}
-	// Apply subvention
-	order.CostToPay = order.CostTotal - subvention
-	if order.CostToPay < 0 {
-		order.CostToPay = 0
-	}
+	order.CostTotal, order.CostToPay = d.orderCalculateCostNoDB(order.OrderLines, subvention)
 
 	return order, nil
 }
 
-func (d *Database) orderUpdateCost(orderId uint64) (Order, error) {
-	order, err := d.OrderDetails(orderId)
-	if err != nil {
-		log.Error().Err(err).Uint64("id", orderId).Msg("Failed to read order")
-		return order, err
+func (d *Database) orderCalculateCostNoDB(lines []OrderLine, subvention float64) (float64, float64) {
+	var costTotal, costToPay float64 = 0, 0
+
+	// Calculate total
+	for i, _ := range lines {
+		costTotal += float64(lines[i].Quantity) * lines[i].CostUnit
+	}
+	// Apply subvention
+	costToPay = costTotal - subvention
+	if costToPay < 0 {
+		costToPay = 0
 	}
 
-	order, err = d.orderCalculateCost(order)
-	if err != nil {
-		log.Error().Err(err).Interface("order", order).Msg("Failed to calculate cost order")
-		return order, err
-	}
-
-	var curOrder Order
-	curOrder.ID = orderId
-	err = d.db.Model(&curOrder).Updates(Order{CostTotal: order.CostTotal, CostToPay: order.CostToPay}).Error
-	if err != nil {
-		log.Error().Err(err).Interface("order", order).Msg("Failed to update order")
-		return d.OrderDetails(orderId)
-	}
-
-	return order, nil
+	return costTotal, costToPay
 }
