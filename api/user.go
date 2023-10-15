@@ -42,6 +42,11 @@ func (s *Server) UserDelete(c echo.Context) error {
 		}
 	}
 
+	// we don't allow deletion of "admin" user
+	if userId == 1 {
+		return echo.NewHTTPError(http.StatusForbidden, "Initial User cannot be deleted")
+	}
+
 	err = s.db.UserDelete(userId)
 	if err != nil {
 		log.Error().Err(err).Uint64("id", userId).Msg("Failed to delete user")
