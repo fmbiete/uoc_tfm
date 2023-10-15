@@ -64,13 +64,15 @@ func (s *Server) DishList(c echo.Context) error {
 		userId = int64(authenticatedUserId(c))
 	}
 
-	dishes, err := s.db.DishList(userId)
+	limit, page, offset := parsePagination(c)
+
+	dishes, err := s.db.DishList(userId, limit, offset)
 	if err != nil {
 		log.Error().Err(err).Int64("userId", userId).Msg("Failed to list dishes")
 		return err
 	}
 
-	return c.JSON(http.StatusOK, dishes)
+	return c.JSON(http.StatusOK, models.PaginationDishes{Limit: limit, Page: page, Dishes: dishes})
 }
 
 func (s *Server) DishModify(c echo.Context) error {

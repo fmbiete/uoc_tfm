@@ -59,13 +59,15 @@ func (s *Server) PromotionDetails(c echo.Context) error {
 }
 
 func (s *Server) PromotionList(c echo.Context) error {
-	promotions, err := s.db.PromotionList()
+	limit, page, offset := parsePagination(c)
+
+	promotions, err := s.db.PromotionList(limit, offset)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to list promotiones")
 		return err
 	}
 
-	return c.JSON(http.StatusOK, promotions)
+	return c.JSON(http.StatusOK, models.PaginationPromotion{Limit: limit, Page: page, Promotions: promotions})
 }
 
 func (s *Server) PromotionModify(c echo.Context) error {

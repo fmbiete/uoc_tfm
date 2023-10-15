@@ -98,7 +98,7 @@ func (d *Database) OrderDetails(orderId uint64) (models.Order, error) {
 	return order, err
 }
 
-func (d *Database) OrderList(userId int64, day string) ([]models.Order, error) {
+func (d *Database) OrderList(userId int64, day string, limit uint64, offset uint64) ([]models.Order, error) {
 	var orders []models.Order
 
 	queryDb := d.db.Where("1 = 1")
@@ -110,7 +110,7 @@ func (d *Database) OrderList(userId int64, day string) ([]models.Order, error) {
 		queryDb = queryDb.Where("user_id = ?", userId)
 	}
 
-	err := queryDb.Find(&orders).Error
+	err := queryDb.Limit(int(limit)).Offset(int(offset)).Find(&orders).Error
 	return orders, err
 }
 

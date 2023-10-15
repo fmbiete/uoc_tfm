@@ -32,11 +32,11 @@ func (d *Database) DishDetails(dishId uint64) (models.Dish, error) {
 	return dish, err
 }
 
-func (d *Database) DishList(userId int64) ([]models.Dish, error) {
+func (d *Database) DishList(userId int64, limit uint64, offset uint64) ([]models.Dish, error) {
 	var dishes []models.Dish
 	// TODO: filter by userId if != -1, order by user sales
 	// TODO: order by global sales
-	err := d.db.Preload("Allergens").Find(&dishes).Error
+	err := d.db.Preload("Allergens").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
 	return dishes, err
 }
 

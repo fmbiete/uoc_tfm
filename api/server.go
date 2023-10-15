@@ -34,7 +34,6 @@ func NewServer(cfg models.ConfigServer, db *orm.Database) *Server {
 			SigningKey:             []byte(s.cfg.JWTSecret),
 			ContinueOnIgnoredError: true,
 			ErrorHandler: func(c echo.Context, err error) error {
-				fmt.Println(err)
 				if errors.Is(err, echojwt.ErrJWTMissing) {
 					return nil
 				}
@@ -88,8 +87,8 @@ func (s *Server) Listen() error {
 	gDishes.POST("/", s.DishCreate, s.requiresLogin, requiresRestaurador)
 	gDishes.PATCH("/:id", s.DishModify, s.requiresLogin, requiresRestaurador)
 	gDishes.DELETE("/:id", s.DishDelete, s.requiresLogin, requiresRestaurador)
-	// /dishes/ is authenticated (show list of favourite dishes for user) and unauthenticated (show list of favourite dishes for everybody)
-	s.e.GET("/dishes/", s.DishList, s.optionalLogin)
+	// /dishes is authenticated (show list of favourite dishes for user) and unauthenticated (show list of favourite dishes for everybody)
+	s.e.GET("/dishes", s.DishList, s.optionalLogin)
 
 	// Promotions API
 	gPromotions := s.e.Group("/promotion")
@@ -97,7 +96,7 @@ func (s *Server) Listen() error {
 	gPromotions.POST("/", s.PromotionCreate, s.requiresLogin, requiresRestaurador)
 	gPromotions.PATCH("/:id", s.PromotionModify, s.requiresLogin, requiresRestaurador)
 	gPromotions.DELETE("/:id", s.PromotionDelete, s.requiresLogin, requiresRestaurador)
-	s.e.GET("/promotions/", s.PromotionList)
+	s.e.GET("/promotions", s.PromotionList)
 
 	// Cart API
 	gCarts := s.e.Group("/cart")
@@ -113,7 +112,7 @@ func (s *Server) Listen() error {
 	gOrders.POST("/:id/line/", s.OrderLineCreate, s.requiresLogin)
 	gOrders.PATCH("/:id/line/:lineid", s.OrderLineModify, s.requiresLogin)
 	gOrders.DELETE("/:id/line/:lineid", s.OrderLineDelete, s.requiresLogin)
-	s.e.GET("/orders/", s.OrderList, s.requiresLogin)
+	s.e.GET("/orders", s.OrderList, s.requiresLogin)
 
 	return s.e.Start(fmt.Sprintf(`:%d`, s.cfg.Port))
 }

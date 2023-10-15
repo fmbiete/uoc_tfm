@@ -33,10 +33,10 @@ func (d *Database) PromotionDetails(promotionId uint64) (models.Promotion, error
 	return promotion, err
 }
 
-func (d *Database) PromotionList() ([]models.Promotion, error) {
-	var promotiones []models.Promotion
-	err := d.db.Where("? between start_time and end_time", time.Now()).Find(&promotiones).Error
-	return promotiones, err
+func (d *Database) PromotionList(limit uint64, offset uint64) ([]models.Promotion, error) {
+	var promotions []models.Promotion
+	err := d.db.Where("? between start_time and end_time", time.Now()).Limit(int(limit)).Offset(int(offset)).Find(&promotions).Error
+	return promotions, err
 }
 
 func (d *Database) PromotionModify(promotion models.Promotion) (models.Promotion, error) {

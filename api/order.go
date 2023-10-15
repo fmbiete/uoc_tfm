@@ -59,13 +59,15 @@ func (s *Server) OrderList(c echo.Context) error {
 
 	var dayFilter string = c.QueryParam("day")
 
-	orders, err := s.db.OrderList(userId, dayFilter)
+	limit, page, offset := parsePagination(c)
+
+	orders, err := s.db.OrderList(userId, dayFilter, limit, offset)
 	if err != nil {
 		log.Error().Err(err).Int64("userId", userId).Str("day", dayFilter).Msg("Failed to list orders")
 		return err
 	}
 
-	return c.JSON(http.StatusOK, orders)
+	return c.JSON(http.StatusOK, models.PaginationOrders{Limit: limit, Page: page, Orders: orders})
 }
 
 func (s *Server) OrderLineCreate(c echo.Context) error {
