@@ -1,6 +1,7 @@
 package orm
 
 import (
+	"errors"
 	"tfm_backend/models"
 
 	"github.com/rs/zerolog/log"
@@ -155,13 +156,20 @@ func (d *Database) OrderLineModify(line models.OrderLine) (models.Order, error) 
 
 func (d *Database) orderUpdateCost(tx *gorm.DB, orderId uint64) error {
 	// Anything in this function needs to run using the transaction
+	var err error
+	var subvention float64 = 0
 
-	// Get subvention
-	var config models.Configuration
-	err := tx.Select("subvention").First(&config).Error
-	if err != nil {
-		log.Error().Err(err).Uint64("id", orderId).Msg("Failed to read subvention")
-		return err
+	// Only the first order has subvention
+	err = tx.Select("id").Where("id = ? AND cost_total != cost_to_pay").Find(&models.Order{}).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		// If the costTotal != costToPay, this order has subvention applied. This is the first, so get subvention
+		var config models.Configuration
+		err = tx.Select("subvention").First(&config).Error
+		if err != nil {
+			log.Error().Err(err).Uint64("id", orderId).Msg("Failed to read subvention")
+			return err
+		}
+		subvention = config.Subvention
 	}
 
 	// Get lines
@@ -173,7 +181,7 @@ func (d *Database) orderUpdateCost(tx *gorm.DB, orderId uint64) error {
 	}
 
 	// Calculate cost
-	var costTotal, costToPay float64 = d.orderCalculateCostNoDB(lines, config.Subvention)
+	var costTotal, costToPay float64 = d.orderCalculateCostNoDB(lines, subvention)
 
 	// Update Order cost values
 	var curOrder models.Order

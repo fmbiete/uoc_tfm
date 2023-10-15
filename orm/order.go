@@ -1,9 +1,12 @@
 package orm
 
 import (
+	"errors"
 	"tfm_backend/models"
+	"time"
 
 	"github.com/rs/zerolog/log"
+	"gorm.io/gorm"
 )
 
 func (d *Database) OrderCreateFromCart(userId uint64) (models.Order, error) {
@@ -45,7 +48,8 @@ func (d *Database) OrderCreateFromCart(userId uint64) (models.Order, error) {
 			return models.Order{}, err
 		}
 
-		order.OrderLines = append(order.OrderLines, models.OrderLine{Name: dish.Name, Quantity: line.Quantity, CostUnit: costUnit})
+		order.OrderLines = append(order.OrderLines, models.OrderLine{DishID: line.DishID, Name: dish.Name,
+			Quantity: line.Quantity, CostUnit: costUnit})
 	}
 
 	// calculate order total
@@ -111,11 +115,17 @@ func (d *Database) OrderList(userId int64, day string) ([]models.Order, error) {
 }
 
 func (d *Database) orderCalculateCost(order models.Order) (models.Order, error) {
-	// Allowed: multiple orders per day
-	// TODO: apply subvention only in the first order
-	subvention, err := d.configSubvention()
-	if err != nil {
-		return order, err
+	var err error
+	var subvention float64 = 0
+
+	// Allowed: multiple orders per day, but only first has subvention
+	err = d.db.Where("date(created_at) = date(?) AND id != ?", time.Now, order.ID).First(&models.Order{}).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		// Get subvention - this is the first order
+		subvention, err = d.configSubvention()
+		if err != nil {
+			return order, err
+		}
 	}
 
 	order.CostTotal, order.CostToPay = d.orderCalculateCostNoDB(order.OrderLines, subvention)
