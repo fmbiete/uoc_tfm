@@ -137,7 +137,7 @@ func (d *Database) orderCalculateCostNoDB(lines []models.OrderLine, subvention f
 	var costTotal, costToPay float64 = 0, 0
 
 	// Calculate total
-	for i, _ := range lines {
+	for i := range lines {
 		costTotal += float64(lines[i].Quantity) * lines[i].CostUnit
 	}
 	// Apply subvention
