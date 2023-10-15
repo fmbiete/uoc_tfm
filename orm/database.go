@@ -12,7 +12,6 @@ import (
 )
 
 type Database struct {
-	dsn        string
 	cfg        *models.ConfigDatabase
 	siteAdmin  *models.User
 	siteConfig *models.Configuration
@@ -38,7 +37,8 @@ func NewDatabase(cfg *models.Config) *Database {
 func (d *Database) Setup() error {
 	var err error
 
-	dsn := fmt.Sprintf(`host=%s user=%s password=%s dbname=%s port=%d sslmode=allow`, d.cfg.Host, d.cfg.User, d.cfg.Password, d.cfg.Database, d.cfg.Port)
+	dsn := fmt.Sprintf(`host=%s user=%s password=%s dbname=%s port=%d sslmode=allow`,
+		d.cfg.Host, d.cfg.User, d.cfg.Password, d.cfg.Database, d.cfg.Port)
 	d.db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to open gorm DB object")
