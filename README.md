@@ -5,7 +5,7 @@
 Universitat Oberta de Catalunya
 
 ## Autor
-Francisco Miguel Biete Banón
+Francisco Miguel Biete Bañón
 
 ## Componente Backend
 REST API
