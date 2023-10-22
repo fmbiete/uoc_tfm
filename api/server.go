@@ -50,6 +50,10 @@ func NewServer(cfg models.ConfigServer, db *orm.Database) *Server {
 
 	s.e.HTTPErrorHandler = customHTTPErrorHandler
 
+	s.e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"http://localhost:4200"},
+	}))
+
 	return &s
 }
 
