@@ -6,10 +6,10 @@
 POST http://localhost:8080/user/
 Content-Type: application/json
 
-{ "email": "user1@tfm.es", "password": "password", "name": "User 1", "surname": "Apellido1 Apellido2", "address1": "Calle del Percebe", "address2": "Numero 5 Piso 2", "city": "Madrid", "postal_code": "12345", "phone": "987376767218" }
+{ "email": "user1@tfm.es", "password": "password", "name": "User 1", "surname": "Apellido1 Apellido2", "address1": "Calle del Percebe", "address2": "Numero 5 Piso 2", "city": "Madrid", "postalCode": "12345", "phone": "987376767218" }
 
 
-### User Delete
+### User Delete (requires login)
 DELETE http://localhost:8080/user/{{userid}}
 Authorization: Bearer {{token}}
 Content-Type: application/json

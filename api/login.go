@@ -37,7 +37,7 @@ func (s *Server) Login(c echo.Context) error {
 	}
 
 	log.Info().Str("username", username).Msg("User logged in")
-	return c.JSON(http.StatusOK, map[string]string{"token": t})
+	return c.JSON(http.StatusOK, map[string]interface{}{"id": user.ID, "email": user.Email, "admin": user.IsAdmin, "token": t})
 }
 
 // Assert that the JWT token is from a restaurador user
