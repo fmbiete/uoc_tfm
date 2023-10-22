@@ -32,6 +32,14 @@ func (d *Database) DishDetails(dishId uint64) (models.Dish, error) {
 	return dish, err
 }
 
+func (d *Database) DishDislike(dishId uint64) error {
+	return d.db.Exec(`UPDATE dishes SET dislike = dislike + 1 WHERE id = ?`, dishId).Error
+}
+
+func (d *Database) DishLike(dishId uint64) error {
+	return d.db.Exec(`UPDATE dishes SET like = like + 1 WHERE id = ?`, dishId).Error
+}
+
 func (d *Database) DishList(userId int64, limit uint64, offset uint64) ([]models.Dish, error) {
 	var dishes []models.Dish
 	// TODO: filter by userId if != -1, order by user sales

@@ -36,6 +36,16 @@ GET http://localhost:8080/dish/{{dishid}}
 Content-Type: application/json
 
 
+### Dishes Dislike
+POST http://localhost:8080/dish/{{dishid}}/dislike
+Authorization: Bearer {{token}}
+Content-Length: application/json
+
+### Dishes Like
+POST http://localhost:8080/dish/{{dishid}}/like
+Authorization: Bearer {{token}}
+Content-Length: application/json
+
 
 ### Dishes Modify (requires login)
 PATCH http://localhost:8080/dish/{{dishid}}

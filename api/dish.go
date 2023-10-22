@@ -58,6 +58,38 @@ func (s *Server) DishDetails(c echo.Context) error {
 	return c.JSON(http.StatusOK, dish)
 }
 
+func (s *Server) DishDislike(c echo.Context) error {
+	dishId, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	if err != nil {
+		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	err = s.db.DishDislike(dishId)
+	if err != nil {
+		log.Error().Err(err).Uint64("id", dishId).Msg("Failed to dislike dish")
+		return err
+	}
+
+	return c.JSON(http.StatusOK, true)
+}
+
+func (s *Server) DishLike(c echo.Context) error {
+	dishId, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	if err != nil {
+		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	err = s.db.DishLike(dishId)
+	if err != nil {
+		log.Error().Err(err).Uint64("id", dishId).Msg("Failed to like dish")
+		return err
+	}
+
+	return c.JSON(http.StatusOK, true)
+}
+
 func (s *Server) DishList(c echo.Context) error {
 	var userId int64 = -1
 	if authenticated(c) {
