@@ -1,13 +1,13 @@
-# Trabajo Fin de Master: Comer en la Oficina
+# Master's Degree Final Project: Eating at the Office
 
-**Master en Desarrollo de Aplicaciones y Sitios Web**
+[**Master's Degree in Website and Web Application Development**](https://www.uoc.edu/es/estudios/masters/master-universitario-desarrollo-sitios-aplicaciones-web)
 
-Universitat Oberta de Catalunya
+[Universitat Oberta de Catalunya](https://www.uoc.edu)
 
-## Autor
+## Author
 Francisco Miguel Biete Bañón
 
-## Componente Backend
+## Backend Component
 REST API
 
 Golang
