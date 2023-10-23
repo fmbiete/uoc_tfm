@@ -4,6 +4,7 @@ import (
 	"errors"
 	"tfm_backend/models"
 
+	"github.com/rs/zerolog/log"
 	"gorm.io/gorm"
 )
 
@@ -32,19 +33,100 @@ func (d *Database) DishDetails(dishId uint64) (models.Dish, error) {
 	return dish, err
 }
 
-func (d *Database) DishDislike(dishId uint64) error {
-	return d.db.Exec(`UPDATE dishes SET dislike = dislike + 1 WHERE id = ?`, dishId).Error
+func (d *Database) DishDislike(userId uint64, dishId uint64, add bool) error {
+	var err error
+	tx := d.db.Begin()
+	defer tx.Rollback()
+
+	if add {
+		err = d.db.Exec(`UPDATE dishes SET dislikes = dislikes + 1 WHERE id = ?`, dishId).Error
+		if err != nil {
+			log.Error().Err(err).Uint64("userId", userId).Uint64("dishId", dishId).Msg("Failed to incr dislike count")
+			return err
+		}
+
+		err = tx.Create(&models.DishDislike{UserID: userId, DishID: dishId}).Error
+		if err != nil {
+			log.Error().Err(err).Uint64("userId", userId).Uint64("dishId", dishId).Msg("Failed to create dislike")
+			return err
+		}
+	} else {
+		err = d.db.Exec(`UPDATE dishes SET dislikes = dislikes - 1 WHERE id = ?`, dishId).Error
+		if err != nil {
+			log.Error().Err(err).Uint64("userId", userId).Uint64("dishId", dishId).Msg("Failed to decr dislike count")
+			return err
+		}
+
+		err = tx.Unscoped().Where(`user_id = ? AND dish_id = ?`, userId, dishId).Delete(&models.DishDislike{}).Error
+		if err != nil {
+			log.Error().Err(err).Uint64("userId", userId).Uint64("dishId", dishId).Msg("Failed to destroy dislike")
+			return err
+		}
+	}
+
+	err = tx.Commit().Error
+	if err != nil {
+		log.Error().Err(err).Uint64("userId", userId).Uint64("dishId", dishId).Msg("Failed to commit tx dislike")
+		return err
+	}
+
+	return nil
 }
 
-func (d *Database) DishLike(dishId uint64) error {
-	return d.db.Exec(`UPDATE dishes SET like = like + 1 WHERE id = ?`, dishId).Error
+func (d *Database) DishLike(userId uint64, dishId uint64, add bool) error {
+	var err error
+	tx := d.db.Begin()
+	defer tx.Rollback()
+
+	if add {
+		err = d.db.Exec(`UPDATE dishes SET likes = likes + 1 WHERE id = ?`, dishId).Error
+		if err != nil {
+			log.Error().Err(err).Uint64("userId", userId).Uint64("dishId", dishId).Msg("Failed to incr like count")
+			return err
+		}
+
+		err = tx.Create(&models.DishDislike{UserID: userId, DishID: dishId}).Error
+		if err != nil {
+			log.Error().Err(err).Uint64("userId", userId).Uint64("dishId", dishId).Msg("Failed to create like")
+			return err
+		}
+	} else {
+		err = d.db.Exec(`UPDATE dishes SET likes = likes - 1 WHERE id = ?`, dishId).Error
+		if err != nil {
+			log.Error().Err(err).Uint64("userId", userId).Uint64("dishId", dishId).Msg("Failed to decr like count")
+			return err
+		}
+
+		err = tx.Unscoped().Where(`user_id = ? AND dish_id = ?`, userId, dishId).Delete(&models.DishLike{}).Error
+		if err != nil {
+			log.Error().Err(err).Uint64("userId", userId).Uint64("dishId", dishId).Msg("Failed to destroy like")
+			return err
+		}
+	}
+
+	err = tx.Commit().Error
+	if err != nil {
+		log.Error().Err(err).Uint64("userId", userId).Uint64("dishId", dishId).Msg("Failed to commit tx like")
+		return err
+	}
+
+	return nil
 }
 
 func (d *Database) DishList(userId int64, limit uint64, offset uint64) ([]models.Dish, error) {
+	var err error
 	var dishes []models.Dish
-	// TODO: filter by userId if != -1, order by user sales
-	// TODO: order by global sales
-	err := d.db.Preload("Allergens").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
+
+	if userId >= 0 {
+		// Show my favourites
+		err = d.db.Preload("Allergens").Joins("RIGHT JOIN dish_likes ON dish_likes.dish_id = dishes.dish_id").Where(`dish_likes.user_id = ?`, userId).Order("name").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
+	}
+
+	if len(dishes) == 0 {
+		// Show global favourites
+		err = d.db.Preload("Allergens").Order("likes desc").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
+	}
+
 	return dishes, err
 }
 

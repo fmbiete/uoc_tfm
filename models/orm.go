@@ -49,7 +49,7 @@ type Allergen struct {
 
 type Promotion struct {
 	BaseModel
-	DishID    uint // FK - Promotion belongs to Dish
+	DishID    uint64 // FK - Promotion belongs to Dish
 	StartTime time.Time
 	EndTime   time.Time
 	Cost      float64 `gorm:"scale:2"`
@@ -65,6 +65,18 @@ type Dish struct {
 	Promotions  []Promotion  // has many
 	Likes       uint64
 	Dislikes    uint64
+}
+
+type DishLike struct {
+	BaseModel
+	DishID uint64 // FK
+	UserID uint64 // FK
+}
+
+type DishDislike struct {
+	BaseModel
+	DishID uint64 // FK
+	UserID uint64 // FK
 }
 
 type OrderLine struct {
