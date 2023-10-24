@@ -87,7 +87,8 @@ func (s *Server) Listen() error {
 
 	// Dishes API
 	gDishes := s.e.Group("/dish")
-	gDishes.GET("/:id", s.DishDetails)
+	// is authenticated (show like/dislike for user) and authenticated (don't show like/dislike)
+	gDishes.GET("/:id", s.DishDetails, s.optionalLogin)
 	gDishes.POST("/", s.DishCreate, s.requiresLogin, requiresRestaurador)
 	gDishes.PATCH("/:id", s.DishModify, s.requiresLogin, requiresRestaurador)
 	gDishes.DELETE("/:id", s.DishDelete, s.requiresLogin, requiresRestaurador)
