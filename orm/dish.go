@@ -119,7 +119,7 @@ func (d *Database) DishList(userId int64, limit uint64, offset uint64) ([]models
 
 	if userId >= 0 {
 		// Show my favourites
-		err = d.db.Preload("Allergens").Joins("RIGHT JOIN dish_likes ON dish_likes.dish_id = dishes.dish_id").Where(`dish_likes.user_id = ?`, userId).Order("name").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
+		err = d.db.Preload("Allergens").Joins("RIGHT JOIN dish_likes ON dish_likes.dish_id = dishes.id").Where(`dish_likes.user_id = ?`, userId).Order("name").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
 	}
 
 	if len(dishes) == 0 {
