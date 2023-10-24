@@ -30,6 +30,8 @@ func NewDatabase(cfg *models.Config) *Database {
 	d.models = append(d.models, &models.OrderLine{})
 	d.models = append(d.models, &models.Cart{})
 	d.models = append(d.models, &models.CartLine{})
+	d.models = append(d.models, &models.DishDislike{})
+	d.models = append(d.models, &models.DishLike{})
 
 	return &d
 }
