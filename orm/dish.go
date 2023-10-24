@@ -39,7 +39,7 @@ func (d *Database) DishDislike(userId uint64, dishId uint64, add bool) error {
 	defer tx.Rollback()
 
 	if add {
-		err = d.db.Exec(`UPDATE dishes SET dislikes = dislikes + 1 WHERE id = ?`, dishId).Error
+		err = tx.Exec(`UPDATE dishes SET dislikes = dislikes + 1 WHERE id = ?`, dishId).Error
 		if err != nil {
 			log.Error().Err(err).Uint64("userId", userId).Uint64("dishId", dishId).Msg("Failed to incr dislike count")
 			return err
@@ -51,7 +51,7 @@ func (d *Database) DishDislike(userId uint64, dishId uint64, add bool) error {
 			return err
 		}
 	} else {
-		err = d.db.Exec(`UPDATE dishes SET dislikes = dislikes - 1 WHERE id = ?`, dishId).Error
+		err = tx.Exec(`UPDATE dishes SET dislikes = dislikes - 1 WHERE id = ?`, dishId).Error
 		if err != nil {
 			log.Error().Err(err).Uint64("userId", userId).Uint64("dishId", dishId).Msg("Failed to decr dislike count")
 			return err
@@ -79,19 +79,19 @@ func (d *Database) DishLike(userId uint64, dishId uint64, add bool) error {
 	defer tx.Rollback()
 
 	if add {
-		err = d.db.Exec(`UPDATE dishes SET likes = likes + 1 WHERE id = ?`, dishId).Error
+		err = tx.Exec(`UPDATE dishes SET likes = likes + 1 WHERE id = ?`, dishId).Error
 		if err != nil {
 			log.Error().Err(err).Uint64("userId", userId).Uint64("dishId", dishId).Msg("Failed to incr like count")
 			return err
 		}
 
-		err = tx.Create(&models.DishDislike{UserID: userId, DishID: dishId}).Error
+		err = tx.Create(&models.DishLike{UserID: userId, DishID: dishId}).Error
 		if err != nil {
 			log.Error().Err(err).Uint64("userId", userId).Uint64("dishId", dishId).Msg("Failed to create like")
 			return err
 		}
 	} else {
-		err = d.db.Exec(`UPDATE dishes SET likes = likes - 1 WHERE id = ?`, dishId).Error
+		err = tx.Exec(`UPDATE dishes SET likes = likes - 1 WHERE id = ?`, dishId).Error
 		if err != nil {
 			log.Error().Err(err).Uint64("userId", userId).Uint64("dishId", dishId).Msg("Failed to decr like count")
 			return err
