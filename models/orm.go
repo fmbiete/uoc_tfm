@@ -63,8 +63,8 @@ type Dish struct {
 	Allergens   []Allergen   `gorm:"many2many:dish_allergens;"`
 	Cost        float64      `gorm:"scale:2"`
 	Promotions  []Promotion  // has many
-	Likes       uint64
-	Dislikes    uint64
+	Likes       uint64       `gorm:"default:0"`
+	Dislikes    uint64       `gorm:"default:0"`
 }
 
 type DishLike struct {
