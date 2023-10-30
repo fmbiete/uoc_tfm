@@ -38,12 +38,12 @@ type User struct {
 
 type Ingredient struct {
 	BaseModel
-	Name string `gorm:"unique,size:250"`
+	Name string `gorm:"uniqueIndex;size:250"`
 }
 
 type Allergen struct {
 	BaseModel
-	Name string `gorm:"unique,size:250"`
+	Name string `gorm:"uniqueIndex;size:250"`
 }
 
 type Promotion struct {

@@ -14,7 +14,7 @@ POST http://localhost:8080/dish/
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
-{ "name": "Pasta Carbonara", "description": "Plato de pasta al estilo carbonara", "ingredients": [ { "name": "pasta" }, { "name": "bacon" }, { "name": "nata" } ], "allergens": [ { "name": "gluten" }, { "name": "lacteo" }, { "name": "carne" }], "cost": 5.50  }
+{ "name": "Pasta Carbonara", "description": "Plato de pasta al estilo carbonara", "ingredients": [ { "name": "pasta" }, { "name": "bacon" }, { "name": "nata" } ], "allergens": [ { "name": "lacteo" } ], "cost": 5.50  }
 
 ### Dishes List
 GET http://localhost:8080/dishes?limit=10&page=1
