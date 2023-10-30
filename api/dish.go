@@ -65,7 +65,7 @@ func (s *Server) DishDislike(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	err = s.db.DishDislike(authenticatedUserId(c), dishId, c.Request().Method == http.MethodPost /*add*/)
+	err = s.db.DishDislike(authenticatedUserId(c), dishId)
 	if err != nil {
 		log.Error().Err(err).Uint64("id", dishId).Msg("Failed to dislike dish")
 		return err
@@ -81,7 +81,7 @@ func (s *Server) DishLike(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	err = s.db.DishLike(authenticatedUserId(c), dishId, c.Request().Method == http.MethodPost /*add*/)
+	err = s.db.DishLike(authenticatedUserId(c), dishId)
 	if err != nil {
 		log.Error().Err(err).Uint64("id", dishId).Msg("Failed to like dish")
 		return err

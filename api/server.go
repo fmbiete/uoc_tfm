@@ -95,9 +95,7 @@ func (s *Server) Listen() error {
 	// /dishes is authenticated (show list of favourite dishes for user) and unauthenticated (show list of favourite dishes for everybody)
 	s.e.GET("/dishes", s.DishList, s.optionalLogin)
 	gDishes.POST("/:id/like", s.DishLike, s.requiresLogin)
-	gDishes.DELETE("/:id/like", s.DishLike, s.requiresLogin)
 	gDishes.POST("/:id/dislike", s.DishDislike, s.requiresLogin)
-	gDishes.DELETE("/:id/dislike", s.DishDislike, s.requiresLogin)
 
 	// Promotions API
 	gPromotions := s.e.Group("/promotion")
