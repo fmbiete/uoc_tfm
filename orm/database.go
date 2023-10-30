@@ -24,6 +24,9 @@ func NewDatabase(cfg *models.Config) *Database {
 
 	d.models = append(d.models, &models.Configuration{})
 	d.models = append(d.models, &models.User{})
+	d.models = append(d.models, &models.Category{})
+	d.models = append(d.models, &models.Ingredient{})
+	d.models = append(d.models, &models.Allergen{})
 	d.models = append(d.models, &models.Dish{})
 	d.models = append(d.models, &models.Promotion{})
 	d.models = append(d.models, &models.Order{})

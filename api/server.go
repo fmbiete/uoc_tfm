@@ -85,6 +85,13 @@ func (s *Server) Listen() error {
 	gUser.PATCH("/:id", s.UserModify, s.requiresLogin)
 	gUser.DELETE("/:id", s.UserDelete, s.requiresLogin)
 
+	// Categories API
+	gCategory := s.e.Group("/category")
+	gCategory.POST("/", s.CategoryCreate, s.requiresLogin, requiresRestaurador)
+	gCategory.GET("/:id", s.CategoryDetails)
+	gCategory.PATCH("/:id", s.CategoryModify, s.requiresLogin, requiresRestaurador)
+	s.e.GET("/categories", s.CategoryList)
+
 	// Dishes API
 	gDishes := s.e.Group("/dish")
 	// is authenticated (show like/dislike for user) and authenticated (don't show like/dislike)

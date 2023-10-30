@@ -36,6 +36,11 @@ type User struct {
 	Orders     []Order // has many
 }
 
+type Category struct {
+	BaseModel
+	Name string `gorm:"uniqueIndex;size:250"`
+}
+
 type Ingredient struct {
 	BaseModel
 	Name string `gorm:"uniqueIndex;size:250"`
@@ -58,6 +63,7 @@ type Dish struct {
 	BaseModel
 	Name        string       `gorm:"unique;size:250"`
 	Description string       `gorm:"size:2000"`
+	Categories  []Category   `gorm:"many2many:dish_categories;"`
 	Ingredients []Ingredient `gorm:"many2many:dish_ingredients;"`
 	Allergens   []Allergen   `gorm:"many2many:dish_allergens;"`
 	Cost        float64      `gorm:"scale:2"`
