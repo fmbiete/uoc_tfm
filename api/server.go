@@ -107,15 +107,10 @@ func (s *Server) Listen() error {
 	gPromotions.DELETE("/:id", s.PromotionDelete, s.requiresLogin, requiresRestaurador)
 	s.e.GET("/promotions", s.PromotionList)
 
-	// Cart API
-	gCarts := s.e.Group("/cart")
-	gCarts.GET("/", s.CartDetails, s.requiresLogin)
-	gCarts.POST("/", s.CartSave, s.requiresLogin)
-	gCarts.DELETE("/", s.CartDelete, s.requiresLogin)
-
 	// Orders API
 	gOrders := s.e.Group("/order")
-	gOrders.POST("/", s.OrderCreateFromCart, s.requiresLogin)
+	gOrders.GET("/subvention", s.OrderSubvention, s.requiresLogin)
+	gOrders.POST("/", s.OrderCreate, s.requiresLogin)
 	gOrders.GET("/:id", s.OrderDetails, s.requiresLogin)
 	gOrders.DELETE("/:id", s.OrderCancel, s.requiresLogin)
 	gOrders.POST("/:id/line/", s.OrderLineCreate, s.requiresLogin)

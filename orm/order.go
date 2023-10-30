@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (d *Database) OrderCreateFromCart(userId uint64) (models.Order, error) {
+func (d *Database) OrderCreate(order models.Order) (models.Order, error) {
 	var err error
 
 	// is the kitchen open?
@@ -18,28 +18,19 @@ func (d *Database) OrderCreateFromCart(userId uint64) (models.Order, error) {
 		return models.Order{}, err
 	}
 
-	// get cart
-	cart, err := d.CartDetails(userId)
-	if err != nil {
-		log.Error().Err(err).Uint64("userId", userId).Msg("Failed to read cart")
-		return models.Order{}, err
-	}
-
 	// initialize order
-	var order models.Order
-	order.UserID = userId
 	order.Delivery, err = d.configTodayDelivery()
 	if err != nil {
 		return models.Order{}, err
 	}
 
-	// Copy cart lines to order lines
+	// Overwrite order line prices with dish prices (tampering protection)
 	var dish models.Dish
 	var costUnit float64
-	for _, line := range cart.CartLines {
+	for i, line := range order.OrderLines {
 		err = d.db.Select("name").First(&dish, line.DishID).Error
 		if err != nil {
-			log.Error().Err(err).Interface("line", line).Msg("Failed to read dish from cart line")
+			log.Error().Err(err).Interface("line", line).Msg("Failed to read dish from order line")
 			return models.Order{}, err
 		}
 		costUnit, err = d.dishCurrentCost(line.DishID)
@@ -48,8 +39,8 @@ func (d *Database) OrderCreateFromCart(userId uint64) (models.Order, error) {
 			return models.Order{}, err
 		}
 
-		order.OrderLines = append(order.OrderLines, models.OrderLine{DishID: line.DishID, Name: dish.Name,
-			Quantity: line.Quantity, CostUnit: costUnit})
+		order.OrderLines[i].CostUnit = costUnit
+		order.OrderLines[i].Name = dish.Name
 	}
 
 	// calculate order total
@@ -64,23 +55,16 @@ func (d *Database) OrderCreateFromCart(userId uint64) (models.Order, error) {
 		tx := d.db.Begin()
 		defer tx.Rollback()
 
-		// save order
-		err = tx.Save(&order).Error
+		// create order and lines
+		err = tx.Create(&order).Error
 		if err != nil {
 			log.Error().Err(err).Interface("order", order).Msg("Failed to create order")
 			return models.Order{}, err
 		}
 
-		// delete cart lines, we don't need to modify Cart
-		err = tx.Unscoped().Model(&cart).Association("CartLines").Unscoped().Clear()
-		if err != nil {
-			log.Error().Err(err).Uint64("userId", userId).Msg("Failed to delete cart after order conversion")
-			return models.Order{}, err
-		}
-
 		err = tx.Commit().Error
 		if err != nil {
-			log.Error().Err(err).Uint64("userId", userId).Msg(errMsgTxCommit)
+			log.Error().Err(err).Interface("order", order).Msg(errMsgTxCommit)
 			return models.Order{}, err
 		}
 	}
@@ -114,18 +98,29 @@ func (d *Database) OrderList(userId int64, day string, limit uint64, offset uint
 	return orders, err
 }
 
+func (d *Database) OrderSubvention(userId uint64) (float64, error) {
+	var err error
+	var subvention float64 = 0
+
+	// is the kitchen open?
+	err = d.configChangesAllowed()
+	if err != nil {
+		return subvention, err
+	}
+
+	subvention, err = d.orderCalculateSubvention(userId)
+
+	return subvention, err
+}
+
 func (d *Database) orderCalculateCost(order models.Order) (models.Order, error) {
 	var err error
 	var subvention float64 = 0
 
-	// Allowed: multiple orders per day, but only first has subvention
-	err = d.db.Where("date(created_at) = date(?) AND id != ?", time.Now, order.ID).First(&models.Order{}).Error
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		// Get subvention - this is the first order
-		subvention, err = d.configSubvention()
-		if err != nil {
-			return order, err
-		}
+	subvention, err = d.orderCalculateSubvention(order.UserID)
+	if err != nil {
+		log.Error().Err(err).Msg("Failed to calculate cost - calculate subvention")
+		return order, err
 	}
 
 	order.CostTotal, order.CostToPay = d.orderCalculateCostNoDB(order.OrderLines, subvention)
@@ -147,4 +142,18 @@ func (d *Database) orderCalculateCostNoDB(lines []models.OrderLine, subvention f
 	}
 
 	return costTotal, costToPay
+}
+
+func (d *Database) orderCalculateSubvention(userId uint64) (float64, error) {
+	var err error
+	var subvention float64 = 0
+
+	// Allowed: multiple orders per day, but only first has subvention
+	err = d.db.Where("date(created_at) = date(?) AND user_id = ?", time.Now(), userId).First(&models.Order{}).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		// Get subvention - this is the first order
+		subvention, err = d.configSubvention()
+	}
+
+	return subvention, err
 }

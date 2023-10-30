@@ -34,17 +34,16 @@ type User struct {
 	Phone      string `gorm:"size:20"`
 	IsAdmin    bool
 	Orders     []Order // has many
-	CartOrder  Cart    // has one
 }
 
 type Ingredient struct {
 	BaseModel
-	Name string `gorm:"size:250"`
+	Name string `gorm:"unique,size:250"`
 }
 
 type Allergen struct {
 	BaseModel
-	Name string `gorm:"size:250"`
+	Name string `gorm:"unique,size:250"`
 }
 
 type Promotion struct {
@@ -69,14 +68,14 @@ type Dish struct {
 
 type DishLike struct {
 	BaseModel
-	DishID uint64 // FK
-	UserID uint64 // FK
+	DishID uint64 `gorm:"uniqueIndex:ix_user_like;"` // FK
+	UserID uint64 `gorm:"uniqueIndex:ix_user_like;"` // FK
 }
 
 type DishDislike struct {
 	BaseModel
-	DishID uint64 // FK
-	UserID uint64 // FK
+	DishID uint64 `gorm:"uniqueIndex:ix_user_dislike;"` // FK
+	UserID uint64 `gorm:"uniqueIndex:ix_user_dislike;"` // FK
 }
 
 type OrderLine struct {
@@ -84,7 +83,7 @@ type OrderLine struct {
 	OrderID  uint64  // FK - line belongs to Order
 	DishID   uint64  // FK - line has 1 Dish
 	Name     string  `gorm:"size:250"` // don't use dish references - attributes will change
-	CostUnit float64 `gorm:"scale:2"`
+	CostUnit float64 `gorm:"scale:2"`  // don't use dish references - attributes will change
 	Quantity uint
 }
 
@@ -95,17 +94,4 @@ type Order struct {
 	CostTotal  float64 `gorm:"scale:2"`
 	CostToPay  float64 `gorm:"scale:2"` // FK - cost to pay after subvention
 	Delivery   time.Time
-}
-
-type CartLine struct {
-	BaseModel
-	CartID   uint64 // FK - line belongs to Cart
-	DishID   uint64 // FK - line has 1 Dish
-	Quantity uint
-}
-
-type Cart struct {
-	BaseModel
-	CartLines []CartLine
-	UserID    uint64 // FK - Cart belongs to User
 }

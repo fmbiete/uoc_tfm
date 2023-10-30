@@ -3,10 +3,16 @@
 @orderid = 1
 
 
-### Orders Create From Cart (requires login and cart content)
+### Order Subvention (requires login)
+GET http://localhost:8080/order/subvention
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+### Orders Create (requires login)
 POST http://localhost:8080/order/
 Authorization: Bearer {{token}}
 Content-Type: application/json
+{ "orderLines": [{ "dishId": 1, "quantity": 1 }, { "dishId": 2, "quantity": 2 }] }
 
 
 ### Orders List

@@ -10,7 +10,7 @@ import (
 
 const errMsgTxCommit string = "Failed to commit changes to database for order conversion"
 
-func (d *Database) OrderLineCreate(orderId uint64, lineCart models.CartLine) (models.Order, error) {
+func (d *Database) OrderLineCreate(orderId uint64, lineOrder models.OrderLine) (models.Order, error) {
 	var err error
 
 	// Changes must be done before kitchen starts preparing the food
@@ -19,33 +19,33 @@ func (d *Database) OrderLineCreate(orderId uint64, lineCart models.CartLine) (mo
 		return d.OrderDetails(orderId)
 	}
 
-	// Convert line cart to line order
-	var line models.OrderLine = models.OrderLine{Quantity: lineCart.Quantity, OrderID: orderId}
+	lineOrder.OrderID = orderId
 
+	// Overwrite Name and CostUnit (anti-tampering protection)
 	var dish models.Dish
-	err = d.db.Select("name").First(&dish, lineCart.DishID).Error
+	err = d.db.Select("name").First(&dish, lineOrder.DishID).Error
 	if err != nil {
-		log.Error().Err(err).Interface("line", line).Msg("Failed to read dish from cart line")
+		log.Error().Err(err).Interface("line", lineOrder).Msg("Failed to read dish from cart line")
 		return d.OrderDetails(orderId)
 	}
-	line.Name = dish.Name
+	lineOrder.Name = dish.Name
 
 	var costUnit float64
-	costUnit, err = d.dishCurrentCost(lineCart.DishID)
+	costUnit, err = d.dishCurrentCost(lineOrder.DishID)
 	if err != nil {
-		log.Error().Err(err).Uint64("dishId", lineCart.DishID).Msg("Failed to read cost from dish")
+		log.Error().Err(err).Uint64("dishId", lineOrder.DishID).Msg("Failed to read cost from dish")
 		return d.OrderDetails(orderId)
 	}
-	line.CostUnit = costUnit
+	lineOrder.CostUnit = costUnit
 
 	// transaction block
 	{
 		tx := d.db.Begin()
 		defer tx.Rollback()
 
-		err = tx.Save(&line).Error
+		err = tx.Save(&lineOrder).Error
 		if err != nil {
-			log.Error().Err(err).Interface("line", line).Msg("Failed to save line order")
+			log.Error().Err(err).Interface("line", lineOrder).Msg("Failed to save line order")
 			// explicit rollback - we will call a non-tx function
 			tx.Rollback()
 			return d.OrderDetails(orderId)

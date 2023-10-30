@@ -25,10 +25,18 @@ func (s *Server) OrderCancel(c echo.Context) error {
 	return c.NoContent(http.StatusOK)
 }
 
-func (s *Server) OrderCreateFromCart(c echo.Context) error {
-	order, err := s.db.OrderCreateFromCart(authenticatedUserId(c))
+func (s *Server) OrderCreate(c echo.Context) error {
+	var order models.Order
+	err := c.Bind(&order)
 	if err != nil {
-		log.Error().Err(err).Interface("order", order).Msg("Failed to create order from cart")
+		log.Error().Err(err).Msg("Failed to bind order")
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+	order.UserID = authenticatedUserId(c)
+
+	order, err = s.db.OrderCreate(order)
+	if err != nil {
+		log.Error().Err(err).Interface("order", order).Msg("Failed to create order")
 		return err
 	}
 
@@ -77,12 +85,13 @@ func (s *Server) OrderLineCreate(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	var line models.CartLine
+	var line models.OrderLine
 	err = c.Bind(&line)
 	if err != nil {
-		log.Error().Err(err).Msg("Failed to bind cart line")
+		log.Error().Err(err).Msg("Failed to bind order line")
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
+	line.OrderID = orderId
 
 	order, err := s.db.OrderLineCreate(orderId, line)
 	if err != nil {
@@ -92,6 +101,7 @@ func (s *Server) OrderLineCreate(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, order)
 }
+
 func (s *Server) OrderLineDelete(c echo.Context) error {
 	orderId, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
@@ -143,4 +153,16 @@ func (s *Server) OrderLineModify(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, order)
+}
+
+func (s *Server) OrderSubvention(c echo.Context) error {
+	var userId = authenticatedUserId(c)
+
+	subvention, err := s.db.OrderSubvention(userId)
+	if err != nil {
+		log.Error().Err(err).Uint64("userId", userId).Msg("Failed to get today's subvention")
+		return err
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{"subvention": subvention})
 }
