@@ -128,12 +128,6 @@ func (d *Database) DishList(userId int64, limit uint64, offset uint64) ([]models
 	var dishes []models.Dish
 
 	if userId >= 0 {
-		sql := d.db.ToSQL(func(tx *gorm.DB) *gorm.DB {
-			return tx.Preload("Allergens").Joins("RIGHT JOIN dish_likes ON dish_likes.dish_id = dishes.id").
-				Where(`dish_likes.user_id = ?`, userId).Order("name").Limit(int(limit)).Offset(int(offset)).Find(&dishes)
-		},
-		)
-		log.Debug().Str("sql", sql).Msg("What I'm running")
 		// Show my favourites
 		err = d.db.Preload("Allergens").Joins("RIGHT JOIN dish_likes ON dish_likes.dish_id = dishes.id").Where(`dish_likes.user_id = ?`, userId).Order("name").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
 	}
