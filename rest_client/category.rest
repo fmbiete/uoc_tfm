@@ -23,3 +23,7 @@ Content-Type: application/json
 ### Category List
 GET http://localhost:8080/categories
 Content-Type: application/json
+
+### Category Dishes
+GET http://localhost:8080/category/{{categoryid}}/dishes
+Content-Type: application/json

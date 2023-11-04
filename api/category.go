@@ -42,6 +42,24 @@ func (s *Server) CategoryDetails(c echo.Context) error {
 	return c.JSON(http.StatusOK, category)
 }
 
+func (s *Server) CategoryDishes(c echo.Context) error {
+	categoryId, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	if err != nil {
+		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	limit, page, offset := parsePagination(c)
+
+	dishes, err := s.db.CategoryDishes(categoryId, limit, offset)
+	if err != nil {
+		log.Error().Err(err).Uint64("id", categoryId).Msg("Failed to read Category Dishes")
+		return err
+	}
+
+	return c.JSON(http.StatusOK, models.PaginationDishes{Limit: limit, Page: page, Dishes: dishes})
+}
+
 func (s *Server) CategoryList(c echo.Context) error {
 	categories, err := s.db.CategoryList()
 	if err != nil {

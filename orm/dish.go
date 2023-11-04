@@ -29,7 +29,7 @@ func (d *Database) DishDelete(dishId uint64) error {
 
 func (d *Database) DishDetails(dishId uint64) (models.Dish, error) {
 	var dish models.Dish
-	err := d.db.Preload("Allergens").Preload("Ingredients").First(&dish, dishId).Error
+	err := d.db.Preload("Allergens").Preload("Ingredients").Preload("Categories").First(&dish, dishId).Error
 	return dish, err
 }
 
@@ -129,12 +129,12 @@ func (d *Database) DishList(userId int64, limit uint64, offset uint64) ([]models
 
 	if userId >= 0 {
 		// Show my favourites
-		err = d.db.Preload("Allergens").Joins("RIGHT JOIN dish_likes ON dish_likes.dish_id = dishes.id").Where(`dish_likes.user_id = ?`, userId).Order("name").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
+		err = d.db.Preload("Allergens").Preload("Categories").Joins("RIGHT JOIN dish_likes ON dish_likes.dish_id = dishes.id").Where(`dish_likes.user_id = ?`, userId).Order("name").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
 	}
 
 	if len(dishes) == 0 {
 		// Show global favourites
-		err = d.db.Preload("Allergens").Order("likes desc").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
+		err = d.db.Preload("Allergens").Preload("Categories").Order("likes desc").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
 	}
 
 	return dishes, err
