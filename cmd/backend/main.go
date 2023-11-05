@@ -23,6 +23,13 @@ func main() {
 	}
 	json.Unmarshal(raw, &cfg)
 
+	// Railway - read db credentials from environment variables
+	if len(cfg.Database.Host) == 0 {
+		cfg.Database.Host = os.Getenv("DATABASE_HOST")
+		cfg.Database.User = os.Getenv("DATABASE_USER")
+		cfg.Database.Password = os.Getenv("DATABASE_PASSWORD")
+	}
+
 	database := orm.NewDatabase(&cfg)
 	server := api.NewServer(cfg.Server, database)
 

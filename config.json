@@ -1,10 +1,10 @@
 {
   "database": {
-    "host": "localhost",
+    "host": "",
     "port": 5432,
-    "user": "tfm",
-    "password": "password",
-    "database": "tfm",
+    "user": "",
+    "password": "",
+    "database": "railway",
     "max_open_conns": 100,
     "max_idle_conns": 10,
     "reset": false
