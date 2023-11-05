@@ -10,7 +10,7 @@
     "reset": false
   },
   "server": {
-    "port": 8080,
+    "port": 80,
     "jwt_secret": "supersecret"
   },
   "site_admin": {
