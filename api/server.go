@@ -90,6 +90,7 @@ func (s *Server) Listen() error {
 	gCategory.POST("/", s.CategoryCreate, s.requiresLogin, requiresRestaurador)
 	gCategory.GET("/:id", s.CategoryDetails)
 	gCategory.PATCH("/:id", s.CategoryModify, s.requiresLogin, requiresRestaurador)
+	gCategory.DELETE("/:id", s.CategoryDelete, s.requiresLogin, requiresRestaurador)
 	gCategory.GET("/:id/dishes", s.CategoryDishes)
 	s.e.GET("/categories", s.CategoryList)
 

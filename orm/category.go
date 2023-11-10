@@ -33,6 +33,29 @@ func (d *Database) CategoryDetails(categoryId uint64) (models.Category, error) {
 	return category, nil
 }
 
+func (d *Database) CategoryDelete(categoryId uint64) error {
+	var value uint64
+	// Is the category associated to any dish?
+	res := d.db.Raw(`SELECT dish_id FROM dish_categories WHERE category_id = ? LIMIT 1`, categoryId).Scan(&value)
+	if res.Error != nil {
+		log.Error().Err(res.Error).Uint64("categoryId", categoryId).Msg("Failed to find Dish with Category")
+		return res.Error
+	}
+
+	if res.RowsAffected > 0 {
+		log.Warn().Uint64("categoryId", categoryId).Msg("Dishes with Category exist - we cannot remove it")
+		return errors.New(`Dishes associated to this Category exist - Remove the Dish association first`)
+	}
+
+	err := d.db.Unscoped().Where("id = ?", categoryId).Delete(&models.Category{}).Error
+	if err != nil {
+		log.Error().Err(err).Uint64("categoryId", categoryId).Msg("Failed to delete Category")
+		return err
+	}
+
+	return nil
+}
+
 func (d *Database) CategoryDishes(categoryId uint64, limit uint64, offset uint64) ([]models.Dish, error) {
 	var err error
 	var dishes []models.Dish
