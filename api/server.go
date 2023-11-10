@@ -103,6 +103,15 @@ func (s *Server) Listen() error {
 	gCategory.GET("/:id/dishes", s.CategoryDishes)
 	s.e.GET("/categories", s.CategoryList)
 
+	// Ingredients API
+	gIngredient := s.e.Group("/ingredient")
+	gIngredient.POST("/", s.IngredientCreate, s.requiresLogin, requiresRestaurador)
+	gIngredient.GET("/:id", s.IngredientDetails)
+	gIngredient.PATCH("/:id", s.IngredientModify, s.requiresLogin, requiresRestaurador)
+	gIngredient.DELETE("/:id", s.IngredientDelete, s.requiresLogin, requiresRestaurador)
+	gIngredient.GET("/:id/dishes", s.IngredientDishes)
+	s.e.GET("/ingredients", s.IngredientList)
+
 	// Dishes API
 	gDishes := s.e.Group("/dish")
 	// is authenticated (show like/dislike for user) and authenticated (don't show like/dislike)
