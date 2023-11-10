@@ -85,6 +85,15 @@ func (s *Server) Listen() error {
 	gUser.PATCH("/:id", s.UserModify, s.requiresLogin)
 	gUser.DELETE("/:id", s.UserDelete, s.requiresLogin)
 
+	// Allergens API
+	gAllergen := s.e.Group("/allergen")
+	gAllergen.POST("/", s.AllergenCreate, s.requiresLogin, requiresRestaurador)
+	gAllergen.GET("/:id", s.AllergenDetails)
+	gAllergen.PATCH("/:id", s.AllergenModify, s.requiresLogin, requiresRestaurador)
+	gAllergen.DELETE("/:id", s.AllergenDelete, s.requiresLogin, requiresRestaurador)
+	gAllergen.GET("/:id/dishes", s.AllergenDishes)
+	s.e.GET("/allergens", s.AllergenList)
+
 	// Categories API
 	gCategory := s.e.Group("/category")
 	gCategory.POST("/", s.CategoryCreate, s.requiresLogin, requiresRestaurador)
