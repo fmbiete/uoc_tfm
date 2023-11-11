@@ -128,15 +128,11 @@ func (s *Server) UserModify(c echo.Context) error {
 		user.Password = stringToSha512(user.Password)
 	}
 
-	log.Debug().Interface("user", user).Msg("Modify")
-
 	user, err = s.db.UserModify(user)
 	if err != nil {
 		log.Error().Err(err).Interface("user", user).Msg("Failed to modify user")
 		return err
 	}
-
-	log.Debug().Interface("user", user).Msg("Modified")
 
 	return c.JSON(http.StatusOK, user)
 }
