@@ -144,7 +144,7 @@ func (d *Database) DishList(limit uint64, offset uint64) ([]models.Dish, error) 
 	var err error
 	var dishes []models.Dish
 
-	err = d.db.Preload("Allergens").Preload("Categories").Order("name").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
+	err = d.db.Preload("Ingredients").Preload("Allergens").Preload("Categories").Order("name").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
 	if err != nil {
 		log.Error().Err(err).Uint64("limit", limit).Uint64("offset", offset).Msg("Failed to list dishes")
 		return dishes, err
