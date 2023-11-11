@@ -17,3 +17,9 @@ type PaginationPromotion struct {
 	Page       uint64      `json:"page"`
 	Limit      uint64      `json:"limit"`
 }
+
+type PaginationUsers struct {
+	Users []User `json:"users"`
+	Page  uint64 `json:"page"`
+	Limit uint64 `json:"limit"`
+}

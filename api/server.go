@@ -84,6 +84,7 @@ func (s *Server) Listen() error {
 	gUser.GET("/:id", s.UserDetails, s.requiresLogin)
 	gUser.PATCH("/:id", s.UserModify, s.requiresLogin)
 	gUser.DELETE("/:id", s.UserDelete, s.requiresLogin)
+	s.e.GET("/users", s.UserList, s.requiresLogin, requiresRestaurador)
 
 	// Allergens API
 	gAllergen := s.e.Group("/allergen")

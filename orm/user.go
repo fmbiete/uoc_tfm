@@ -34,12 +34,27 @@ func (d *Database) UserDetails(userId uint64) (models.User, error) {
 	return user, err
 }
 
+func (d *Database) UserList(limit uint64, offset uint64) ([]models.User, error) {
+	var users []models.User
+	err := d.db.Order("is_admin DESC, name, email").Limit(int(limit)).Offset(int(offset)).Find(&users).Error
+	return users, err
+}
+
 func (d *Database) UserModify(user models.User) (models.User, error) {
 	err := d.db.Updates(&user).Error
 	// Don't return the password hash
 	user.Password = ""
 	if err != nil {
 		return user, err
+	}
+
+	if !user.IsAdmin {
+		// Update admin flag - gorm will not update false
+		err = d.db.Model(&user).Updates(map[string]interface{}{"is_admin": false}).Error
+		if err != nil {
+			return user, err
+		}
+
 	}
 
 	return d.UserDetails(uint64(user.ID))

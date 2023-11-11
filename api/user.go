@@ -78,17 +78,27 @@ func (s *Server) UserDetails(c echo.Context) error {
 	return c.JSON(http.StatusOK, user)
 }
 
+func (s *Server) UserList(c echo.Context) error {
+	limit, page, offset := parsePagination(c)
+
+	users, err := s.db.UserList(limit, offset)
+	if err != nil {
+		log.Error().Err(err).Msg("Failed to list users")
+		return err
+	}
+
+	return c.JSON(http.StatusOK, models.PaginationUsers{Limit: limit, Page: page, Users: users})
+}
+
 func (s *Server) UserModify(c echo.Context) error {
-	var userId = authenticatedUserId(c)
+	var authUserId = authenticatedUserId(c)
 	var err error
 
-	if authenticatedIsRestaurador(c) {
-		// Only a restaurador can modify other users
-		userId, err = strconv.ParseUint(c.Param("id"), 10, 64)
-		if err != nil {
-			log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
-			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
-		}
+	// user
+	userId, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	if err != nil {
+		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	var user models.User
@@ -99,16 +109,34 @@ func (s *Server) UserModify(c echo.Context) error {
 	}
 	user.ID = userId
 
+	if authenticatedIsRestaurador(c) {
+		// An administrator cannot remove its own admin access (mistake protection)
+		if authUserId == userId && !user.IsAdmin {
+			log.Warn().Uint64("authUserId", authUserId).Msg(`An Admin cannot remove its own admin access, ask another admin`)
+			return echo.NewHTTPError(http.StatusForbidden, `An Administrator cannot remove its own administrative access, please ask another Administrator`)
+		}
+	} else {
+		// Only a restaurador can modify other users
+		if authUserId != userId {
+			log.Warn().Uint64("authUserId", authUserId).Uint64("userId", userId).Msg(`A Non-Admin user is trying to modify another user`)
+			return echo.NewHTTPError(http.StatusForbidden, `Only an Administrator can modify another user`)
+		}
+	}
+
 	// If we have a new password, we generate the hash
 	if len(user.Password) > 0 {
 		user.Password = stringToSha512(user.Password)
 	}
+
+	log.Debug().Interface("user", user).Msg("Modify")
 
 	user, err = s.db.UserModify(user)
 	if err != nil {
 		log.Error().Err(err).Interface("user", user).Msg("Failed to modify user")
 		return err
 	}
+
+	log.Debug().Interface("user", user).Msg("Modified")
 
 	return c.JSON(http.StatusOK, user)
 }
