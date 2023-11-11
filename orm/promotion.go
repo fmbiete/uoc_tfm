@@ -9,8 +9,10 @@ import (
 )
 
 func (d *Database) PromotionCreate(promotion models.Promotion) (models.Promotion, error) {
-	// don't allow 2 active promotions for the same dish
-	err := d.db.Where("dish_id = ? and ? between start_time and end_time", promotion.DishID, time.Now()).First(&models.Promotion{}).Error
+	// don't allow 2 overlapping promotions for the same dish
+	err := d.db.Where("dish_id = ? and (? between start_time and end_time or ? between start_time and end_time)",
+		promotion.DishID, promotion.StartTime, promotion.EndTime).
+		First(&models.Promotion{}).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		err := d.db.Create(&promotion).Error
 		return promotion, err
