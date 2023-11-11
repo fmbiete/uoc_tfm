@@ -60,7 +60,11 @@ func (d *Database) AllergenDishes(allergenId uint64, limit uint64, offset uint64
 	var err error
 	var dishes []models.Dish
 
-	err = d.db.Preload("Allergens").Preload("Categories").Joins("RIGHT JOIN dish_categories ON dish_categories.dish_id = dishes.id").
+	err = d.db.Preload("Allergens", func(db *gorm.DB) *gorm.DB {
+		return db.Order("allergens.name")
+	}).Preload("Categories", func(db *gorm.DB) *gorm.DB {
+		return db.Order("categories.name")
+	}).Joins("RIGHT JOIN dish_categories ON dish_categories.dish_id = dishes.id").
 		Where(`dish_categories.allergen_id = ?`, allergenId).
 		Order("name").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
 	if err != nil {

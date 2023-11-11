@@ -60,7 +60,11 @@ func (d *Database) IngredientDishes(ingredientId uint64, limit uint64, offset ui
 	var err error
 	var dishes []models.Dish
 
-	err = d.db.Preload("Ingredients").Preload("Categories").Joins("RIGHT JOIN dish_categories ON dish_categories.dish_id = dishes.id").
+	err = d.db.Preload("Ingredients", func(db *gorm.DB) *gorm.DB {
+		return db.Order("ingredients.name")
+	}).Preload("Categories", func(db *gorm.DB) *gorm.DB {
+		return db.Order("categories.name")
+	}).Joins("RIGHT JOIN dish_categories ON dish_categories.dish_id = dishes.id").
 		Where(`dish_categories.ingredient_id = ?`, ingredientId).
 		Order("name").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
 	if err != nil {

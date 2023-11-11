@@ -78,7 +78,9 @@ func (d *Database) OrderDelete(orderId uint64) error {
 
 func (d *Database) OrderDetails(orderId uint64) (models.Order, error) {
 	var order models.Order
-	err := d.db.Preload("OrderLines").First(&order, orderId).Error
+	err := d.db.Preload("OrderLines", func(db *gorm.DB) *gorm.DB {
+		return db.Order("order_lines.name")
+	}).First(&order, orderId).Error
 	return order, err
 }
 

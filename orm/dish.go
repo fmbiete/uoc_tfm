@@ -29,7 +29,13 @@ func (d *Database) DishDelete(dishId uint64) error {
 
 func (d *Database) DishDetails(dishId uint64) (models.Dish, error) {
 	var dish models.Dish
-	err := d.db.Preload("Allergens").Preload("Ingredients").Preload("Categories").First(&dish, dishId).Error
+	err := d.db.Preload("Allergens", func(db *gorm.DB) *gorm.DB {
+		return db.Order("allergens.name")
+	}).Preload("Ingredients", func(db *gorm.DB) *gorm.DB {
+		return db.Order("ingredients.name")
+	}).Preload("Categories", func(db *gorm.DB) *gorm.DB {
+		return db.Order("categories.name")
+	}).First(&dish, dishId).Error
 	return dish, err
 }
 
