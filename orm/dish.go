@@ -78,6 +78,23 @@ func (d *Database) DishDislike(userId uint64, dishId uint64) error {
 	return nil
 }
 
+func (d *Database) DishFavourites(userId int64, limit uint64, offset uint64) ([]models.Dish, error) {
+	var err error
+	var dishes []models.Dish
+
+	if userId >= 0 {
+		// Show my favourites
+		err = d.db.Preload("Allergens").Preload("Categories").Joins("RIGHT JOIN dish_likes ON dish_likes.dish_id = dishes.id").Where(`dish_likes.user_id = ?`, userId).Order("name").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
+	}
+
+	if len(dishes) == 0 {
+		// Show global favourites
+		err = d.db.Preload("Allergens").Preload("Categories").Order("likes desc").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
+	}
+
+	return dishes, err
+}
+
 func (d *Database) DishLike(userId uint64, dishId uint64) error {
 	var err error
 	tx := d.db.Begin()
@@ -123,21 +140,17 @@ func (d *Database) DishLike(userId uint64, dishId uint64) error {
 	return nil
 }
 
-func (d *Database) DishList(userId int64, limit uint64, offset uint64) ([]models.Dish, error) {
+func (d *Database) DishList(limit uint64, offset uint64) ([]models.Dish, error) {
 	var err error
 	var dishes []models.Dish
 
-	if userId >= 0 {
-		// Show my favourites
-		err = d.db.Preload("Allergens").Preload("Categories").Joins("RIGHT JOIN dish_likes ON dish_likes.dish_id = dishes.id").Where(`dish_likes.user_id = ?`, userId).Order("name").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
+	err = d.db.Preload("Allergens").Preload("Categories").Order("name").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
+	if err != nil {
+		log.Error().Err(err).Uint64("limit", limit).Uint64("offset", offset).Msg("Failed to list dishes")
+		return dishes, err
 	}
 
-	if len(dishes) == 0 {
-		// Show global favourites
-		err = d.db.Preload("Allergens").Preload("Categories").Order("likes desc").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
-	}
-
-	return dishes, err
+	return dishes, nil
 }
 
 func (d *Database) DishModify(dish models.Dish) (models.Dish, error) {
