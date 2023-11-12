@@ -35,9 +35,13 @@ func (d *Database) PromotionDetails(promotionId uint64) (models.Promotion, error
 	return promotion, err
 }
 
-func (d *Database) PromotionList(limit uint64, offset uint64) ([]models.Promotion, error) {
+func (d *Database) PromotionList(activeOnly bool, limit uint64, offset uint64) ([]models.Promotion, error) {
 	var promotions []models.Promotion
-	err := d.db.Where("? between start_time and end_time", time.Now()).Limit(int(limit)).Offset(int(offset)).Find(&promotions).Error
+	scope := d.db
+	if activeOnly {
+		scope = scope.Where("? BETWEEN start_time AND end_time", time.Now())
+	}
+	err := scope.Preload("Dish").Joins("LEFT JOIN dishes ON promotions.dish_id = dishes.id").Order("start_time DESC").Limit(int(limit)).Offset(int(offset)).Find(&promotions).Error
 	return promotions, err
 }
 

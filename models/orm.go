@@ -54,6 +54,7 @@ type Allergen struct {
 type Promotion struct {
 	BaseModel
 	DishID    uint64 // FK - Promotion belongs to Dish
+	Dish      Dish   // for preload joins (not reflected in model)
 	StartTime time.Time
 	EndTime   time.Time
 	Cost      float64 `gorm:"scale:2"`
