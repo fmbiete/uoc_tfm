@@ -110,7 +110,9 @@ func (s *Server) DishLike(c echo.Context) error {
 func (s *Server) DishList(c echo.Context) error {
 	limit, page, offset := parsePagination(c)
 
-	dishes, err := s.db.DishList(limit, offset)
+	searchTerm := c.QueryParam("searchTerm")
+
+	dishes, err := s.db.DishList(searchTerm, limit, offset)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to list dishes")
 		return err

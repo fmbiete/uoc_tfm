@@ -2,6 +2,7 @@ package orm
 
 import (
 	"errors"
+	"fmt"
 	"tfm_backend/models"
 
 	"github.com/rs/zerolog/log"
@@ -154,11 +155,15 @@ func (d *Database) DishLike(userId uint64, dishId uint64) error {
 	return nil
 }
 
-func (d *Database) DishList(limit uint64, offset uint64) ([]models.Dish, error) {
+func (d *Database) DishList(searchTerm string, limit uint64, offset uint64) ([]models.Dish, error) {
 	var err error
 	var dishes []models.Dish
 
-	err = d.db.Preload("Promotions", func(db *gorm.DB) *gorm.DB {
+	scope := d.db
+	if len(searchTerm) > 0 {
+		scope = scope.Where("name ILIKE ?", fmt.Sprintf(`%%%s%%`, searchTerm))
+	}
+	err = scope.Preload("Promotions", func(db *gorm.DB) *gorm.DB {
 		return db.Order("promotions.start_time DESC")
 	}).Preload("Ingredients", func(db *gorm.DB) *gorm.DB {
 		return db.Order("ingredients.name")

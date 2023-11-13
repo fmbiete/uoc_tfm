@@ -1,162 +1,190 @@
+CREATE INDEX idx_dishes_name_trgm ON tfm.dishes USING GIN (name GIN_TRGM_OPS);
+CREATE INDEX idx_users_name_trgm ON tfm.users USING GIN (name GIN_TRGM_OPS);
+CREATE INDEX idx_users_surname_trgm ON tfm.users USING GIN (surname GIN_TRGM_OPS);
+CREATE INDEX idx_users_email_trgm ON tfm.users USING GIN (email GIN_TRGM_OPS);
+
 insert into users (email, name, surname, address1, address2, address3, city, postal_code, is_admin, password, created_at, updated_at)
 values ('admin@tfm.es', 'Administrator', 'Administrator', 'Company Name', null, null, 'City', '00000', true, 'b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a2ea6d103fd07c95385ffab0cacbc86', current_timestamp, current_timestamp);
 insert into configurations (id, delivery_time, changes_time, subvention, created_at, updated_at)
 values (1, '2000-01-01 22:00:00+00', '2000-01-01 20:30:00+00', 10.00, current_timestamp, current_timestamp);
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Tex mex breakfast specialty', 'Quesadilla stuffed with eggs jalapenos sausage and cheddar cheese served with guacamole and home fries', 12.79 , 92, 37, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Tex mex breakfast specialty', 'Quesadilla stuffed with eggs jalapenos sausage and cheddar cheese served with guacamole and home fries', 12.79 
+, 92, 37, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Tex mex breakfast specialty' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Tex mex breakfast specialty' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Tex mex breakfast specialty' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Steak and eggs specialty', 'Your choice of steak served with 0 eggs and home fries served with choice of roast and side', 22.59 , 51, 2, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Steak and eggs specialty', 'Your choice of steak served with 0 eggs and home fries served with choice of roast and side', 22.59 
+, 51, 2, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Steak and eggs specialty' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Steak and eggs specialty' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Steak and eggs specialty' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Breakfast burrito', 'Stuffed with rice black beans avocado tomatoes cheddar cheese cilantro and jalapenos served with sour cream', 14.79 , 70, 35, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Breakfast burrito', 'Stuffed with rice black beans avocado tomatoes cheddar cheese cilantro and jalapenos served with sour cream', 14.79 
+, 70, 35, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Breakfast burrito' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Breakfast burrito' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Breakfast burrito' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Carnitas and huevos', 'Slow roasted pork shoulder 0 eggs topped with grilled peppers and onions served with choice of toast and side', 13.99 , 99, 29, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Carnitas and huevos', 'Slow roasted pork shoulder 0 eggs topped with grilled peppers and onions served with choice of toast and side', 13.99 
+, 99, 29, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Carnitas and huevos' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Carnitas and huevos' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Carnitas and huevos' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Rolled omelette', 'A lightly done plain 0 egg omelet stuffed and covered with your choice of mix ins not served with a side', 12.99 , 84, 84, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Rolled omelette', 'A lightly done plain 0 egg omelet stuffed and covered with your choice of mix ins not served with a side', 12.99 
+, 84, 84, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Rolled omelette' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Rolled omelette' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Rolled omelette' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Athenian omelette', 'Spinach feta and onions', 12.19 , 25, 60, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Athenian omelette', 'Spinach feta and onions', 12.19 
+, 25, 60, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Athenian omelette' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Athenian omelette' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Athenian omelette' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cobb omelette', 'Avocado bacon and cheddar cheese', 12.99 , 46, 34, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cobb omelette', 'Avocado bacon and cheddar cheese', 12.99 
+, 46, 34, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Cobb omelette' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Cobb omelette' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cobb omelette' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Farmer s omelette', 'Ham bacon and sausage', 13.49 , 14, 21, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Farmer s omelette', 'Ham bacon and sausage', 13.49 
+, 14, 21, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Farmer s omelette' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Farmer s omelette' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Farmer s omelette' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mexican omelette', 'Cheddar cheese and jalapeno peppers', 11.49 , 81, 4, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mexican omelette', 'Cheddar cheese and jalapeno peppers', 11.49 
+, 81, 4, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Mexican omelette' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Mexican omelette' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mexican omelette' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spanish omelette', 'Topped and stuffed with salsa', 11.49 , 71, 66, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spanish omelette', 'Topped and stuffed with salsa', 11.49 
+, 71, 66, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Spanish omelette' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Spanish omelette' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spanish omelette' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Western omelette', 'Ham pepper and onions', 11.99 , 12, 80, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Western omelette', 'Ham pepper and onions', 11.99 
+, 12, 80, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Western omelette' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Western omelette' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Western omelette' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek omelette', 'Tomatoes feta cheese and onions', 12.19 , 60, 65, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek omelette', 'Tomatoes feta cheese and onions', 12.19 
+, 60, 65, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Greek omelette' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Greek omelette' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek omelette' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cheese omelette', 'Served with your choice of cheese', 11.49 , 14, 69, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cheese omelette', 'Served with your choice of cheese', 11.49 
+, 14, 69, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Cheese omelette' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Cheese omelette' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cheese omelette' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Super omelette', 'Mushrooms bacon tomatoes peppers onions and mozzarella cheese', 15.39 , 10, 92, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Super omelette', 'Mushrooms bacon tomatoes peppers onions and mozzarella cheese', 15.39 
+, 10, 92, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Super omelette' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Super omelette' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Super omelette' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('The astorian omelette', 'Charred beef sausage fresh herbs tomatoes mixed with 0 eggs topped with hollandaise sauce over a toasted roll with steak fries', 15.79 , 92, 3, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('The astorian omelette', 'Charred beef sausage fresh herbs tomatoes mixed with 0 eggs topped with hollandaise sauce over a toasted roll with steak fries', 15.79 
+, 92, 3, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'The astorian omelette' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'The astorian omelette' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'The astorian omelette' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Build your own omelette', 'Build it how you like', 10.99 , 10, 77, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Build your own omelette', 'Build it how you like', 10.99 
+, 10, 77, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Build your own omelette' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Build your own omelette' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Build your own omelette' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Leo omelette', 'Nova scotia lox and onions', 17.39 , 80, 26, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Leo omelette', 'Nova scotia lox and onions', 17.39 
+, 80, 26, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Leo omelette' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Leo omelette' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Leo omelette' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Flank steak philly omelette', 'Flank steak onions mushrooms and cheddar cheese', 18.89 , 34, 67, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Flank steak philly omelette', 'Flank steak onions mushrooms and cheddar cheese', 18.89 
+, 34, 67, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Flank steak philly omelette' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Flank steak philly omelette' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Flank steak philly omelette' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Garden omelette', 'Broccoli mushrooms onions and tomatoes', 11.89 , 50, 64, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Garden omelette', 'Broccoli mushrooms onions and tomatoes', 11.89 
+, 50, 64, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Garden omelette' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Garden omelette' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Garden omelette' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Portobello omelette', 'Grilled portobello mushrooms red peppers and mozzarella cheese', 14.39 , 82, 17, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Portobello omelette', 'Grilled portobello mushrooms red peppers and mozzarella cheese', 14.39 
+, 82, 17, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Portobello omelette' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Portobello omelette' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Portobello omelette' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Italian omelette', 'Sausage peppers onions and mozzarella cheese', 13.19 , 13, 92, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Italian omelette', 'Sausage peppers onions and mozzarella cheese', 13.19 
+, 13, 92, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Italian omelette' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Italian omelette' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Italian omelette' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hangover omelette', 'Ground beef steak fries all the cheese topped with gravy', 15.99 , 59, 57, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hangover omelette', 'Ground beef steak fries all the cheese topped with gravy', 15.99 
+, 59, 57, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'eggs' and d.name = 'Hangover omelette' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_allergens (dish_id, allergen_id) SELECT d.id, a.id FROM tfm.dishes d, tfm.allergens a WHERE d.name = 'Hangover omelette' AND a.name = 'eggs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hangover omelette' AND i.name = 'eggs' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Country style skillet', 'Home fries ham bacon sausage roasted peppers and 0 eggs', 14.69 , 44, 63, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Country style skillet', 'Home fries ham bacon sausage roasted peppers and 0 eggs', 14.69 
+, 44, 63, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('plates & bowls', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'plates & bowls' and d.name = 'Country style skillet' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -165,7 +193,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Country style skillet' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('corn', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Country style skillet' AND i.name = 'corn' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Classic monte cristo', 'Grilled ham warm turkey melted swiss cheese served open faced on challah bread', 12.59 , 25, 94, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Classic monte cristo', 'Grilled ham warm turkey melted swiss cheese served open faced on challah bread', 12.59 
+, 25, 94, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Classic monte cristo' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -178,7 +207,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Classic monte cristo' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Classic monte cristo' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('California tofu breakfast', 'Grilled tofu baby spinach sliced tomato and guacamole served on a brioche bun', 10.49 , 48, 76, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('California tofu breakfast', 'Grilled tofu baby spinach sliced tomato and guacamole served on a brioche bun', 10.49 
+, 48, 76, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'California tofu breakfast' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -191,7 +221,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'California tofu breakfast' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'California tofu breakfast' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Not your average breakfast sammy', 'Fried prosciutto muenster 0 eggs and buttery brioche', 8.39 , 79, 34, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Not your average breakfast sammy', 'Fried prosciutto muenster 0 eggs and buttery brioche', 8.39 
+, 79, 34, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Not your average breakfast sammy' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -204,7 +235,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Not your average breakfast sammy' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Not your average breakfast sammy' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pancake sandwich', 'Short stack of pancakes stuffed with 0 eggs peppers onions bacon and american cheese', 10.49 , 44, 9, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pancake sandwich', 'Short stack of pancakes stuffed with 0 eggs peppers onions bacon and american cheese', 10.49 
+, 44, 9, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Pancake sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -217,7 +249,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pancake sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pancake sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bruschetta breakfast sandwich', 'Tomatoes basil fresh mozzarella and 0 eggs on a garlic roll', 6.29 , 29, 39, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bruschetta breakfast sandwich', 'Tomatoes basil fresh mozzarella and 0 eggs on a garlic roll', 6.29 
+, 29, 39, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Bruschetta breakfast sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -230,7 +263,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bruschetta breakfast sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bruschetta breakfast sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Red velvet pancakes', 'Red velvet pancakes topped with cream cheese frosting', 13.69 , 2, 75, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Red velvet pancakes', 'Red velvet pancakes topped with cream cheese frosting', 13.69 
+, 2, 75, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Red velvet pancakes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -245,7 +279,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Red velvet pancakes' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Red velvet pancakes' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Silver dollar pancakes', 'Same delicious batter but bite sized', 10.49 , 56, 47, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Silver dollar pancakes', 'Same delicious batter but bite sized', 10.49 
+, 56, 47, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Silver dollar pancakes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -260,7 +295,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Silver dollar pancakes' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Silver dollar pancakes' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Give me s more cakes', 'Stuffed with chocolate chips graham crackers and marshmallows', 11.89 , 78, 6, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Give me s more cakes', 'Stuffed with chocolate chips graham crackers and marshmallows', 11.89 
+, 78, 6, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Give me s more cakes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -275,7 +311,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Give me s more cakes' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Give me s more cakes' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Healthy fruity whole grain pancakes', 'Whole wheat banana pancakes topped with fruit salad', 13.79 , 79, 82, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Healthy fruity whole grain pancakes', 'Whole wheat banana pancakes topped with fruit salad', 13.79 
+, 79, 82, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Healthy fruity whole grain pancakes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -290,7 +327,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Healthy fruity whole grain pancakes' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Healthy fruity whole grain pancakes' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Gluten free pancakes', 'Made with a better of banana oatmeal and egg topped with fresh berries', 13.79 , 61, 63, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Gluten free pancakes', 'Made with a better of banana oatmeal and egg topped with fresh berries', 13.79 
+, 61, 63, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Gluten free pancakes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -305,7 +343,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Gluten free pancakes' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Gluten free pancakes' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Homemade waffle', 'Made fresh every morning served with warm syrup', 9.49 , 37, 100, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Homemade waffle', 'Made fresh every morning served with warm syrup', 9.49 
+, 37, 100, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Homemade waffle' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -320,7 +359,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Homemade waffle' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Homemade waffle' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken waffles', 'Classic homemade waffle topped with 0 0 a fried chicken', 16.99 , 86, 30, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken waffles', 'Classic homemade waffle topped with 0 0 a fried chicken', 16.99 
+, 86, 30, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Chicken waffles' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -335,7 +375,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken waffles' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken waffles' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Waffle bowl', 'Corned beef hash topped with 0 over easy eggs and served in a bowl lined with our homemade waffle', 14.79 , 75, 60, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Waffle bowl', 'Corned beef hash topped with 0 over easy eggs and served in a bowl lined with our homemade waffle', 14.79 
+, 75, 60, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Waffle bowl' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -350,7 +391,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Waffle bowl' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Waffle bowl' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bacon waffles', 'Our classic waffle stuffed with bacon bits', 11.49 , 77, 69, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bacon waffles', 'Our classic waffle stuffed with bacon bits', 11.49 
+, 77, 69, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Bacon waffles' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -365,7 +407,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bacon waffles' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bacon waffles' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Usa waffle', 'Topped with strawberry preserves blueberry preserves and coconut', 11.99 , 91, 52, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Usa waffle', 'Topped with strawberry preserves blueberry preserves and coconut', 11.99 
+, 91, 52, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Usa waffle' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -380,7 +423,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Usa waffle' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Usa waffle' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Jumbo challah french toast', 'Thick cut house baked challah bread dipped in a delicious batter', 9.49 , 38, 99, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Jumbo challah french toast', 'Thick cut house baked challah bread dipped in a delicious batter', 9.49 
+, 38, 99, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Jumbo challah french toast' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -395,7 +439,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Jumbo challah french toast' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Jumbo challah french toast' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deep fried french toast sticks', 'Our homemade french toast cut into sticks deep fried and then rolled with cinnamon sugar', 8.09 , 84, 7, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deep fried french toast sticks', 'Our homemade french toast cut into sticks deep fried and then rolled with cinnamon sugar', 8.09 
+, 84, 7, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Deep fried french toast sticks' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -410,7 +455,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deep fried french toast sticks' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deep fried french toast sticks' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chocolate banana pb and j french toast', 'Old fashioned french toast stuffed with peanut butter jelly and bananas', 12.89 , 96, 41, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chocolate banana pb and j french toast', 'Old fashioned french toast stuffed with peanut butter jelly and bananas', 12.89 
+, 96, 41, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Chocolate banana pb and j french toast' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -425,7 +471,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chocolate banana pb and j french toast' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chocolate banana pb and j french toast' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Jalapeno poppers', 'Stuffed with cheddar cheese and served with sour cream', 9.89 , 31, 54, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Jalapeno poppers', 'Stuffed with cheddar cheese and served with sour cream', 9.89 
+, 31, 54, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Jalapeno poppers' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -434,7 +481,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Jalapeno poppers' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Jalapeno poppers' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Zucchini sticks', 'Italian battered zucchini sticks', 8.29 , 94, 31, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Zucchini sticks', 'Italian battered zucchini sticks', 8.29 
+, 94, 31, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Zucchini sticks' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -443,7 +491,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Zucchini sticks' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Zucchini sticks' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken fingers', 'Chicken tenderloins served with honey mustard add fries for an additional charge', 9.89 , 35, 8, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken fingers', 'Chicken tenderloins served with honey mustard add fries for an additional charge', 9.89 
+, 35, 8, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Chicken fingers' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -452,7 +501,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken fingers' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken fingers' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Corn fritters', 'Delicious bites stuffed with creamed corn', 8.99 , 10, 53, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Corn fritters', 'Delicious bites stuffed with creamed corn', 8.99 
+, 10, 53, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Corn fritters' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -461,7 +511,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Corn fritters' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Corn fritters' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Potato skins', 'Stuffed with your choice of broccoli or bacon and topped with cheddar cheese', 8.99 , 96, 19, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Potato skins', 'Stuffed with your choice of broccoli or bacon and topped with cheddar cheese', 8.99 
+, 96, 19, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Potato skins' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -470,7 +521,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Potato skins' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Potato skins' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cheese destruction fries', 'Layers of cheese everywhere all of the cheese', 9.49 , 33, 39, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cheese destruction fries', 'Layers of cheese everywhere all of the cheese', 9.49 
+, 33, 39, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Cheese destruction fries' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -479,7 +531,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cheese destruction fries' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cheese destruction fries' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bel aire tater tots', 'Tater tots topped with bacon muenster cheese and gravy', 8.39 , 80, 89, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bel aire tater tots', 'Tater tots topped with bacon muenster cheese and gravy', 8.39 
+, 80, 89, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Bel aire tater tots' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -488,7 +541,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bel aire tater tots' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bel aire tater tots' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Homemade onions rings', 'Battered and dipped in panko breadcrumbs', 6.49 , 15, 95, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Homemade onions rings', 'Battered and dipped in panko breadcrumbs', 6.49 
+, 15, 95, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Homemade onions rings' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -497,7 +551,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Homemade onions rings' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Homemade onions rings' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Homemade mozzarella stix', 'Made on premises and served with marinara', 8.39 , 46, 90, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Homemade mozzarella stix', 'Made on premises and served with marinara', 8.39 
+, 46, 90, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Homemade mozzarella stix' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -506,7 +561,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Homemade mozzarella stix' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Homemade mozzarella stix' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Potato pancakes', 'Old fashioned potato pancakes', 7.19 , 28, 22, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Potato pancakes', 'Old fashioned potato pancakes', 7.19 
+, 28, 22, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Potato pancakes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -515,7 +571,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Potato pancakes' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Potato pancakes' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mac and cheese bites', 'Deliciously stuffed with mac and cheese', 9.69 , 52, 7, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mac and cheese bites', 'Deliciously stuffed with mac and cheese', 9.69 
+, 52, 7, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Mac and cheese bites' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -524,7 +581,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mac and cheese bites' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mac and cheese bites' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Loaded baked potato', 'Topped with chili cheddar and scallions served with sour cream', 8.99 , 22, 81, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Loaded baked potato', 'Topped with chili cheddar and scallions served with sour cream', 8.99 
+, 22, 81, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Loaded baked potato' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -533,7 +591,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Loaded baked potato' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Loaded baked potato' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pick 0 combo', 'Choice of 0', 16.99 , 13, 96, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pick 0 combo', 'Choice of 0', 16.99 
+, 13, 96, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Pick 0 combo' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -542,7 +601,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pick 0 combo' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pick 0 combo' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Saganaki', 'Battered and fried kefalograviera cheese served with toasted pita', 12.99 , 32, 55, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Saganaki', 'Battered and fried kefalograviera cheese served with toasted pita', 12.99 
+, 32, 55, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Saganaki' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -551,7 +611,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Saganaki' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Saganaki' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek antipasto', 'Spanakopita moussaka pastitsio and tsatsiki served with toasted pita', 20.99 , 1, 18, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek antipasto', 'Spanakopita moussaka pastitsio and tsatsiki served with toasted pita', 20.99 
+, 1, 18, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Greek antipasto' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -560,7 +621,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek antipasto' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek antipasto' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek fries', 'Crispy steak fries topped with olive oil feta cheese tomatoes and oregano gluten free', 8.99 , 56, 12, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek fries', 'Crispy steak fries topped with olive oil feta cheese tomatoes and oregano gluten free', 8.99 
+, 56, 12, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Greek fries' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -569,7 +631,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek fries' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek fries' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spanakopita', 'Homemade spinach pie add a salad and make it an entree for an additional charge', 10.19 , 22, 88, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spanakopita', 'Homemade spinach pie add a salad and make it an entree for an additional charge', 10.19 
+, 22, 88, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Spanakopita' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -578,7 +641,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spanakopita' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spanakopita' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Tzatsiki', 'Our homemade yogurt sauce flavored with cucumbers and garlic served with a toasted pita', 6.99 , 49, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Tzatsiki', 'Our homemade yogurt sauce flavored with cucumbers and garlic served with a toasted pita', 6.99 
+, 49, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Tzatsiki' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -587,7 +651,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Tzatsiki' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Tzatsiki' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Dolmades', 'Stuffed vegetarian grape leaves served with toasted pita', 6.09 , 63, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Dolmades', 'Stuffed vegetarian grape leaves served with toasted pita', 6.09 
+, 63, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Dolmades' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -596,7 +661,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Dolmades' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Dolmades' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Stuffed mushrooms appetizer', 'Stuffed with our homemade seafood stuffing', 11.59 , 80, 10, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Stuffed mushrooms appetizer', 'Stuffed with our homemade seafood stuffing', 11.59 
+, 80, 10, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Stuffed mushrooms appetizer' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -605,7 +671,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Stuffed mushrooms appetizer' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Stuffed mushrooms appetizer' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Charred octopus', 'Served with olive oil and lemon', 19.99 , 86, 96, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Charred octopus', 'Served with olive oil and lemon', 19.99 
+, 86, 96, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Charred octopus' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -614,7 +681,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Charred octopus' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Charred octopus' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Grilled calamari', 'Marinated overnight and then grilled with peppers onions and tomatoes', 14.49 , 98, 20, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Grilled calamari', 'Marinated overnight and then grilled with peppers onions and tomatoes', 14.49 
+, 98, 20, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Grilled calamari' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -623,7 +691,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Grilled calamari' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Grilled calamari' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fried calamari', 'Marinated overnight and hand floured served with lemon and marinara sauce', 13.49 , 72, 7, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fried calamari', 'Marinated overnight and hand floured served with lemon and marinara sauce', 13.49 
+, 72, 7, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Fried calamari' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -632,7 +701,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fried calamari' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fried calamari' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bang bang shrimp', 'Popcorn shrimp in a sweet thai chili sauce topped with scallions', 11.99 , 71, 39, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bang bang shrimp', 'Popcorn shrimp in a sweet thai chili sauce topped with scallions', 11.99 
+, 71, 39, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Bang bang shrimp' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -641,7 +711,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bang bang shrimp' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bang bang shrimp' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Shrimp bucket', 'Over a 0 lb of shrimps 0 to be exact fried or steamed and served with our signature dipping sauce', 18.99 , 68, 5, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Shrimp bucket', 'Over a 0 lb of shrimps 0 to be exact fried or steamed and served with our signature dipping sauce', 18.99 
+, 68, 5, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Shrimp bucket' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -650,7 +721,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Shrimp bucket' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Shrimp bucket' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Stuffed tomato salad', 'Served with choice of salad and decorated with cucumbers olives and peppers', 13.09 , 35, 27, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Stuffed tomato salad', 'Served with choice of salad and decorated with cucumbers olives and peppers', 13.09 
+, 35, 27, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Stuffed tomato salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -661,7 +733,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Stuffed tomato salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Stuffed tomato salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Salad platter take your pick', 'Your choice of salad served with potato salad coleslaw hard boiled egg and garnish', 15.99 , 60, 41, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Salad platter take your pick', 'Your choice of salad served with potato salad coleslaw hard boiled egg and garnish', 15.99 
+, 60, 41, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Salad platter take your pick' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -672,7 +745,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Salad platter take your pick' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Salad platter take your pick' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Avocado and tomato salad', 'Diced tomatoes diced avocado red onions cucumbers and cilantro recommended with homemade ranch', 9.19 , 15, 77, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Avocado and tomato salad', 'Diced tomatoes diced avocado red onions cucumbers and cilantro recommended with homemade ranch', 9.19 
+, 15, 77, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Avocado and tomato salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -683,7 +757,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Avocado and tomato salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Avocado and tomato salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bluefish herb salad', 'Broiled bluefish baby spinach parsley scallions oregano roasted red peppers and grilled zucchini recommended with house vinaigrette', 12.59 , 83, 13, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bluefish herb salad', 'Broiled bluefish baby spinach parsley scallions oregano roasted red peppers and grilled zucchini recommended with house vinaigrette', 12.59 
+, 83, 13, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Bluefish herb salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -694,7 +769,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bluefish herb salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bluefish herb salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Quiche lorraine salad', 'Stuffed with ham mushrooms and cheese then baked into a pie crust and served with greek salad not gluten free', 15.99 , 71, 56, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Quiche lorraine salad', 'Stuffed with ham mushrooms and cheese then baked into a pie crust and served with greek salad not gluten free', 15.99 
+, 71, 56, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Quiche lorraine salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -705,7 +781,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Quiche lorraine salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Quiche lorraine salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Wedge salad', 'A wedge of iceberg lettuce topped with homemade blue cheese dressing tomatoes bacon bits scallions and bleu cheese crumbles', 9.09 , 60, 66, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Wedge salad', 'A wedge of iceberg lettuce topped with homemade blue cheese dressing tomatoes bacon bits scallions and bleu cheese crumbles', 9.09 
+, 60, 66, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Wedge salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -716,7 +793,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Wedge salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Wedge salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bison burger burrito bowl salad', 'Warm rice with tomatoes red onions corn black beans jalapenos cilantro and avocado topped with a bison burger', 15.79 , 19, 28, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bison burger burrito bowl salad', 'Warm rice with tomatoes red onions corn black beans jalapenos cilantro and avocado topped with a bison burger', 15.79 
+, 19, 28, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Bison burger burrito bowl salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -727,7 +805,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bison burger burrito bowl salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bison burger burrito bowl salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Traditional horiatiki salad', 'Diced tomatoes cucumbers red onions olives feta green peppers and oregano recommended with house vinaigrette', 8.19 , 76, 2, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Traditional horiatiki salad', 'Diced tomatoes cucumbers red onions olives feta green peppers and oregano recommended with house vinaigrette', 8.19 
+, 76, 2, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Traditional horiatiki salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -738,7 +817,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Traditional horiatiki salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Traditional horiatiki salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Roma salad', 'Romaine lettuce roasted red peppers tomatoes red onions and fresh mozzarella recommended with oil and vinegar', 7.59 , 19, 74, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Roma salad', 'Romaine lettuce roasted red peppers tomatoes red onions and fresh mozzarella recommended with oil and vinegar', 7.59 
+, 19, 74, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Roma salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -749,7 +829,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Roma salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Roma salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Build your own salad', 'Start with romaine fresh spinach iceberg quinoa or mixed greens', 6.79 , 64, 96, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Build your own salad', 'Start with romaine fresh spinach iceberg quinoa or mixed greens', 6.79 
+, 64, 96, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Build your own salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -760,7 +841,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Build your own salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Build your own salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Caesar salad', 'Chunks romaine lettuce seasoned croutons and grated parmesan cheese tossed with homemade caesar dressings gluten free without croutons', 6.79 , 43, 13, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Caesar salad', 'Chunks romaine lettuce seasoned croutons and grated parmesan cheese tossed with homemade caesar dressings gluten free without croutons', 6.79 
+, 43, 13, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Caesar salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -771,7 +853,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Caesar salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Caesar salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Classic cobb salad', 'Topped with crumbled bleu cheese avocado bacon bits corn and hard boiled eggs recommended with homemade bleu cheese', 9.99 , 96, 22, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Classic cobb salad', 'Topped with crumbled bleu cheese avocado bacon bits corn and hard boiled eggs recommended with homemade bleu cheese', 9.99 
+, 96, 22, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Classic cobb salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -782,7 +865,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Classic cobb salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Classic cobb salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Grilled portobello mushroom salad', 'Topped with artichokes roasted tomatoes red onions olives grilled portabello mushrooms and red pepper', 11.39 , 50, 20, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Grilled portobello mushroom salad', 'Topped with artichokes roasted tomatoes red onions olives grilled portabello mushrooms and red pepper', 11.39 
+, 50, 20, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Grilled portobello mushroom salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -793,7 +877,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Grilled portobello mushroom salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Grilled portobello mushroom salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chickpea garbanzo salad', 'Chickpea garbanzo beans tossed with arugula diced tomatoes red onions parsley and topped with goat cheese recommended with house vinaigrette', 9.19 , 89, 38, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chickpea garbanzo salad', 'Chickpea garbanzo beans tossed with arugula diced tomatoes red onions parsley and topped with goat cheese recommended with house vinaigrette', 9.19 
+, 89, 38, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Chickpea garbanzo salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -804,7 +889,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chickpea garbanzo salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chickpea garbanzo salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Very berry salad', 'Romaine lettuce topped with blueberries strawberries walnuts and feta recommended with fat free raspberry vinaigrette', 9.19 , 18, 87, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Very berry salad', 'Romaine lettuce topped with blueberries strawberries walnuts and feta recommended with fat free raspberry vinaigrette', 9.19 
+, 18, 87, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Very berry salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -815,7 +901,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Very berry salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Very berry salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Ionian salad', 'Grilled chicken served on a bed of grilled zucchini carrots green peppers mushrooms and onions no greens', 14.69 , 58, 86, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Ionian salad', 'Grilled chicken served on a bed of grilled zucchini carrots green peppers mushrooms and onions no greens', 14.69 
+, 58, 86, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Ionian salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -826,7 +913,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Ionian salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Ionian salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Soup and salad combo', 'Any vegetarian salad no meat on it and a cup of soup served with homemade challah bread gluten free without bread', 13.09 , 62, 97, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Soup and salad combo', 'Any vegetarian salad no meat on it and a cup of soup served with homemade challah bread gluten free without bread', 13.09 
+, 62, 97, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Soup and salad combo' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -837,7 +925,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Soup and salad combo' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Soup and salad combo' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Garden salad', 'Topped with tomatoes onions cucumber fresh broccoli mushrooms and carrots recommended with homemade ranch', 6.89 , 4, 98, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Garden salad', 'Topped with tomatoes onions cucumber fresh broccoli mushrooms and carrots recommended with homemade ranch', 6.89 
+, 4, 98, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Garden salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -848,7 +937,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Garden salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Garden salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek salad', 'Topped with imported feta cheese anchovy filet olives onions peppers dolmades stuffed grape leaves tomatoes oregano and cucumbers recommended with house vinaigrette', 9.19 , 27, 64, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek salad', 'Topped with imported feta cheese anchovy filet olives onions peppers dolmades stuffed grape leaves tomatoes oregano and cucumbers recommended with house vinaigrette', 9.19 
+, 27, 64, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Greek salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -859,7 +949,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Waldorf salad', 'Topped with walnuts raisins sliced apples and grilled chicken breast recommended with raspberry vinaigrette', 14.39 , 11, 41, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Waldorf salad', 'Topped with walnuts raisins sliced apples and grilled chicken breast recommended with raspberry vinaigrette', 14.39 
+, 11, 41, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Waldorf salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -870,7 +961,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Waldorf salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Waldorf salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chef s salad', 'Topped with turkey roast beef boiled ham muenster cheese hard boiled egg tomato and cucumber recommended with homemade ranch', 12.59 , 5, 2, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chef s salad', 'Topped with turkey roast beef boiled ham muenster cheese hard boiled egg tomato and cucumber recommended with homemade ranch', 12.59 
+, 5, 2, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Chef s salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -881,7 +973,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chef s salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chef s salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Best beet salad', 'Sliced beets tossed with arugula walnuts and goat cheese recommended with olive oil and vinegar', 11.39 , 99, 82, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Best beet salad', 'Sliced beets tossed with arugula walnuts and goat cheese recommended with olive oil and vinegar', 11.39 
+, 99, 82, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Best beet salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -892,7 +985,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Best beet salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Best beet salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Island salad', 'Topped with tomatoes cucumbers artichokes red peppers feta cheese and olives recommended with house vinaigrette', 9.09 , 9, 8, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Island salad', 'Topped with tomatoes cucumbers artichokes red peppers feta cheese and olives recommended with house vinaigrette', 9.09 
+, 9, 8, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Island salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -903,7 +997,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Island salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Island salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Popeye salad', 'Fresh spinach topped with bacon bits hard boiled egg tomatoes artichokes mushrooms and seasoned croutons gluten free without croutons', 10.79 , 29, 59, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Popeye salad', 'Fresh spinach topped with bacon bits hard boiled egg tomatoes artichokes mushrooms and seasoned croutons gluten free without croutons', 10.79 
+, 29, 59, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Popeye salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -914,7 +1009,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Popeye salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Popeye salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Southwestern salad', 'Quinoa topped with black beans red onions corn cilantro tomatoes jalapeno avocado and decorated with tortilla chips recommended with house vinaigrette', 8.29 , 49, 34, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Southwestern salad', 'Quinoa topped with black beans red onions corn cilantro tomatoes jalapeno avocado and decorated with tortilla chips recommended with house vinaigrette', 8.29 
+, 49, 34, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Southwestern salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -925,7 +1021,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Southwestern salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Southwestern salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Belt avocado salad', 'Tossed with bacon bits avocado tomatoes shredded romaine lettuce hard boiled egg and seasoned croutons gluten free without croutons', 8.39 , 48, 6, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Belt avocado salad', 'Tossed with bacon bits avocado tomatoes shredded romaine lettuce hard boiled egg and seasoned croutons gluten free without croutons', 8.39 
+, 48, 6, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Belt avocado salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -936,7 +1033,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Belt avocado salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Belt avocado salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Quinoa tabouleh salad', 'Tossed with diced tomatoes cucumbers red onions parsley cilantro and scallions recommended with olive oil and vinegar', 8.29 , 66, 12, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Quinoa tabouleh salad', 'Tossed with diced tomatoes cucumbers red onions parsley cilantro and scallions recommended with olive oil and vinegar', 8.29 
+, 66, 12, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Quinoa tabouleh salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -947,7 +1045,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Quinoa tabouleh salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Quinoa tabouleh salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mediterranean salad', 'Tossed with tomatoes cucumbers chickpeas olives oregano peppers red onions and feta recommended with house vinaigrette', 9.39 , 14, 46, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mediterranean salad', 'Tossed with tomatoes cucumbers chickpeas olives oregano peppers red onions and feta recommended with house vinaigrette', 9.39 
+, 14, 46, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Mediterranean salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -958,7 +1057,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mediterranean salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mediterranean salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Barbecue burger', 'Topped with bbq sauce bacon and fried onions', 9.59 , 3, 23, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Barbecue burger', 'Topped with bbq sauce bacon and fried onions', 9.59 
+, 3, 23, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Barbecue burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -971,7 +1071,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Barbecue burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Barbecue burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deluxe barbecue burger', 'Topped with bbq sauce bacon and fried onions served with french fries', 13.79 , 33, 78, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deluxe barbecue burger', 'Topped with bbq sauce bacon and fried onions served with french fries', 13.79 
+, 33, 78, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Deluxe barbecue burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -984,7 +1085,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deluxe barbecue burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deluxe barbecue burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mexican burger', 'Topped with jalapenos and cheddar', 8.89 , 66, 95, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mexican burger', 'Topped with jalapenos and cheddar', 8.89 
+, 66, 95, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Mexican burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -997,7 +1099,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mexican burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mexican burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deluxe mexican burger', 'Topped with jalapenos and cheddar served with french fries', 13.09 , 5, 38, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deluxe mexican burger', 'Topped with jalapenos and cheddar served with french fries', 13.09 
+, 5, 38, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Deluxe mexican burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1010,7 +1113,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deluxe mexican burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deluxe mexican burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pizza burger', 'Topped with mozzarella cheese and homemade marinara sauce', 8.89 , 78, 25, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pizza burger', 'Topped with mozzarella cheese and homemade marinara sauce', 8.89 
+, 78, 25, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Pizza burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1023,7 +1127,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pizza burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pizza burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deluxe pizza burger', 'Topped with mozzarella cheese and homemade marinara sauce served with french fries', 13.09 , 59, 20, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deluxe pizza burger', 'Topped with mozzarella cheese and homemade marinara sauce served with french fries', 13.09 
+, 59, 20, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Deluxe pizza burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1036,7 +1141,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deluxe pizza burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deluxe pizza burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cheese destruction burger', 'Muenster american cheddar and mozzarella', 9.99 , 70, 73, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cheese destruction burger', 'Muenster american cheddar and mozzarella', 9.99 
+, 70, 73, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Cheese destruction burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1049,7 +1155,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cheese destruction burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cheese destruction burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deluxe cheese destruction burger', 'Muenster american cheddar and mozzarella served with french fries', 14.19 , 21, 51, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deluxe cheese destruction burger', 'Muenster american cheddar and mozzarella served with french fries', 14.19 
+, 21, 51, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Deluxe cheese destruction burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1062,7 +1169,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deluxe cheese destruction burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deluxe cheese destruction burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Broadway burger', 'Grilled peppers grilled onions and mushrooms', 9.29 , 7, 71, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Broadway burger', 'Grilled peppers grilled onions and mushrooms', 9.29 
+, 7, 71, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Broadway burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1075,7 +1183,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Broadway burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Broadway burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deluxe broadway burger', 'Grilled peppers grilled onions and mushrooms served with french fries', 13.49 , 96, 49, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deluxe broadway burger', 'Grilled peppers grilled onions and mushrooms served with french fries', 13.49 
+, 96, 49, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Deluxe broadway burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1088,7 +1197,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deluxe broadway burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deluxe broadway burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Jumbo california vegan burger', 'Vegan patty topped with lettuce tomato and onion served on a toasted bun', 8.09 , 39, 2, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Jumbo california vegan burger', 'Vegan patty topped with lettuce tomato and onion served on a toasted bun', 8.09 
+, 39, 2, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Jumbo california vegan burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1101,7 +1211,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Jumbo california vegan burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Jumbo california vegan burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Sweet sriracha bison burger', 'Cooked to your liking topped with grilled pineapple sriracha sauce maple bacon with thai chili tots', 18.29 , 25, 49, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Sweet sriracha bison burger', 'Cooked to your liking topped with grilled pineapple sriracha sauce maple bacon with thai chili tots', 18.29 
+, 25, 49, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Sweet sriracha bison burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1114,7 +1225,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Sweet sriracha bison burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Sweet sriracha bison burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cobb burger', 'Bacon bleu cheese and avocado on brioche', 11.39 , 59, 57, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cobb burger', 'Bacon bleu cheese and avocado on brioche', 11.39 
+, 59, 57, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Cobb burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1127,7 +1239,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cobb burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cobb burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deluxe cobb burger', 'Bacon bleu cheese and avocado on brioche served with french fries', 15.59 , 20, 58, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deluxe cobb burger', 'Bacon bleu cheese and avocado on brioche served with french fries', 15.59 
+, 20, 58, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Deluxe cobb burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1140,7 +1253,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deluxe cobb burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deluxe cobb burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Italiano burger', 'Topped with roasted peppers and mozzarella cheese on a garlic roll served with garlic parmesan steak fries', 15.79 , 36, 97, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Italiano burger', 'Topped with roasted peppers and mozzarella cheese on a garlic roll served with garlic parmesan steak fries', 15.79 
+, 36, 97, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Italiano burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1153,7 +1267,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Italiano burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Italiano burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pulled pork burger', 'Topped with pulled pork and fronions served on a kaiser roll with cajun steak fries', 16.39 , 64, 80, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pulled pork burger', 'Topped with pulled pork and fronions served on a kaiser roll with cajun steak fries', 16.39 
+, 64, 80, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Pulled pork burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1166,7 +1281,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pulled pork burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pulled pork burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Gorilla burger', 'Burger patty on 0 grilled cheeses with bacon and grilled tomatoes served with cajun mozzarella steak fries', 23.29 , 89, 23, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Gorilla burger', 'Burger patty on 0 grilled cheeses with bacon and grilled tomatoes served with cajun mozzarella steak fries', 23.29 
+, 89, 23, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Gorilla burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1179,7 +1295,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Gorilla burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Gorilla burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Burger melt', 'Served on grilled sourdough rye bread topped with fried onions and cheddar', 8.89 , 80, 40, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Burger melt', 'Served on grilled sourdough rye bread topped with fried onions and cheddar', 8.89 
+, 80, 40, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Burger melt' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1192,7 +1309,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Burger melt' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Burger melt' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deluxe burger melt', 'Served on grilled sourdough rye bread topped with fried onions and cheddar served with french fries', 13.09 , 46, 51, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deluxe burger melt', 'Served on grilled sourdough rye bread topped with fried onions and cheddar served with french fries', 13.09 
+, 46, 51, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Deluxe burger melt' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1205,7 +1323,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deluxe burger melt' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deluxe burger melt' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bacon mac and cheese burger', 'Topped with homemade mac and cheese and bacon', 10.29 , 41, 75, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bacon mac and cheese burger', 'Topped with homemade mac and cheese and bacon', 10.29 
+, 41, 75, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Bacon mac and cheese burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1218,7 +1337,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bacon mac and cheese burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bacon mac and cheese burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deluxe bacon mac and cheese burger', 'Topped with homemade mac and cheese and bacon served with french fries', 14.49 , 12, 77, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deluxe bacon mac and cheese burger', 'Topped with homemade mac and cheese and bacon served with french fries', 14.49 
+, 12, 77, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Deluxe bacon mac and cheese burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1231,7 +1351,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deluxe bacon mac and cheese burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deluxe bacon mac and cheese burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Burger bar build your own burger', '', 8.09 , 74, 100, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Burger bar build your own burger', '', 8.09 
+, 74, 100, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Burger bar build your own burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1244,7 +1365,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Burger bar build your own burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Burger bar build your own burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deluxe burger bar build your own burger', 'Served with french fries', 12.29 , 1, 92, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deluxe burger bar build your own burger', 'Served with french fries', 12.29 
+, 1, 92, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Deluxe burger bar build your own burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1257,7 +1379,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deluxe burger bar build your own burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deluxe burger bar build your own burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Classic bel aire sandwich', 'Marinated grilled chicken breast served on a brioche bun', 13.39 , 40, 53, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Classic bel aire sandwich', 'Marinated grilled chicken breast served on a brioche bun', 13.39 
+, 40, 53, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Classic bel aire sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1270,7 +1393,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Classic bel aire sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Classic bel aire sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Parmigiana bel aire sandwich', 'Breaded chicken cutlet mozzarella cheese homemade marinara sauce served on a hero', 15.59 , 16, 26, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Parmigiana bel aire sandwich', 'Breaded chicken cutlet mozzarella cheese homemade marinara sauce served on a hero', 15.59 
+, 16, 26, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Parmigiana bel aire sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1283,7 +1407,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Parmigiana bel aire sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Parmigiana bel aire sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Italiano bel aire sandwich', 'Grilled chicken roasted peppers mozzarella and tomatoes on a garlic bread', 15.99 , 72, 2, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Italiano bel aire sandwich', 'Grilled chicken roasted peppers mozzarella and tomatoes on a garlic bread', 15.99 
+, 72, 2, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Italiano bel aire sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1296,7 +1421,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Italiano bel aire sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Italiano bel aire sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Teriyaki bel aire sandwich', 'Grilled chicken mozzarella lettuce tomatoes and teriyaki in a wrap', 15.19 , 27, 68, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Teriyaki bel aire sandwich', 'Grilled chicken mozzarella lettuce tomatoes and teriyaki in a wrap', 15.19 
+, 27, 68, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Teriyaki bel aire sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1309,7 +1435,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Teriyaki bel aire sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Teriyaki bel aire sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cobb bel aire sandwich', 'Grilled chicken avocado bleu cheese and lettuce in a wrap', 15.99 , 81, 58, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cobb bel aire sandwich', 'Grilled chicken avocado bleu cheese and lettuce in a wrap', 15.99 
+, 81, 58, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Cobb bel aire sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1322,7 +1449,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cobb bel aire sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cobb bel aire sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Caesar bel aire sandwich', 'Grilled chicken romaine grated cheese and caesar dressing in a wrap', 15.59 , 47, 82, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Caesar bel aire sandwich', 'Grilled chicken romaine grated cheese and caesar dressing in a wrap', 15.59 
+, 47, 82, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Caesar bel aire sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1335,7 +1463,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Caesar bel aire sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Caesar bel aire sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek bel aire sandwich', 'Grilled chicken feta cheese olives cucumbers and romaine lettuce served in a toasted pita', 16.09 , 72, 74, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek bel aire sandwich', 'Grilled chicken feta cheese olives cucumbers and romaine lettuce served in a toasted pita', 16.09 
+, 72, 74, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Greek bel aire sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1348,7 +1477,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek bel aire sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek bel aire sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Riverview bel aire sandwich', 'Grilled chicken with bacon and melted cheddar on a brioche bun', 15.59 , 10, 59, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Riverview bel aire sandwich', 'Grilled chicken with bacon and melted cheddar on a brioche bun', 15.59 
+, 10, 59, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Riverview bel aire sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1361,7 +1491,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Riverview bel aire sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Riverview bel aire sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Southwestern bel aire sandwich', 'Grilled chicken black bean cheddar cheese guacamole and cilantro in a wrap', 16.19 , 20, 23, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Southwestern bel aire sandwich', 'Grilled chicken black bean cheddar cheese guacamole and cilantro in a wrap', 16.19 
+, 20, 23, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Southwestern bel aire sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1374,7 +1505,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Southwestern bel aire sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Southwestern bel aire sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Monster bel aire sandwich', 'Grilled chicken fried onions grilled mushrooms and muenster cheese served on a roll', 15.49 , 66, 5, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Monster bel aire sandwich', 'Grilled chicken fried onions grilled mushrooms and muenster cheese served on a roll', 15.49 
+, 66, 5, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Monster bel aire sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1387,7 +1519,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Monster bel aire sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Monster bel aire sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken fajita bel aire sandwich', 'Grilled chicken red peppers green peppers red onions onions and avocado in a wrap', 16.39 , 55, 41, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken fajita bel aire sandwich', 'Grilled chicken red peppers green peppers red onions onions and avocado in a wrap', 16.39 
+, 55, 41, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Chicken fajita bel aire sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1400,7 +1533,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken fajita bel aire sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken fajita bel aire sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Tex mex bel aire sandwich', 'Grilled chicken mozzarella lettuce tomato and salsa on a roll', 15.19 , 48, 99, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Tex mex bel aire sandwich', 'Grilled chicken mozzarella lettuce tomato and salsa on a roll', 15.19 
+, 48, 99, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Tex mex bel aire sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1413,7 +1547,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Tex mex bel aire sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Tex mex bel aire sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq bacon ranch bel aire sandwich', 'Grilled chicken bacon bbq sauce ranch dressing red onions and muenster cheese served on brioche', 16.29 , 87, 78, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq bacon ranch bel aire sandwich', 'Grilled chicken bacon bbq sauce ranch dressing red onions and muenster cheese served on brioche', 16.29 
+, 87, 78, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Bbq bacon ranch bel aire sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1426,7 +1561,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq bacon ranch bel aire sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq bacon ranch bel aire sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Southern comfort bel aire sandwich', 'Fried chicken cutlet coleslaw bbq sauce and pickles served on a roll', 15.29 , 37, 33, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Southern comfort bel aire sandwich', 'Fried chicken cutlet coleslaw bbq sauce and pickles served on a roll', 15.29 
+, 37, 33, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Southern comfort bel aire sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1439,7 +1575,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Southern comfort bel aire sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Southern comfort bel aire sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Ballpark dog', 'Topped with homemade chili and fronions', 9.69 , 20, 78, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Ballpark dog', 'Topped with homemade chili and fronions', 9.69 
+, 20, 78, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Ballpark dog' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1452,7 +1589,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Ballpark dog' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Ballpark dog' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mac and cheese dog', 'Topped with homemade mac and cheese', 8.49 , 42, 5, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mac and cheese dog', 'Topped with homemade mac and cheese', 8.49 
+, 42, 5, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Mac and cheese dog' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1465,7 +1603,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mac and cheese dog' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mac and cheese dog' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pulled dog', 'Topped with pulled pork coleslaw and red onions', 9.79 , 13, 95, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pulled dog', 'Topped with pulled pork coleslaw and red onions', 9.79 
+, 13, 95, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Pulled dog' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1478,7 +1617,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pulled dog' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pulled dog' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Plain hot dog', 'As many hot dogs as you would like', 3.19 , 49, 81, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Plain hot dog', 'As many hot dogs as you would like', 3.19 
+, 49, 81, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Plain hot dog' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1491,7 +1631,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Plain hot dog' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Plain hot dog' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Surf dog', 'Topped with grilled pineapple ham red peppers and onions', 8.69 , 60, 7, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Surf dog', 'Topped with grilled pineapple ham red peppers and onions', 8.69 
+, 60, 7, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Surf dog' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1504,7 +1645,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Surf dog' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Surf dog' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bruschetta dog', 'Topped with tomato basil and grated cheese on a garlic bun', 7.69 , 99, 13, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bruschetta dog', 'Topped with tomato basil and grated cheese on a garlic bun', 7.69 
+, 99, 13, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Bruschetta dog' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1517,7 +1659,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bruschetta dog' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bruschetta dog' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Shrimp and avocado sandwich', 'Shrimp salad topped with avocado basil tomatoes and scallions served in a wrap', 11.89 , 24, 85, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Shrimp and avocado sandwich', 'Shrimp salad topped with avocado basil tomatoes and scallions served in a wrap', 11.89 
+, 24, 85, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Shrimp and avocado sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1530,7 +1673,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Shrimp and avocado sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Shrimp and avocado sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Ham and cheese sandwich', 'Thinly sliced boiled ham and american cheese topped with lettuce and tomato served on a roll', 8.09 , 25, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Ham and cheese sandwich', 'Thinly sliced boiled ham and american cheese topped with lettuce and tomato served on a roll', 8.09 
+, 25, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Ham and cheese sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1543,7 +1687,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Ham and cheese sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Ham and cheese sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Classic blt sandwich', 'Bacon lettuce and tomato served on thick white toast', 5.99 , 32, 33, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Classic blt sandwich', 'Bacon lettuce and tomato served on thick white toast', 5.99 
+, 32, 33, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Classic blt sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1556,7 +1701,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Classic blt sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Classic blt sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Tuna milanese', 'Tuna salad topped with tomatoes arugula olives red onions and balsamic glaze served on a roll', 9.59 , 9, 2, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Tuna milanese', 'Tuna salad topped with tomatoes arugula olives red onions and balsamic glaze served on a roll', 9.59 
+, 9, 2, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Tuna milanese' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1569,7 +1715,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Tuna milanese' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Tuna milanese' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Homemade salad sandwich tuna egg chicken or shrimp salad', 'Choice of protein piled high on your choice of bread and topped with lettuce and tomato served on toast', 7.49 , 53, 85, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Homemade salad sandwich tuna egg chicken or shrimp salad', 'Choice of protein piled high on your choice of bread and topped with lettuce and tomato served on toast', 7.49 
+, 53, 85, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Homemade salad sandwich tuna egg chicken or shrimp salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1582,7 +1729,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Homemade salad sandwich tuna egg chicken or shrimp salad' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Homemade salad sandwich tuna egg chicken or shrimp salad' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq bacon chicken salad sandwich', 'Chicken salad topped with bbq sauce fronions and bacon served on thick white toast', 9.59 , 75, 62, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq bacon chicken salad sandwich', 'Chicken salad topped with bbq sauce fronions and bacon served on thick white toast', 9.59 
+, 75, 62, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Bbq bacon chicken salad sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1595,7 +1743,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq bacon chicken salad sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq bacon chicken salad sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('French shrimp salad sandwich', 'Shrimp salad with grilled asparagus and arugula on a toasted croissant', 10.19 , 85, 22, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('French shrimp salad sandwich', 'Shrimp salad with grilled asparagus and arugula on a toasted croissant', 10.19 
+, 85, 22, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'French shrimp salad sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1608,7 +1757,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'French shrimp salad sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'French shrimp salad sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mediterranean tuna sandwich', 'Tuna salad mixed with feta and olives topped with tomatoes and baby spinach on a toasted pita', 9.59 , 89, 92, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mediterranean tuna sandwich', 'Tuna salad mixed with feta and olives topped with tomatoes and baby spinach on a toasted pita', 9.59 
+, 89, 92, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Mediterranean tuna sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1621,7 +1771,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mediterranean tuna sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mediterranean tuna sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Classic diner grilled cheese sandwich', 'Your preferred cheese on grilled white bread add bacon for an additional charge', 5.99 , 17, 26, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Classic diner grilled cheese sandwich', 'Your preferred cheese on grilled white bread add bacon for an additional charge', 5.99 
+, 17, 26, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Classic diner grilled cheese sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1634,7 +1785,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Classic diner grilled cheese sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Classic diner grilled cheese sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Strawberry avocado and cheddar sandwich', 'Freshly sliced strawberries sliced avocado and cheddar cheese on grilled sourdough rye', 8.29 , 12, 43, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Strawberry avocado and cheddar sandwich', 'Freshly sliced strawberries sliced avocado and cheddar cheese on grilled sourdough rye', 8.29 
+, 12, 43, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Strawberry avocado and cheddar sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1647,7 +1799,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Strawberry avocado and cheddar sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Strawberry avocado and cheddar sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bacon apple and muenster sandwich', 'Thinly sliced red delicious apples bacon and muenster cheese on grilled sourdough rye bread', 7.29 , 19, 58, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bacon apple and muenster sandwich', 'Thinly sliced red delicious apples bacon and muenster cheese on grilled sourdough rye bread', 7.29 
+, 19, 58, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Bacon apple and muenster sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1660,7 +1813,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bacon apple and muenster sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bacon apple and muenster sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Loaded mac and cheese sandwich', 'Macaroni and cheese bacon american cheese and cheddar on a grilled hero', 11.39 , 39, 30, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Loaded mac and cheese sandwich', 'Macaroni and cheese bacon american cheese and cheddar on a grilled hero', 11.39 
+, 39, 30, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Loaded mac and cheese sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1673,7 +1827,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Loaded mac and cheese sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Loaded mac and cheese sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq tofu sandwich special', 'Sliced and grilled tofu topped with fronions bbq sauce and jalapenos on a hero served with a tossed salad', 15.19 , 98, 62, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq tofu sandwich special', 'Sliced and grilled tofu topped with fronions bbq sauce and jalapenos on a hero served with a tossed salad', 15.19 
+, 98, 62, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('vegan and vegetarian specialties', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'vegan and vegetarian specialties' and d.name = 'Bbq tofu sandwich special' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1684,7 +1839,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq tofu sandwich special' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq tofu sandwich special' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Vegetarian philly special', 'Grilled tofu peppers onions and mushrooms topped with cheddar cheese and served on a garlic hero', 11.29 , 66, 99, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Vegetarian philly special', 'Grilled tofu peppers onions and mushrooms topped with cheddar cheese and served on a garlic hero', 11.29 
+, 66, 99, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('vegan and vegetarian specialties', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'vegan and vegetarian specialties' and d.name = 'Vegetarian philly special' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1695,7 +1851,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Vegetarian philly special' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Vegetarian philly special' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Portobello sandwich special', 'Portobello mushrooms roasted tomatoes red peppers mozzarella and romaine lettuce on a roll served with steak fries', 15.99 , 20, 79, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Portobello sandwich special', 'Portobello mushrooms roasted tomatoes red peppers mozzarella and romaine lettuce on a roll served with steak fries', 15.99 
+, 20, 79, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('vegan and vegetarian specialties', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'vegan and vegetarian specialties' and d.name = 'Portobello sandwich special' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1706,7 +1863,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Portobello sandwich special' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Portobello sandwich special' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mediterranean sandwich', 'Grilled peppers tomatoes and onions with melted mozzarella cheese on garlic roll served with steak fries', 15.59 , 43, 83, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mediterranean sandwich', 'Grilled peppers tomatoes and onions with melted mozzarella cheese on garlic roll served with steak fries', 15.59 
+, 43, 83, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('vegan and vegetarian specialties', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'vegan and vegetarian specialties' and d.name = 'Mediterranean sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1717,7 +1875,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mediterranean sandwich' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mediterranean sandwich' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Grilled vegetable platter special', 'Zucchini carrots tomatoes and mixed peppers with goat cheese gluten free', 16.09 , 98, 56, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Grilled vegetable platter special', 'Zucchini carrots tomatoes and mixed peppers with goat cheese gluten free', 16.09 
+, 98, 56, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('vegan and vegetarian specialties', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'vegan and vegetarian specialties' and d.name = 'Grilled vegetable platter special' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1728,7 +1887,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Grilled vegetable platter special' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Grilled vegetable platter special' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Roasted veggie wrap special', 'Stuffed with grilled tomatoes onions mushrooms peppers and fresh spinach topped with a balsamic glaze', 10.69 , 75, 65, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Roasted veggie wrap special', 'Stuffed with grilled tomatoes onions mushrooms peppers and fresh spinach topped with a balsamic glaze', 10.69 
+, 75, 65, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('vegan and vegetarian specialties', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'vegan and vegetarian specialties' and d.name = 'Roasted veggie wrap special' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1739,7 +1899,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Roasted veggie wrap special' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Roasted veggie wrap special' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Tlat sandwich special', 'Grilled tofu lettuce tomato and avocado on a toasted roll add tossed salad for an additional charge', 10.29 , 56, 69, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Tlat sandwich special', 'Grilled tofu lettuce tomato and avocado on a toasted roll add tossed salad for an additional charge', 10.29 
+, 56, 69, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('vegan and vegetarian specialties', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'vegan and vegetarian specialties' and d.name = 'Tlat sandwich special' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1750,7 +1911,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Tlat sandwich special' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Tlat sandwich special' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Philly cheese steak sandwich', 'Grilled roast beef mushrooms onions and cheddar cheese served on a hero', 16.69 , 59, 86, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Philly cheese steak sandwich', 'Grilled roast beef mushrooms onions and cheddar cheese served on a hero', 16.69 
+, 59, 86, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Philly cheese steak sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1763,7 +1925,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Philly cheese steak sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Philly cheese steak sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Reuben sandwich', 'Your choice of turkey corned beef or pastrami over sauerkraut topped with melted swiss cheese and served open face on grilled rye bread', 15.29 , 36, 14, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Reuben sandwich', 'Your choice of turkey corned beef or pastrami over sauerkraut topped with melted swiss cheese and served open face on grilled rye bread', 15.29 
+, 36, 14, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Reuben sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1776,7 +1939,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Reuben sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Reuben sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pastrami sandwich', 'Piled high and served on rye toast', 13.49 , 31, 78, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pastrami sandwich', 'Piled high and served on rye toast', 13.49 
+, 31, 78, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Pastrami sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1789,7 +1953,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pastrami sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pastrami sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Corned beef sandwich', 'Piled high and served on rye toast', 13.49 , 80, 59, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Corned beef sandwich', 'Piled high and served on rye toast', 13.49 
+, 80, 59, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Corned beef sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1802,7 +1967,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Corned beef sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Corned beef sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Brooklyn avenue sandwich', 'Grilled pastrami coleslaw and pickles topped with mozzarella cheese and russian dressing served on a roll', 14.59 , 30, 6, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Brooklyn avenue sandwich', 'Grilled pastrami coleslaw and pickles topped with mozzarella cheese and russian dressing served on a roll', 14.59 
+, 30, 6, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Brooklyn avenue sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1815,7 +1981,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Brooklyn avenue sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Brooklyn avenue sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Roasted turkey sandwich', 'Cooked in house sliced and piled high on a brioche', 13.59 , 16, 73, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Roasted turkey sandwich', 'Cooked in house sliced and piled high on a brioche', 13.59 
+, 16, 73, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Roasted turkey sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1828,7 +1995,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Roasted turkey sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Roasted turkey sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Roast beef sandwich', 'Cooked in house sliced and piled high on a brioche', 13.59 , 96, 89, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Roast beef sandwich', 'Cooked in house sliced and piled high on a brioche', 13.59 
+, 96, 89, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Roast beef sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1841,7 +2009,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Roast beef sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Roast beef sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Astoria heights sandwich', 'Grilled roast beef fried onions and bbq sauce served on a hero', 14.59 , 8, 78, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Astoria heights sandwich', 'Grilled roast beef fried onions and bbq sauce served on a hero', 14.59 
+, 8, 78, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Astoria heights sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1854,7 +2023,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Astoria heights sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Astoria heights sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Silver cup sandwich', 'Grilled pastrami fried onions topped with melted swiss served on rye toast', 14.59 , 59, 5, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Silver cup sandwich', 'Grilled pastrami fried onions topped with melted swiss served on rye toast', 14.59 
+, 59, 5, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Silver cup sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1867,7 +2037,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Silver cup sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Silver cup sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('French dip sandwich', 'Roast beef au jus topped with mozzarella and served on a hero with beef stock for dipping on the side', 16.29 , 43, 54, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('French dip sandwich', 'Roast beef au jus topped with mozzarella and served on a hero with beef stock for dipping on the side', 16.29 
+, 43, 54, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'French dip sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1880,7 +2051,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'French dip sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'French dip sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Southern style brisket sandwich', 'Bbq roasted brisket topped with coleslaw and fronions served on a roll', 14.39 , 66, 76, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Southern style brisket sandwich', 'Bbq roasted brisket topped with coleslaw and fronions served on a roll', 14.39 
+, 66, 76, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Southern style brisket sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1893,7 +2065,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Southern style brisket sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Southern style brisket sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Brisket sandwich', 'Slow cooked for over 0 hours and served on a brioche bun', 14.19 , 58, 71, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Brisket sandwich', 'Slow cooked for over 0 hours and served on a brioche bun', 14.19 
+, 58, 71, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Brisket sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1906,7 +2079,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Brisket sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Brisket sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pulled pork sandwiches', 'Slow cooked for over 0 hours served on a brioche bun', 14.19 , 55, 56, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pulled pork sandwiches', 'Slow cooked for over 0 hours served on a brioche bun', 14.19 
+, 55, 56, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Pulled pork sandwiches' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1919,7 +2093,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pulled pork sandwiches' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pulled pork sandwiches' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Homemade meatloaf sandwich', 'Made in house and topped with mushroom gravy served on a brioche bun', 13.59 , 1, 83, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Homemade meatloaf sandwich', 'Made in house and topped with mushroom gravy served on a brioche bun', 13.59 
+, 1, 83, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Homemade meatloaf sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1932,7 +2107,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Homemade meatloaf sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Homemade meatloaf sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Thanksgiving turkey sandwich', 'Roasted turkey stuffing cranberry sauce with turkey gravy on a roll', 12.19 , 54, 95, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Thanksgiving turkey sandwich', 'Roasted turkey stuffing cranberry sauce with turkey gravy on a roll', 12.19 
+, 54, 95, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Thanksgiving turkey sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1945,7 +2121,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Thanksgiving turkey sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Thanksgiving turkey sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cuban sandwich', 'Pulled pork grilled ham pickles and muenster cheese on a toasted hero', 15.49 , 82, 63, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cuban sandwich', 'Pulled pork grilled ham pickles and muenster cheese on a toasted hero', 15.49 
+, 82, 63, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Cuban sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1958,7 +2135,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cuban sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cuban sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Habitat sandwich', 'Hot roast turkey bacon and swiss cheese topped with turkey gravy served on a panini', 13.99 , 30, 8, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Habitat sandwich', 'Hot roast turkey bacon and swiss cheese topped with turkey gravy served on a panini', 13.99 
+, 30, 8, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Habitat sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1971,7 +2149,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Habitat sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Habitat sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hot open pulled pork sandwich', 'Served on white bread and topped with bbq sauce and fronions', 17.69 , 93, 60, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hot open pulled pork sandwich', 'Served on white bread and topped with bbq sauce and fronions', 17.69 
+, 93, 60, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Hot open pulled pork sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1984,7 +2163,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hot open pulled pork sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hot open pulled pork sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hot open skirt steak sandwich', 'Charred skirt steak cooked to your liking on a garlic roll', 22.99 , 55, 28, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hot open skirt steak sandwich', 'Charred skirt steak cooked to your liking on a garlic roll', 22.99 
+, 55, 28, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Hot open skirt steak sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -1997,7 +2177,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hot open skirt steak sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hot open skirt steak sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hot open turkey sandwich', 'Piled high on white bread and topped with turkey gravy', 17.39 , 94, 89, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hot open turkey sandwich', 'Piled high on white bread and topped with turkey gravy', 17.39 
+, 94, 89, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Hot open turkey sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2010,7 +2191,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hot open turkey sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hot open turkey sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hot open roast sirloin sandwich', 'Piled high on white bread and topped with brown gravy', 17.69 , 100, 28, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hot open roast sirloin sandwich', 'Piled high on white bread and topped with brown gravy', 17.69 
+, 100, 28, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Hot open roast sirloin sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2023,7 +2205,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hot open roast sirloin sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hot open roast sirloin sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Gyro sandwich', 'Choice of beef or chicken topped with tzatziki lettuce tomatoes and onion', 9.49 , 12, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Gyro sandwich', 'Choice of beef or chicken topped with tzatziki lettuce tomatoes and onion', 9.49 
+, 12, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Gyro sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2036,7 +2219,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Gyro sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Gyro sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Roasted lamb pita', 'Sliced leg of lamb in a pita bread served with tzatziki sauce lettuce tomatoes and onions make it a platter for an additional charge', 13.39 , 57, 52, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Roasted lamb pita', 'Sliced leg of lamb in a pita bread served with tzatziki sauce lettuce tomatoes and onions make it a platter for an additional charge', 13.39 
+, 57, 52, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Roasted lamb pita' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2049,7 +2233,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Roasted lamb pita' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Roasted lamb pita' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Gyro platter', 'Choice of chicken or beef wrapped in a pita served with greek salad and french fries or rice', 16.49 , 99, 4, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Gyro platter', 'Choice of chicken or beef wrapped in a pita served with greek salad and french fries or rice', 16.49 
+, 99, 4, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Gyro platter' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2062,7 +2247,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Gyro platter' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Gyro platter' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Souvlaki platter', 'Choice of chicken or pork cubes wrapped in a pita served with greek salad and french fries or rice', 16.69 , 78, 69, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Souvlaki platter', 'Choice of chicken or pork cubes wrapped in a pita served with greek salad and french fries or rice', 16.69 
+, 78, 69, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Souvlaki platter' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2075,7 +2261,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Souvlaki platter' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Souvlaki platter' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Saganaki pita', 'Kefalograviera cheese with lettuce tomatoes and onions on a toasted pita topped with tsatsiki make it a platter for an additional charge', 12.99 , 67, 3, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Saganaki pita', 'Kefalograviera cheese with lettuce tomatoes and onions on a toasted pita topped with tsatsiki make it a platter for an additional charge', 12.99 
+, 67, 3, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Saganaki pita' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2088,7 +2275,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Saganaki pita' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Saganaki pita' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Souvlaki sandwich', 'Stuffed with chunks of pork or chicken and topped with tzatziki lettuce tomatoes and onions', 9.69 , 65, 68, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Souvlaki sandwich', 'Stuffed with chunks of pork or chicken and topped with tzatziki lettuce tomatoes and onions', 9.69 
+, 65, 68, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Souvlaki sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2101,7 +2289,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Souvlaki sandwich' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Souvlaki sandwich' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Homemade moussaka', 'Layers of potato eggplant and greek style meat sauce topped with a bechamel and baked to a golden brown served with a greek salad', 16.59 , 2, 38, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Homemade moussaka', 'Layers of potato eggplant and greek style meat sauce topped with a bechamel and baked to a golden brown served with a greek salad', 16.59 
+, 2, 38, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Homemade moussaka' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2110,7 +2299,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Homemade moussaka' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Homemade moussaka' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pikilia platter for 0', 'Beef gyro chicken gyro pork souvlaki chicken souvlaki tzatziki served over steak fries with toasted pita lettuce tomato and feta cheese', 28.99 , 56, 16, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pikilia platter for 0', 'Beef gyro chicken gyro pork souvlaki chicken souvlaki tzatziki served over steak fries with toasted pita lettuce tomato and feta cheese', 28.99 
+, 56, 16, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Pikilia platter for 0' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2119,7 +2309,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pikilia platter for 0' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pikilia platter for 0' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken athenian', 'Chicken breast stuffed with spinach pie and baked to a golden brown served with a choice of soup or salad', 17.69 , 39, 18, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken athenian', 'Chicken breast stuffed with spinach pie and baked to a golden brown served with a choice of soup or salad', 17.69 
+, 39, 18, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Chicken athenian' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2128,7 +2319,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken athenian' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken athenian' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Shrimp santorini', 'Pan fried shrimp in olive oil with onions diced tomatoes and feta cheese over rice topped with oregano', 20.79 , 95, 84, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Shrimp santorini', 'Pan fried shrimp in olive oil with onions diced tomatoes and feta cheese over rice topped with oregano', 20.79 
+, 95, 84, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Shrimp santorini' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2137,7 +2329,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Shrimp santorini' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Shrimp santorini' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Galamari saganaki', 'Lightly grilled calamari in olive oil with diced tomatoes green peppers and saganaki cheese served over rice gluten free', 23.89 , 8, 59, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Galamari saganaki', 'Lightly grilled calamari in olive oil with diced tomatoes green peppers and saganaki cheese served over rice gluten free', 23.89 
+, 8, 59, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Galamari saganaki' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2146,7 +2339,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Galamari saganaki' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Galamari saganaki' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Francaise special', 'Chicken breast dipped in a batter of egg and flour and topped with a lemon butter sauce over rice', 17.69 , 3, 17, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Francaise special', 'Chicken breast dipped in a batter of egg and flour and topped with a lemon butter sauce over rice', 17.69 
+, 3, 17, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('saute specials', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'saute specials' and d.name = 'Francaise special' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2157,7 +2351,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Francaise special' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Francaise special' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken manhattan special', 'Pan fried chicken breast fresh mushrooms artichokes in a garlic butter sauce over rice', 26.89 , 7, 20, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken manhattan special', 'Pan fried chicken breast fresh mushrooms artichokes in a garlic butter sauce over rice', 26.89 
+, 7, 20, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('saute specials', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'saute specials' and d.name = 'Chicken manhattan special' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2168,7 +2363,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken manhattan special' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken manhattan special' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken ponderosa special', 'Pan fried chicken virginia ham fresh spinach mozzarella lemon butter sauce over penne', 26.89 , 17, 100, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken ponderosa special', 'Pan fried chicken virginia ham fresh spinach mozzarella lemon butter sauce over penne', 26.89 
+, 17, 100, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('saute specials', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'saute specials' and d.name = 'Chicken ponderosa special' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2179,7 +2375,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken ponderosa special' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken ponderosa special' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken san francisco special', 'Pan fried chicken fresh asparagus prosciutto light white wine butter sauce served over penne and topped with mozzarella', 22.89 , 45, 51, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken san francisco special', 'Pan fried chicken fresh asparagus prosciutto light white wine butter sauce served over penne and topped with mozzarella', 22.89 
+, 45, 51, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('saute specials', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'saute specials' and d.name = 'Chicken san francisco special' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2190,7 +2387,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken san francisco special' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken san francisco special' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cordon bleu special', 'Chicken breast rolled with ham and swiss cheese mushroom cream sauce over rice', 19.69 , 99, 38, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cordon bleu special', 'Chicken breast rolled with ham and swiss cheese mushroom cream sauce over rice', 19.69 
+, 99, 38, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('saute specials', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'saute specials' and d.name = 'Cordon bleu special' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2201,7 +2399,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cordon bleu special' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cordon bleu special' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq bourbon steak tips special', 'Charred steak tips peppers onions garlic in a barbecue bourbon sauce over mashed gluten free', 30.59 , 23, 42, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq bourbon steak tips special', 'Charred steak tips peppers onions garlic in a barbecue bourbon sauce over mashed gluten free', 30.59 
+, 23, 42, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('saute specials', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'saute specials' and d.name = 'Bbq bourbon steak tips special' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2212,7 +2411,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq bourbon steak tips special' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq bourbon steak tips special' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken mimosa special', 'Sauteed chicken breast fresh mushrooms fresh spinach in a garlic champagne sauce over angel hair', 23.29 , 25, 35, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken mimosa special', 'Sauteed chicken breast fresh mushrooms fresh spinach in a garlic champagne sauce over angel hair', 23.29 
+, 25, 35, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('saute specials', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'saute specials' and d.name = 'Chicken mimosa special' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2223,7 +2423,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken mimosa special' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken mimosa special' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken pizzaiola special', 'Chicken breast sun dried tomatoes onions mushrooms and red pepped in a light red sauce topped with fresh mozzarella over linguini', 26.79 , 60, 85, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken pizzaiola special', 'Chicken breast sun dried tomatoes onions mushrooms and red pepped in a light red sauce topped with fresh mozzarella over linguini', 26.79 
+, 60, 85, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('saute specials', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'saute specials' and d.name = 'Chicken pizzaiola special' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2234,7 +2435,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken pizzaiola special' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken pizzaiola special' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Teriyaki special', 'Pan fried chicken tips sauteed with peppers onions carrots mushrooms zucchini tossed with a teriyaki glaze over rice gluten free', 17.69 , 78, 60, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Teriyaki special', 'Pan fried chicken tips sauteed with peppers onions carrots mushrooms zucchini tossed with a teriyaki glaze over rice gluten free', 17.69 
+, 78, 60, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('saute specials', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'saute specials' and d.name = 'Teriyaki special' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2245,7 +2447,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Teriyaki special' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Teriyaki special' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken monte carlo special', 'Pan fried chicken fresh mushrooms tomatoes grated cheese white wine sauce served over mashed potatoes', 27.69 , 35, 99, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken monte carlo special', 'Pan fried chicken fresh mushrooms tomatoes grated cheese white wine sauce served over mashed potatoes', 27.69 
+, 35, 99, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('saute specials', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'saute specials' and d.name = 'Chicken monte carlo special' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2256,7 +2459,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken monte carlo special' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken monte carlo special' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Lamb provencal special', 'Roasted lamb over mashed potatoes topped with roasted tomatoes in olive oil onions garlic olives and capers gluten free', 21.89 , 65, 70, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Lamb provencal special', 'Roasted lamb over mashed potatoes topped with roasted tomatoes in olive oil onions garlic olives and capers gluten free', 21.89 
+, 65, 70, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('saute specials', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'saute specials' and d.name = 'Lamb provencal special' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2267,7 +2471,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Lamb provencal special' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Lamb provencal special' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Flank steak scallopini special', 'Flank steak fresh mushrooms fresh broccoli in a garlic lemon sauce over linguini', 30.59 , 56, 51, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Flank steak scallopini special', 'Flank steak fresh mushrooms fresh broccoli in a garlic lemon sauce over linguini', 30.59 
+, 56, 51, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('saute specials', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'saute specials' and d.name = 'Flank steak scallopini special' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2278,7 +2483,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Flank steak scallopini special' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Flank steak scallopini special' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spanish paella', 'Pan fried chicken calamari shrimps mussels clams green olives red peppers and rice made for sharing gluten free', 31.89 , 64, 41, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spanish paella', 'Pan fried chicken calamari shrimps mussels clams green olives red peppers and rice made for sharing gluten free', 31.89 
+, 64, 41, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('seafood & fish', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'seafood & fish' and d.name = 'Spanish paella' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('seafood', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2295,7 +2501,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spanish paella' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('tomatoes', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spanish paella' AND i.name = 'tomatoes' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bluefish provencal', 'Pan fried over mashed potatoes with roasted tomatoes onions garlic olives and capers gluten free', 16.49 , 78, 20, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bluefish provencal', 'Pan fried over mashed potatoes with roasted tomatoes onions garlic olives and capers gluten free', 16.49 
+, 78, 20, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('seafood & fish', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'seafood & fish' and d.name = 'Bluefish provencal' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('seafood', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2312,7 +2519,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bluefish provencal' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('tomatoes', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bluefish provencal' AND i.name = 'tomatoes' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Shrimp stir fry', 'Shrimp mixed peppers onions scallions and broccoli in a sesame teriyaki sauce over rice', 21.99 , 26, 34, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Shrimp stir fry', 'Shrimp mixed peppers onions scallions and broccoli in a sesame teriyaki sauce over rice', 21.99 
+, 26, 34, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('seafood & fish', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'seafood & fish' and d.name = 'Shrimp stir fry' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('seafood', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2329,7 +2537,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Shrimp stir fry' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('tomatoes', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Shrimp stir fry' AND i.name = 'tomatoes' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mariscos portuguese', 'Calamari clams and mussels with olive oil caperes tomatoes parsley and garlic over angel hair', 21.99 , 97, 35, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mariscos portuguese', 'Calamari clams and mussels with olive oil caperes tomatoes parsley and garlic over angel hair', 21.99 
+, 97, 35, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('seafood & fish', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'seafood & fish' and d.name = 'Mariscos portuguese' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('seafood', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2346,7 +2555,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mariscos portuguese' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('tomatoes', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mariscos portuguese' AND i.name = 'tomatoes' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Filet porto fino', 'Filet of sole fresh garlic mushroom and spinach in a lemon butter sauce over rice', 28.79 , 92, 82, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Filet porto fino', 'Filet of sole fresh garlic mushroom and spinach in a lemon butter sauce over rice', 28.79 
+, 92, 82, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('seafood & fish', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'seafood & fish' and d.name = 'Filet porto fino' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('seafood', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2363,7 +2573,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Filet porto fino' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('tomatoes', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Filet porto fino' AND i.name = 'tomatoes' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Sizzling salmon kebab', 'Chunks of salmon peppers onions tomatoes and mushrooms on a sizzling skillet served with rice on the side', 24.99 , 17, 18, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Sizzling salmon kebab', 'Chunks of salmon peppers onions tomatoes and mushrooms on a sizzling skillet served with rice on the side', 24.99 
+, 17, 18, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('seafood & fish', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'seafood & fish' and d.name = 'Sizzling salmon kebab' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('seafood', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2380,7 +2591,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Sizzling salmon kebab' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('tomatoes', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Sizzling salmon kebab' AND i.name = 'tomatoes' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spicy seafood fra diavolo', 'Shrimp calamari clams and mussels tossed with a spicy red sauce scallions and parsley served over angel hair', 31.99 , 70, 59, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spicy seafood fra diavolo', 'Shrimp calamari clams and mussels tossed with a spicy red sauce scallions and parsley served over angel hair', 31.99 
+, 70, 59, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('seafood & fish', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'seafood & fish' and d.name = 'Spicy seafood fra diavolo' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('seafood', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2397,7 +2609,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spicy seafood fra diavolo' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('tomatoes', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spicy seafood fra diavolo' AND i.name = 'tomatoes' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Linguini with clam sauce', 'Tossed with whole clams chopped clams scallions red peppers choice of red or white', 17.89 , 90, 57, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Linguini with clam sauce', 'Tossed with whole clams chopped clams scallions red peppers choice of red or white', 17.89 
+, 90, 57, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('seafood & fish', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'seafood & fish' and d.name = 'Linguini with clam sauce' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('seafood', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2414,7 +2627,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Linguini with clam sauce' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('tomatoes', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Linguini with clam sauce' AND i.name = 'tomatoes' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mussels marengo', 'Whole mussels mushrooms pepperes artichokes tomatoes with wine sauce over rice', 22.00 , 70, 3, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mussels marengo', 'Whole mussels mushrooms pepperes artichokes tomatoes with wine sauce over rice', 22.00 
+, 70, 3, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('seafood & fish', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'seafood & fish' and d.name = 'Mussels marengo' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('seafood', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2431,7 +2645,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mussels marengo' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('tomatoes', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mussels marengo' AND i.name = 'tomatoes' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Garlic bread', 'Garlic hero topped with mozzarella cheese and served with marinara dipping sauce', 5.29 , 27, 85, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Garlic bread', 'Garlic hero topped with mozzarella cheese and served with marinara dipping sauce', 5.29 
+, 27, 85, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Garlic bread' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2440,7 +2655,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Garlic bread' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Garlic bread' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken parmisan bites', 'Boneless chicken topped with marinara and baked with mozzarella', 9.89 , 99, 44, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken parmisan bites', 'Boneless chicken topped with marinara and baked with mozzarella', 9.89 
+, 99, 44, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Chicken parmisan bites' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2449,7 +2665,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken parmisan bites' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken parmisan bites' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Eggplant parmigiana', 'Fried eggplant cutlets topped with melted mozzarella cheese and homemade marinara sauce over spaghetti', 14.49 , 87, 55, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Eggplant parmigiana', 'Fried eggplant cutlets topped with melted mozzarella cheese and homemade marinara sauce over spaghetti', 14.49 
+, 87, 55, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Eggplant parmigiana' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2458,7 +2675,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Eggplant parmigiana' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Eggplant parmigiana' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Baked lasagna', 'Layered with meat mozzarella cheese ricotta and lasagna noodles then baked to order', 15.39 , 46, 89, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Baked lasagna', 'Layered with meat mozzarella cheese ricotta and lasagna noodles then baked to order', 15.39 
+, 46, 89, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Baked lasagna' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2467,7 +2685,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Baked lasagna' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Baked lasagna' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bolognese', 'Spaghetti topped with our homemade meat sauce', 13.79 , 23, 12, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bolognese', 'Spaghetti topped with our homemade meat sauce', 13.79 
+, 23, 12, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Bolognese' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2476,7 +2695,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bolognese' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bolognese' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken parmigiana', 'Chicken cutlet topped with melted mozzarella cheese and homemade marinara sauce over spaghetti substitute shrimp for an additional charge', 16.59 , 12, 46, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken parmigiana', 'Chicken cutlet topped with melted mozzarella cheese and homemade marinara sauce over spaghetti substitute shrimp for an additional charge', 16.59 
+, 12, 46, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Chicken parmigiana' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2485,7 +2705,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken parmigiana' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken parmigiana' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Piccata', 'Pan fried chicken topped with a lemon butter caper sauce and served over angel hair pasta', 17.79 , 9, 93, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Piccata', 'Pan fried chicken topped with a lemon butter caper sauce and served over angel hair pasta', 17.79 
+, 9, 93, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Piccata' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2494,7 +2715,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Piccata' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Piccata' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Marsala', 'Pan fried chicken topped with a mushroom marsala wine sauce and served over mashed potatoes', 17.59 , 23, 13, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Marsala', 'Pan fried chicken topped with a mushroom marsala wine sauce and served over mashed potatoes', 17.59 
+, 23, 13, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Marsala' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2503,7 +2725,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Marsala' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Marsala' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pasta and meatballs', 'Spaghetti topped with 0 homemade meatballs', 16.39 , 97, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pasta and meatballs', 'Spaghetti topped with 0 homemade meatballs', 16.39 
+, 97, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Pasta and meatballs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2512,7 +2735,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pasta and meatballs' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pasta and meatballs' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Scampi', 'Pan fried chicken tossed with a garlic white wine butter sauce broccoli and red peppers served over rice', 17.69 , 18, 49, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Scampi', 'Pan fried chicken tossed with a garlic white wine butter sauce broccoli and red peppers served over rice', 17.69 
+, 18, 49, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Scampi' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2521,7 +2745,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Scampi' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Scampi' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Beef ravioli', 'Homemade marinara sauce and mozzarella cheese', 15.59 , 71, 55, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Beef ravioli', 'Homemade marinara sauce and mozzarella cheese', 15.59 
+, 71, 55, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Beef ravioli' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2530,7 +2755,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Beef ravioli' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Beef ravioli' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cheese ravioli', 'Homemade marinara sauce and mozzarella cheese', 15.59 , 59, 9, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cheese ravioli', 'Homemade marinara sauce and mozzarella cheese', 15.59 
+, 59, 9, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Cheese ravioli' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2539,7 +2765,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cheese ravioli' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cheese ravioli' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fettucini alfredo', 'Fettucini in a creamy cheese sauce', 14.79 , 56, 40, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fettucini alfredo', 'Fettucini in a creamy cheese sauce', 14.79 
+, 56, 40, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('pasta', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'pasta' and d.name = 'Fettucini alfredo' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('milk', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2554,7 +2781,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sour', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fettucini alfredo' AND i.name = 'sour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('cream', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fettucini alfredo' AND i.name = 'cream' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mushroom florentine', 'Fettucini white and portobello mushrooms fresh spinach in a creamy white sauce', 19.79 , 58, 42, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mushroom florentine', 'Fettucini white and portobello mushrooms fresh spinach in a creamy white sauce', 19.79 
+, 58, 42, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('pasta', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'pasta' and d.name = 'Mushroom florentine' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('milk', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2569,7 +2797,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sour', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mushroom florentine' AND i.name = 'sour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('cream', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mushroom florentine' AND i.name = 'cream' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Penne a la greca', 'Grilled zucchini dill and feta cheese olive oil and penne', 13.19 , 31, 25, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Penne a la greca', 'Grilled zucchini dill and feta cheese olive oil and penne', 13.19 
+, 31, 25, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('pasta', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'pasta' and d.name = 'Penne a la greca' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('milk', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2584,7 +2813,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sour', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Penne a la greca' AND i.name = 'sour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('cream', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Penne a la greca' AND i.name = 'cream' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Linguini italiano', 'Linguini with roasted garlic olive oil and fresh broccoli', 13.19 , 58, 14, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Linguini italiano', 'Linguini with roasted garlic olive oil and fresh broccoli', 13.19 
+, 58, 14, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('pasta', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'pasta' and d.name = 'Linguini italiano' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('milk', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2599,7 +2829,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sour', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Linguini italiano' AND i.name = 'sour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('cream', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Linguini italiano' AND i.name = 'cream' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Angel hair primavera', 'Mushrooms broccoli peas peppers onions and carrots in a red sauce or white sauce', 15.49 , 100, 13, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Angel hair primavera', 'Mushrooms broccoli peas peppers onions and carrots in a red sauce or white sauce', 15.49 
+, 100, 13, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('pasta', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'pasta' and d.name = 'Angel hair primavera' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('milk', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2614,7 +2845,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sour', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Angel hair primavera' AND i.name = 'sour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('cream', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Angel hair primavera' AND i.name = 'cream' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Penne a la vodka', 'Homemade vodka cream sauce', 13.19 , 78, 53, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Penne a la vodka', 'Homemade vodka cream sauce', 13.19 
+, 78, 53, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('pasta', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'pasta' and d.name = 'Penne a la vodka' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('milk', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2629,7 +2861,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sour', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Penne a la vodka' AND i.name = 'sour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('cream', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Penne a la vodka' AND i.name = 'cream' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Baked penne parmigiana', 'Ricotta cheese and marinara sauce topped with mozzarella and baked', 15.49 , 10, 10, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Baked penne parmigiana', 'Ricotta cheese and marinara sauce topped with mozzarella and baked', 15.49 
+, 10, 10, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('pasta', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'pasta' and d.name = 'Baked penne parmigiana' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('milk', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2644,7 +2877,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sour', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Baked penne parmigiana' AND i.name = 'sour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('cream', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Baked penne parmigiana' AND i.name = 'cream' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spaghetti carbonara', 'Grilled prosciutto and scallions tossed with a heavy cream sauce', 15.99 , 22, 29, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spaghetti carbonara', 'Grilled prosciutto and scallions tossed with a heavy cream sauce', 15.99 
+, 22, 29, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('pasta', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'pasta' and d.name = 'Spaghetti carbonara' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('milk', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2659,7 +2893,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sour', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spaghetti carbonara' AND i.name = 'sour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('cream', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spaghetti carbonara' AND i.name = 'cream' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Ravioli', 'Beef or cheese ravioli topped with marinara and mozzarella', 14.99 , 95, 35, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Ravioli', 'Beef or cheese ravioli topped with marinara and mozzarella', 14.99 
+, 95, 35, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('pasta', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'pasta' and d.name = 'Ravioli' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('milk', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2674,7 +2909,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sour', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Ravioli' AND i.name = 'sour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('cream', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Ravioli' AND i.name = 'cream' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Wild mushroom ravioli', 'Stuffed with a mixture of wild mushrooms and tossed with a mushroom cream sauce', 14.99 , 26, 43, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Wild mushroom ravioli', 'Stuffed with a mixture of wild mushrooms and tossed with a mushroom cream sauce', 14.99 
+, 26, 43, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('pasta', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'pasta' and d.name = 'Wild mushroom ravioli' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('milk', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2689,7 +2925,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sour', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Wild mushroom ravioli' AND i.name = 'sour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('cream', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Wild mushroom ravioli' AND i.name = 'cream' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Charred skirt steak', 'Seasoned and cooked to your liking served with mashed potatoes and grilled mushrooms and onions add whole lobster for an additional charge', 34.49 , 31, 6, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Charred skirt steak', 'Seasoned and cooked to your liking served with mashed potatoes and grilled mushrooms and onions add whole lobster for an additional charge', 34.49 
+, 31, 6, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Charred skirt steak' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2706,7 +2943,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Charred skirt steak' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Charred skirt steak' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Roasted chicken', 'Roasted herbed half chicken over homemade stuffing yellow rice and stewed homemade vegetables', 15.59 , 81, 75, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Roasted chicken', 'Roasted herbed half chicken over homemade stuffing yellow rice and stewed homemade vegetables', 15.59 
+, 81, 75, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Roasted chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2723,7 +2961,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Roasted chicken' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Roasted chicken' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Charred sliced flank steak', 'Seasoned and cooked to your liking mashed potatoes and grilled vegetables', 24.99 , 62, 78, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Charred sliced flank steak', 'Seasoned and cooked to your liking mashed potatoes and grilled vegetables', 24.99 
+, 62, 78, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Charred sliced flank steak' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2740,7 +2979,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Charred sliced flank steak' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Charred sliced flank steak' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Charred lamb chops', 'Seasoned and cooked to your liking roasted potatoes and mixed vegetables', 31.99 , 66, 1, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Charred lamb chops', 'Seasoned and cooked to your liking roasted potatoes and mixed vegetables', 31.99 
+, 66, 1, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Charred lamb chops' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2757,7 +2997,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Charred lamb chops' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Charred lamb chops' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Roasted brisket of beef', 'Slow cooked topped with natural gravy mashed potato and corn', 17.79 , 37, 60, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Roasted brisket of beef', 'Slow cooked topped with natural gravy mashed potato and corn', 17.79 
+, 37, 60, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Roasted brisket of beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2774,7 +3015,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Roasted brisket of beef' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Roasted brisket of beef' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken kebab', 'Chunks of chicken green peppers tomatoes onions and mushrooms served over rice pilaf', 18.09 , 31, 46, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken kebab', 'Chunks of chicken green peppers tomatoes onions and mushrooms served over rice pilaf', 18.09 
+, 31, 46, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Chicken kebab' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2791,7 +3033,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken kebab' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken kebab' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Homemade chicken pot pie', 'Loaded with chicken and vegetables topped with a pie crust and baked to perfection no sides', 14.49 , 26, 20, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Homemade chicken pot pie', 'Loaded with chicken and vegetables topped with a pie crust and baked to perfection no sides', 14.49 
+, 26, 20, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Homemade chicken pot pie' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2808,7 +3051,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Homemade chicken pot pie' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Homemade chicken pot pie' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Thanksgiving dinner', 'Roasted turkey over homemade stuffing topped with giblet gravy and served with cranberry sauce mashed potatoes and corn', 18.59 , 73, 80, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Thanksgiving dinner', 'Roasted turkey over homemade stuffing topped with giblet gravy and served with cranberry sauce mashed potatoes and corn', 18.59 
+, 73, 80, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Thanksgiving dinner' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2825,7 +3069,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Thanksgiving dinner' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Thanksgiving dinner' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq combo', 'Slow cooked ribs and a quarter bbq chicken served with macaroni and cheese and coleslaw double chicken or ribs for an additional charge', 19.99 , 62, 47, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq combo', 'Slow cooked ribs and a quarter bbq chicken served with macaroni and cheese and coleslaw double chicken or ribs for an additional charge', 19.99 
+, 62, 47, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Bbq combo' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2842,7 +3087,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq combo' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq combo' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq ribs', 'Slow cooked for hours topped with barbecue sauce served with macaroni and cheese and coleslaw add 0 0 pound brisket for an additional charge', 19.99 , 85, 100, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq ribs', 'Slow cooked for hours topped with barbecue sauce served with macaroni and cheese and coleslaw add 0 0 pound brisket for an additional charge', 19.99 
+, 85, 100, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Bbq ribs' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2859,7 +3105,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq ribs' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq ribs' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Shepherd s pie', 'Seasoned ground beef peas carrots corn topped with mashed potatoes and baked to a golden brown no sides', 14.49 , 25, 38, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Shepherd s pie', 'Seasoned ground beef peas carrots corn topped with mashed potatoes and baked to a golden brown no sides', 14.49 
+, 25, 38, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Shepherd s pie' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2876,7 +3123,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Shepherd s pie' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Shepherd s pie' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Homemade meatloaf', 'Homemade meatloaf topped with mushroom gravy mashed potatoes and corn', 15.99 , 26, 65, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Homemade meatloaf', 'Homemade meatloaf topped with mushroom gravy mashed potatoes and corn', 15.99 
+, 26, 65, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Homemade meatloaf' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2893,7 +3141,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Homemade meatloaf' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Homemade meatloaf' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fried fish combo', 'Fried filet calamari and shrimp with french fries and coleslaw', 17.89 , 40, 86, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fried fish combo', 'Fried filet calamari and shrimp with french fries and coleslaw', 17.89 
+, 40, 86, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Fried fish combo' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2902,7 +3151,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fried fish combo' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fried fish combo' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Broiled bluefish', 'Served over mashed potatoes', 15.79 , 96, 6, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Broiled bluefish', 'Served over mashed potatoes', 15.79 
+, 96, 6, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Broiled bluefish' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2911,7 +3161,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Broiled bluefish' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Broiled bluefish' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fish and chips', 'Battered and fried to order served with steak fries and tartar sauce', 16.79 , 63, 85, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fish and chips', 'Battered and fried to order served with steak fries and tartar sauce', 16.79 
+, 63, 85, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Fish and chips' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2920,7 +3171,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fish and chips' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fish and chips' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pan fried whiting', 'Served over sauteed spinach with garlic and olive oil add an extra 0 whitings for an additional charge', 16.69 , 5, 74, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pan fried whiting', 'Served over sauteed spinach with garlic and olive oil add an extra 0 whitings for an additional charge', 16.69 
+, 5, 74, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Pan fried whiting' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2929,7 +3181,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pan fried whiting' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pan fried whiting' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Charred salmon', 'A jumbo cut served with roasted potatoes and grilled vegetables topped with shrimp teriyaki', 24.19 , 24, 85, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Charred salmon', 'A jumbo cut served with roasted potatoes and grilled vegetables topped with shrimp teriyaki', 24.19 
+, 24, 85, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Charred salmon' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2938,7 +3191,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Charred salmon' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Charred salmon' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Broiled filet of sole', 'Broiled filet topped with our house blend of spices served with rice and grilled vegetables add 0 stuffed shrimp for an additional charge', 25.79 , 51, 51, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Broiled filet of sole', 'Broiled filet topped with our house blend of spices served with rice and grilled vegetables add 0 stuffed shrimp for an additional charge', 25.79 
+, 51, 51, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Broiled filet of sole' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2947,7 +3201,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Broiled filet of sole' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Broiled filet of sole' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Broiled shrimp', 'Served over rice and grilled vegetables add 0 lamb chops for an additional charge', 19.99 , 51, 94, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Broiled shrimp', 'Served over rice and grilled vegetables add 0 lamb chops for an additional charge', 19.99 
+, 51, 94, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Broiled shrimp' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2956,7 +3211,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Broiled shrimp' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Broiled shrimp' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Captain s platter', 'Broiled tilapia shrimp stuffed mushrooms and calamari served over rice', 31.99 , 25, 3, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Captain s platter', 'Broiled tilapia shrimp stuffed mushrooms and calamari served over rice', 31.99 
+, 25, 3, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Captain s platter' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2965,7 +3221,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Captain s platter' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Captain s platter' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Whole 0 0 pound lobster', 'Steamed and served with butter sauce soup or salad roasted potatoes and grilled vegetables add a sirloin steak for an additional charge', 24.99 , 44, 50, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Whole 0 0 pound lobster', 'Steamed and served with butter sauce soup or salad roasted potatoes and grilled vegetables add a sirloin steak for an additional charge', 24.99 
+, 44, 50, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Whole 0 0 pound lobster' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2974,7 +3231,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Whole 0 0 pound lobster' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Whole 0 0 pound lobster' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fried calamari', 'Served with buttery pasta on the side', 21.79 , 56, 4, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fried calamari', 'Served with buttery pasta on the side', 21.79 
+, 56, 4, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Fried calamari' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2983,7 +3241,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fried calamari' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fried calamari' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Blackened tilapia with southwestern salsa', 'Blackened tilapia topped with southwestern salsa and served with avocado and rice', 17.89 , 7, 45, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Blackened tilapia with southwestern salsa', 'Blackened tilapia topped with southwestern salsa and served with avocado and rice', 17.89 
+, 7, 45, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Blackened tilapia with southwestern salsa' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -2992,7 +3251,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Blackened tilapia with southwestern salsa' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Blackened tilapia with southwestern salsa' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Filet o fish sandwich', 'Lightly breaded and fried white fish served on a brioche with romaine lettuce and pickles', 11.39 , 100, 28, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Filet o fish sandwich', 'Lightly breaded and fried white fish served on a brioche with romaine lettuce and pickles', 11.39 
+, 100, 28, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Filet o fish sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3001,7 +3261,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Filet o fish sandwich' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Filet o fish sandwich' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bluefish burger', 'On a toasted brioche topped with sun dried tomatoes and arugula served with rice as a side', 16.49 , 67, 1, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bluefish burger', 'On a toasted brioche topped with sun dried tomatoes and arugula served with rice as a side', 16.49 
+, 67, 1, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Bluefish burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3010,7 +3271,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bluefish burger' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bluefish burger' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Guac and chips', 'Homemade guacamole with fresh fried tortillas for dipping', 7.99 , 96, 18, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Guac and chips', 'Homemade guacamole with fresh fried tortillas for dipping', 7.99 
+, 96, 18, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Guac and chips' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3019,7 +3281,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Guac and chips' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Guac and chips' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Salchipapas', 'Steak fries topped with fried beef hot dogs', 8.29 , 22, 39, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Salchipapas', 'Steak fries topped with fried beef hot dogs', 8.29 
+, 22, 39, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Salchipapas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3028,7 +3291,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Salchipapas' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Salchipapas' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Arroz con habichueas', 'Yellow rice topped with baked black beans', 5.89 , 73, 55, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Arroz con habichueas', 'Yellow rice topped with baked black beans', 5.89 
+, 73, 55, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Arroz con habichueas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3037,7 +3301,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Arroz con habichueas' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Arroz con habichueas' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Double stuffed giant burrito', 'Chicken steak yellow rice black beans avocado red onion tomatoes cheddar in a double sized burrito', 19.99 , 94, 39, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Double stuffed giant burrito', 'Chicken steak yellow rice black beans avocado red onion tomatoes cheddar in a double sized burrito', 19.99 
+, 94, 39, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Double stuffed giant burrito' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3054,7 +3319,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Double stuffed giant burrito' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Double stuffed giant burrito' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken quesadilla', 'Stuffed with chicken mushroom jalapenos and mozzarella served with shredded lettuce diced tomatoes red onions and black bean salsa substitute shrimp or flank steak for an additional charge', 15.99 , 93, 96, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken quesadilla', 'Stuffed with chicken mushroom jalapenos and mozzarella served with shredded lettuce diced tomatoes red onions and black bean salsa substitute shrimp or flank steak for an additional charge', 15.99 
+, 93, 96, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Chicken quesadilla' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3071,7 +3337,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken quesadilla' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken quesadilla' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Taco salad', 'Romaine lettuce corn tomatoes red onions shredded cheddar and chili in a giant tortilla shell', 15.49 , 50, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Taco salad', 'Romaine lettuce corn tomatoes red onions shredded cheddar and chili in a giant tortilla shell', 15.49 
+, 50, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Taco salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3088,7 +3355,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Taco salad' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Taco salad' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Suave steak', 'Flank steak served with rice black beans a small salad avocado and a toasted flour tortilla', 22.99 , 74, 82, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Suave steak', 'Flank steak served with rice black beans a small salad avocado and a toasted flour tortilla', 22.99 
+, 74, 82, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Suave steak' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3105,7 +3373,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Suave steak' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Suave steak' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Milanesa de pollo', 'Fried chicken cutlet served with rice and beans and a small salad with avocado', 16.89 , 70, 79, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Milanesa de pollo', 'Fried chicken cutlet served with rice and beans and a small salad with avocado', 16.89 
+, 70, 79, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Milanesa de pollo' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3122,7 +3391,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Milanesa de pollo' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Milanesa de pollo' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cheese quesadilla', 'Loaded with mozzarella and cheddar served with lettuce tomatoes red onions and black beans add philly beef for an additional charge', 10.99 , 71, 96, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cheese quesadilla', 'Loaded with mozzarella and cheddar served with lettuce tomatoes red onions and black beans add philly beef for an additional charge', 10.99 
+, 71, 96, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Cheese quesadilla' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3139,7 +3409,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cheese quesadilla' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cheese quesadilla' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chimichangas', 'Choice of chicken or beef served in a tortilla shell stuffed with rice tomatoes black bean salsa cheddar then deep fried and topped with guacamole', 16.49 , 23, 85, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chimichangas', 'Choice of chicken or beef served in a tortilla shell stuffed with rice tomatoes black bean salsa cheddar then deep fried and topped with guacamole', 16.49 
+, 23, 85, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Chimichangas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3156,7 +3427,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chimichangas' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chimichangas' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Shrimp bowl', 'Grilled shrimp over rice topped with cheddar mozzarella corn tortilla chips black bean salsa diced tomatoes red onions and guacamole', 18.69 , 97, 98, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Shrimp bowl', 'Grilled shrimp over rice topped with cheddar mozzarella corn tortilla chips black bean salsa diced tomatoes red onions and guacamole', 18.69 
+, 97, 98, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Shrimp bowl' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3173,7 +3445,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Shrimp bowl' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Shrimp bowl' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Carnitas bowl', 'Pulled pork over rice topped with red onions guacamole tortilla chips black beans and guacamole gluten free', 15.69 , 62, 81, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Carnitas bowl', 'Pulled pork over rice topped with red onions guacamole tortilla chips black beans and guacamole gluten free', 15.69 
+, 62, 81, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Carnitas bowl' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3190,7 +3463,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Carnitas bowl' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Carnitas bowl' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Lomo saltado', 'Strips of skirt steak steak fries garlic tomatoes red onion and cilantro over yellow rice gluten free', 26.89 , 89, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Lomo saltado', 'Strips of skirt steak steak fries garlic tomatoes red onion and cilantro over yellow rice gluten free', 26.89 
+, 89, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Lomo saltado' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3207,7 +3481,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Lomo saltado' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Lomo saltado' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Build your own nachos', 'Choose your meat cheese type and chip type top it however you like', 13.99 , 29, 96, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Build your own nachos', 'Choose your meat cheese type and chip type top it however you like', 13.99 
+, 29, 96, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Build your own nachos' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3224,7 +3499,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Build your own nachos' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Build your own nachos' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Southern bbq platter', 'Roasted brisket bbq chicken pulled pork served with mac and cheese and coleslaw', 26.29 , 87, 33, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Southern bbq platter', 'Roasted brisket bbq chicken pulled pork served with mac and cheese and coleslaw', 26.29 
+, 87, 33, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('plates & bowls', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'plates & bowls' and d.name = 'Southern bbq platter' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3233,7 +3509,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Southern bbq platter' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('corn', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Southern bbq platter' AND i.name = 'corn' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Triple play platter', 'Flank steak teriyaki cajun chicken breast bbq spare ribs served served with soup or salad rice and grilled vegetables', 28.39 , 73, 100, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Triple play platter', 'Flank steak teriyaki cajun chicken breast bbq spare ribs served served with soup or salad rice and grilled vegetables', 28.39 
+, 73, 100, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('plates & bowls', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'plates & bowls' and d.name = 'Triple play platter' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3242,7 +3519,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Triple play platter' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('corn', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Triple play platter' AND i.name = 'corn' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Surf and turf platter', 'A 0 oz new york steak 0 broiled shrimp 0 stuffed mushrooms served with 0 soups a salad mashed potato and rice built for 0 people', 50.39 , 47, 36, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Surf and turf platter', 'A 0 oz new york steak 0 broiled shrimp 0 stuffed mushrooms served with 0 soups a salad mashed potato and rice built for 0 people', 50.39 
+, 47, 36, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('plates & bowls', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'plates & bowls' and d.name = 'Surf and turf platter' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3251,7 +3529,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Surf and turf platter' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('corn', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Surf and turf platter' AND i.name = 'corn' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Banana', '', 1.00 , 92, 29, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Banana', '', 1.00 
+, 92, 29, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Banana' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3262,7 +3541,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Banana' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Banana' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bacon', '', 3.99 , 35, 72, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bacon', '', 3.99 
+, 35, 72, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Bacon' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3273,7 +3553,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bacon' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bacon' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Ham', '', 3.99 , 22, 2, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Ham', '', 3.99 
+, 22, 2, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Ham' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3284,7 +3565,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Ham' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Ham' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Sausage', '', 3.99 , 34, 19, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Sausage', '', 3.99 
+, 34, 19, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Sausage' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3295,7 +3577,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Sausage' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Sausage' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Beef sausage', '', 4.99 , 2, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Beef sausage', '', 4.99 
+, 2, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Beef sausage' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3306,7 +3589,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Beef sausage' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Beef sausage' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cup of chili', '', 4.99 , 83, 82, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cup of chili', '', 4.99 
+, 83, 82, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Cup of chili' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3317,7 +3601,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cup of chili' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cup of chili' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Home fries', '', 4.99 , 18, 97, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Home fries', '', 4.99 
+, 18, 97, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Home fries' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3328,7 +3613,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Home fries' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Home fries' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Steak fries', '', 4.99 , 42, 88, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Steak fries', '', 4.99 
+, 42, 88, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Steak fries' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3339,7 +3625,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Steak fries' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Steak fries' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Sauteed vegetables in olive oil', '', 6.99 , 41, 89, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Sauteed vegetables in olive oil', '', 6.99 
+, 41, 89, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Sauteed vegetables in olive oil' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3350,7 +3637,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Sauteed vegetables in olive oil' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Sauteed vegetables in olive oil' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Baked beans', '', 4.99 , 16, 62, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Baked beans', '', 4.99 
+, 16, 62, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Baked beans' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3361,7 +3649,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Baked beans' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Baked beans' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bowl of chili', '', 6.99 , 67, 66, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bowl of chili', '', 6.99 
+, 67, 66, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Bowl of chili' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3372,7 +3661,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bowl of chili' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bowl of chili' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fruit salad', '', 4.50 , 75, 99, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fruit salad', '', 4.50 
+, 75, 99, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Fruit salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3383,7 +3673,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fruit salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fruit salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Scoop of cottage cheese', '', 4.00 , 13, 54, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Scoop of cottage cheese', '', 4.00 
+, 13, 54, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Scoop of cottage cheese' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3394,7 +3685,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Scoop of cottage cheese' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Scoop of cottage cheese' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spaghetti with tomato sauce', '', 6.99 , 24, 20, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spaghetti with tomato sauce', '', 6.99 
+, 24, 20, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Spaghetti with tomato sauce' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3405,7 +3697,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spaghetti with tomato sauce' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spaghetti with tomato sauce' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Sweet potato fries', '', 5.99 , 52, 60, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Sweet potato fries', '', 5.99 
+, 52, 60, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Sweet potato fries' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3416,7 +3709,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Sweet potato fries' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Sweet potato fries' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Waffle fries', '', 5.99 , 18, 41, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Waffle fries', '', 5.99 
+, 18, 41, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Waffle fries' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3427,7 +3721,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Waffle fries' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Waffle fries' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Soup', '', 3.50 , 1, 13, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Soup', '', 3.50 
+, 1, 13, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Soup' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3438,7 +3733,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Soup' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Soup' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Our famous cheesecake', '', 4.99 , 54, 1, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Our famous cheesecake', '', 4.99 
+, 54, 1, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Our famous cheesecake' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3453,7 +3749,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Our famous cheesecake' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Our famous cheesecake' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chocolate cheesecake', '', 5.50 , 13, 97, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chocolate cheesecake', '', 5.50 
+, 13, 97, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Chocolate cheesecake' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3468,7 +3765,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chocolate cheesecake' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chocolate cheesecake' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Strawberry cheesecake', 'Famous homemade cheesecake topped with fresh strawberries', 5.99 , 47, 63, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Strawberry cheesecake', 'Famous homemade cheesecake topped with fresh strawberries', 5.99 
+, 47, 63, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Strawberry cheesecake' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3483,7 +3781,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Strawberry cheesecake' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Strawberry cheesecake' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Freshly baked pies', 'Apple blueberry cherry coconut custard apple crumb', 3.99 , 6, 92, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Freshly baked pies', 'Apple blueberry cherry coconut custard apple crumb', 3.99 
+, 6, 92, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Freshly baked pies' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3498,7 +3797,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Freshly baked pies' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Freshly baked pies' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Ice cream', 'Choice of vanilla chocolate or strawberry', 2.99 , 45, 4, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Ice cream', 'Choice of vanilla chocolate or strawberry', 2.99 
+, 45, 4, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Ice cream' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3513,7 +3813,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Ice cream' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Ice cream' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pudding', 'Rice pudding chocolate pudding creme caramel jello and sugar free jello', 3.99 , 6, 40, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pudding', 'Rice pudding chocolate pudding creme caramel jello and sugar free jello', 3.99 
+, 6, 40, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Pudding' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3528,7 +3829,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pudding' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pudding' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Brownie sundae', 'Topped with 0 scoops of ice cream walnuts whipped cream and cherries', 8.99 , 100, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Brownie sundae', 'Topped with 0 scoops of ice cream walnuts whipped cream and cherries', 8.99 
+, 100, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Brownie sundae' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3543,7 +3845,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Brownie sundae' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Brownie sundae' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deep fried oreos', 'Double stuffed oreos dipped in our very own waffle batter deep fried to golden brown and dusted with powdered sugar', 4.99 , 81, 33, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Deep fried oreos', 'Double stuffed oreos dipped in our very own waffle batter deep fried to golden brown and dusted with powdered sugar', 4.99 
+, 81, 33, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Deep fried oreos' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3558,7 +3861,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deep fried oreos' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Deep fried oreos' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Ice cream soda', '', 4.99 , 5, 24, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Ice cream soda', '', 4.99 
+, 5, 24, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Ice cream soda' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3573,7 +3877,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Ice cream soda' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Ice cream soda' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('All american', 'Warm apple crumb cake topped with vanilla ice cream graham crackers and whipped cream', 6.99 , 54, 78, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('All american', 'Warm apple crumb cake topped with vanilla ice cream graham crackers and whipped cream', 6.99 
+, 54, 78, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'All american' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3588,7 +3893,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'All american' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'All american' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Layer cake', 'Choice of lemon meringue chocolate layer carrot cake banana cream pie coconut cake chocolate cream pie and boston cream pie', 4.99 , 6, 55, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Layer cake', 'Choice of lemon meringue chocolate layer carrot cake banana cream pie coconut cake chocolate cream pie and boston cream pie', 4.99 
+, 6, 55, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Layer cake' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3603,7 +3909,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Layer cake' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Layer cake' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Homemade brownie', 'Fudgey with chocolate chips', 2.99 , 71, 20, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Homemade brownie', 'Fudgey with chocolate chips', 2.99 
+, 71, 20, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Homemade brownie' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3618,7 +3925,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('flour', curr
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Homemade brownie' AND i.name = 'flour' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('sugar', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Homemade brownie' AND i.name = 'sugar' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Milk', '', 2.19 , 4, 17, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Milk', '', 2.19 
+, 4, 17, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Milk' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3629,7 +3937,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Milk' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Milk' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hot chocolate milk', 'Made with steamed milk', 2.99 , 90, 23, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hot chocolate milk', 'Made with steamed milk', 2.99 
+, 90, 23, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Hot chocolate milk' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3640,7 +3949,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hot chocolate milk' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hot chocolate milk' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fresh lemonade', 'Pink or classic made to order', 3.29 , 85, 38, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fresh lemonade', 'Pink or classic made to order', 3.29 
+, 85, 38, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Fresh lemonade' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3651,7 +3961,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fresh lemonade' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fresh lemonade' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bottled water', '', 1.50 , 68, 47, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bottled water', '', 1.50 
+, 68, 47, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Bottled water' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3662,7 +3973,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bottled water' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bottled water' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Assorted juice', 'Choose from 0 different varieties', 2.00 , 100, 35, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Assorted juice', 'Choose from 0 different varieties', 2.00 
+, 100, 35, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Assorted juice' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3673,7 +3985,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Assorted juice' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Assorted juice' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Small coffee', 'Special fresh ground pascal house blend', 1.50 , 80, 22, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Small coffee', 'Special fresh ground pascal house blend', 1.50 
+, 80, 22, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Small coffee' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3684,7 +3997,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Small coffee' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Small coffee' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Large coffee', 'Special fresh ground pascal house blend', 2.25 , 9, 21, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Large coffee', 'Special fresh ground pascal house blend', 2.25 
+, 9, 21, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Large coffee' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3695,7 +4009,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Large coffee' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Large coffee' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Iced coffee', 'Home brewed coffee over ice', 2.25 , 94, 37, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Iced coffee', 'Home brewed coffee over ice', 2.25 
+, 94, 37, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Iced coffee' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3706,7 +4021,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Iced coffee' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Iced coffee' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Can soda', '', 1.79 , 71, 71, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Can soda', '', 1.79 
+, 71, 71, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Can soda' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3717,7 +4033,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Can soda' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Can soda' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chunky monkey smoothie', 'Almond milk chocolate whey protein peanut butter and banana', 7.00 , 48, 89, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chunky monkey smoothie', 'Almond milk chocolate whey protein peanut butter and banana', 7.00 
+, 48, 89, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Chunky monkey smoothie' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3728,7 +4045,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chunky monkey smoothie' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chunky monkey smoothie' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bel aire smoothie', 'Frozen yogurt banana strawberries and orange juice', 6.00 , 42, 96, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bel aire smoothie', 'Frozen yogurt banana strawberries and orange juice', 6.00 
+, 42, 96, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Bel aire smoothie' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3739,7 +4057,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bel aire smoothie' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bel aire smoothie' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Banana almond smoothie', 'Almond milk whole almonds vanilla whey protein and banana', 7.00 , 15, 4, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Banana almond smoothie', 'Almond milk whole almonds vanilla whey protein and banana', 7.00 
+, 15, 4, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Banana almond smoothie' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3750,7 +4069,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Banana almond smoothie' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Banana almond smoothie' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Astoria squeeze smoothie', 'Frozen yogurt strawberries and pineapple juice', 6.00 , 94, 73, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Astoria squeeze smoothie', 'Frozen yogurt strawberries and pineapple juice', 6.00 
+, 94, 73, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Astoria squeeze smoothie' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3761,7 +4081,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Astoria squeeze smoothie' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Astoria squeeze smoothie' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Broadway smoothie', 'Frozen yogurt apple juice banana strawberries and pineapple juice', 6.00 , 9, 70, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Broadway smoothie', 'Frozen yogurt apple juice banana strawberries and pineapple juice', 6.00 
+, 9, 70, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Broadway smoothie' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3772,7 +4093,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Broadway smoothie' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Broadway smoothie' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Triple berry smoothie', 'Frozen yogurt strawberry blueberry and cranberry juice', 6.00 , 51, 36, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Triple berry smoothie', 'Frozen yogurt strawberry blueberry and cranberry juice', 6.00 
+, 51, 36, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Triple berry smoothie' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3783,7 +4105,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Triple berry smoothie' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Triple berry smoothie' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Classic milkshake', 'Vanilla chocolate oreo black and white or strawberry', 6.00 , 87, 7, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Classic milkshake', 'Vanilla chocolate oreo black and white or strawberry', 6.00 
+, 87, 7, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Classic milkshake' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3794,7 +4117,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Classic milkshake' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Classic milkshake' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Brownie shake', 'Chocolate shake blended with a brownie and topped with a mini brownie', 7.00 , 85, 36, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Brownie shake', 'Chocolate shake blended with a brownie and topped with a mini brownie', 7.00 
+, 85, 36, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Brownie shake' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3805,7 +4129,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Brownie shake' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Brownie shake' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cake batter shake', 'Vanilla shake blended with cake and rainbow sprinkles topped with more cake and rainbow sprinkles', 7.00 , 28, 54, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cake batter shake', 'Vanilla shake blended with cake and rainbow sprinkles topped with more cake and rainbow sprinkles', 7.00 
+, 28, 54, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Cake batter shake' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3816,7 +4141,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cake batter shake' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cake batter shake' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Iced cappucino', '', 5.99 , 75, 42, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Iced cappucino', '', 5.99 
+, 75, 42, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Iced cappucino' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3827,7 +4153,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Iced cappucino' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Iced cappucino' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Frappe', 'Iced nescafe coffee', 3.99 , 27, 44, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Frappe', 'Iced nescafe coffee', 3.99 
+, 27, 44, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Frappe' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3838,7 +4165,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Frappe' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Frappe' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Frappe with vanilla ice cream', 'Iced nescafe coffee with a scoop of vanilla ice cream', 5.00 , 93, 41, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Frappe with vanilla ice cream', 'Iced nescafe coffee with a scoop of vanilla ice cream', 5.00 
+, 93, 41, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Frappe with vanilla ice cream' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3849,7 +4177,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Frappe with vanilla ice cream' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Frappe with vanilla ice cream' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cafe mocha', '', 4.99 , 69, 5, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cafe mocha', '', 4.99 
+, 69, 5, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Cafe mocha' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3860,7 +4189,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cafe mocha' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cafe mocha' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Egg cream', '', 3.50 , 34, 18, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Egg cream', '', 3.50 
+, 34, 18, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Egg cream' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3871,7 +4201,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Egg cream' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Egg cream' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Lime rickey', 'Sweetened lime juice and seltzer', 3.99 , 40, 40, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Lime rickey', 'Sweetened lime juice and seltzer', 3.99 
+, 40, 40, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Lime rickey' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3882,7 +4213,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Lime rickey' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Lime rickey' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Snapple', '', 2.95 , 9, 94, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Snapple', '', 2.95 
+, 9, 94, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Snapple' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3893,7 +4225,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Snapple' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Snapple' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Espresso', 'Classic espresso', 2.99 , 17, 87, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Espresso', 'Classic espresso', 2.99 
+, 17, 87, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Espresso' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3904,7 +4237,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Espresso' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Espresso' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Double shot espresso', 'Double shot of our homemade espresso', 3.99 , 74, 15, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Double shot espresso', 'Double shot of our homemade espresso', 3.99 
+, 74, 15, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Double shot espresso' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3915,7 +4249,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Double shot espresso' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Double shot espresso' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cappucino', '', 4.99 , 38, 43, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cappucino', '', 4.99 
+, 38, 43, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Cappucino' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3926,7 +4261,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cappucino' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cappucino' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cafe latte', '', 5.99 , 93, 49, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cafe latte', '', 5.99 
+, 93, 49, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Cafe latte' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3937,7 +4273,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cafe latte' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cafe latte' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Coke float', '', 4.99 , 44, 37, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Coke float', '', 4.99 
+, 44, 37, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Coke float' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3948,7 +4285,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Coke float' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Coke float' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fresh squeezed orange juice', '', 3.00 , 69, 83, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fresh squeezed orange juice', '', 3.00 
+, 69, 83, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Fresh squeezed orange juice' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3959,7 +4297,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fresh squeezed orange juice' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fresh squeezed orange juice' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Breakfast pizza', 'Bacon cheddar cheese diced onions and eggs', 12.89 , 19, 87, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Breakfast pizza', 'Bacon cheddar cheese diced onions and eggs', 12.89 
+, 19, 87, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('pizza', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'pizza' and d.name = 'Breakfast pizza' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('milk', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3972,7 +4311,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('cheese', cur
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Breakfast pizza' AND i.name = 'cheese' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Breakfast pizza' AND i.name = 'meat' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq ranch chicken pizza', 'Grilled chicken bbq sauce bacon cheddar fronions with a ranch drizzle', 13.39 , 23, 87, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq ranch chicken pizza', 'Grilled chicken bbq sauce bacon cheddar fronions with a ranch drizzle', 13.39 
+, 23, 87, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('pizza', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'pizza' and d.name = 'Bbq ranch chicken pizza' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('milk', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3985,7 +4325,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('cheese', cur
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq ranch chicken pizza' AND i.name = 'cheese' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq ranch chicken pizza' AND i.name = 'meat' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Buffalo chicken pizza', 'Buffalo chicken ranch bleu cheese mozzarella cheddar and sauce', 14.19 , 46, 59, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Buffalo chicken pizza', 'Buffalo chicken ranch bleu cheese mozzarella cheddar and sauce', 14.19 
+, 46, 59, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('pizza', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'pizza' and d.name = 'Buffalo chicken pizza' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('milk', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -3998,7 +4339,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('cheese', cur
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Buffalo chicken pizza' AND i.name = 'cheese' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Buffalo chicken pizza' AND i.name = 'meat' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Meat lovers pizza', 'Sausage salami ground beef and bacon', 16.59 , 22, 90, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Meat lovers pizza', 'Sausage salami ground beef and bacon', 16.59 
+, 22, 90, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('pizza', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'pizza' and d.name = 'Meat lovers pizza' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('milk', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4011,7 +4353,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('cheese', cur
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Meat lovers pizza' AND i.name = 'cheese' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Meat lovers pizza' AND i.name = 'meat' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek pizza', 'Marinara sauce spinach pie filling and mozzarella cheese', 12.99 , 80, 82, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek pizza', 'Marinara sauce spinach pie filling and mozzarella cheese', 12.99 
+, 80, 82, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('pizza', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'pizza' and d.name = 'Greek pizza' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('milk', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4024,7 +4367,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('cheese', cur
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek pizza' AND i.name = 'cheese' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek pizza' AND i.name = 'meat' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Brooklyn avenue pizza', 'Pastrami corned beef sauerkraut swiss cheese and pickles with a russian dressing drizzle', 14.09 , 90, 68, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Brooklyn avenue pizza', 'Pastrami corned beef sauerkraut swiss cheese and pickles with a russian dressing drizzle', 14.09 
+, 90, 68, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('pizza', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'pizza' and d.name = 'Brooklyn avenue pizza' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('milk', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4037,7 +4381,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('cheese', cur
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Brooklyn avenue pizza' AND i.name = 'cheese' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Brooklyn avenue pizza' AND i.name = 'meat' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hangover pizza', 'Ground beef eggs all the cheese gravy and tater tots', 17.69 , 54, 75, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hangover pizza', 'Ground beef eggs all the cheese gravy and tater tots', 17.69 
+, 54, 75, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('pizza', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'pizza' and d.name = 'Hangover pizza' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('milk', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4050,7 +4395,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('cheese', cur
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hangover pizza' AND i.name = 'cheese' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hangover pizza' AND i.name = 'meat' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Small soup', '', 4.50 , 87, 72, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Small soup', '', 4.50 
+, 87, 72, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('soup', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'soup' and d.name = 'Small soup' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4061,7 +4407,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Small soup' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Small soup' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Large soup', '', 5.50 , 77, 80, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Large soup', '', 5.50 
+, 77, 80, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('soup', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'soup' and d.name = 'Large soup' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4072,7 +4419,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Large soup' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Large soup' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Extra large soup', '', 12.00 , 54, 88, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Extra large soup', '', 12.00 
+, 54, 88, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('soup', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'soup' and d.name = 'Extra large soup' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4083,7 +4431,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Extra large soup' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Extra large soup' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken bowl', 'All natural skinless chicken substitute white meat for an additional charge', 5.75 , 5, 37, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken bowl', 'All natural skinless chicken substitute white meat for an additional charge', 5.75 
+, 5, 37, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('plates & bowls', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'plates & bowls' and d.name = 'Chicken bowl' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4092,7 +4441,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken bowl' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('corn', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken bowl' AND i.name = 'corn' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Angus beef bowl', 'Marinated choice angus beef', 7.35 , 94, 62, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Angus beef bowl', 'Marinated choice angus beef', 7.35 
+, 94, 62, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('plates & bowls', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'plates & bowls' and d.name = 'Angus beef bowl' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4101,7 +4451,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Angus beef bowl' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('corn', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Angus beef bowl' AND i.name = 'corn' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Half half bowl', 'Chicken and angus beef combination', 7.00 , 55, 24, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Half half bowl', 'Chicken and angus beef combination', 7.00 
+, 55, 24, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('plates & bowls', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'plates & bowls' and d.name = 'Half half bowl' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4110,7 +4461,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Half half bowl' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('corn', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Half half bowl' AND i.name = 'corn' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Organic tofu bowl', 'Extra firm non gmo and char boiled tofu', 5.95 , 72, 5, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Organic tofu bowl', 'Extra firm non gmo and char boiled tofu', 5.95 
+, 72, 5, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('plates & bowls', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'plates & bowls' and d.name = 'Organic tofu bowl' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4119,7 +4471,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Organic tofu bowl' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('corn', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Organic tofu bowl' AND i.name = 'corn' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken plate', 'All natural skinless chicken', 9.45 , 24, 29, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken plate', 'All natural skinless chicken', 9.45 
+, 24, 29, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('plates & bowls', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'plates & bowls' and d.name = 'Chicken plate' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4128,7 +4481,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken plate' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('corn', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken plate' AND i.name = 'corn' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Angus beef plate', 'Marinated choice angus beef', 12.35 , 78, 9, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Angus beef plate', 'Marinated choice angus beef', 12.35 
+, 78, 9, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('plates & bowls', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'plates & bowls' and d.name = 'Angus beef plate' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4137,7 +4491,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Angus beef plate' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('corn', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Angus beef plate' AND i.name = 'corn' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Half half plate', 'Chicken and angus beef combination', 12.00 , 75, 85, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Half half plate', 'Chicken and angus beef combination', 12.00 
+, 75, 85, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('plates & bowls', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'plates & bowls' and d.name = 'Half half plate' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4146,7 +4501,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Half half plate' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('corn', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Half half plate' AND i.name = 'corn' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Organic tofu plate', 'Extra firm non gmo and char boiled tofu', 10.45 , 85, 7, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Organic tofu plate', 'Extra firm non gmo and char boiled tofu', 10.45 
+, 85, 7, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('plates & bowls', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'plates & bowls' and d.name = 'Organic tofu plate' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4155,7 +4511,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Organic tofu plate' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('corn', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Organic tofu plate' AND i.name = 'corn' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Soft drinks', 'Assorted flavor', 1.99 , 83, 28, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Soft drinks', 'Assorted flavor', 1.99 
+, 83, 28, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Soft drinks' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4166,7 +4523,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Soft drinks' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Soft drinks' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bottled water', '', 1.60 , 83, 100, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bottled water', '', 1.60 
+, 83, 100, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Bottled water' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4177,7 +4535,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bottled water' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bottled water' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fountain drinks', '', 2.15 , 43, 58, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fountain drinks', '', 2.15 
+, 43, 58, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Fountain drinks' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4188,7 +4547,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fountain drinks' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fountain drinks' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Joe s tea', '', 2.75 , 29, 20, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Joe s tea', '', 2.75 
+, 29, 20, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Joe s tea' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4199,7 +4559,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Joe s tea' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Joe s tea' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Coffee', '', 1.50 , 90, 6, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Coffee', '', 1.50 
+, 90, 6, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Coffee' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4210,7 +4571,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Coffee' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Coffee' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Tea', '', 1.50 , 42, 98, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Tea', '', 1.50 
+, 42, 98, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Tea' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4221,7 +4583,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Tea' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Tea' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Feta sticks 0', 'Authentic feta cheese and red pepper wrapped in a crunchy sesame crust fried till golden and served with lemon wedges', 9.50 , 5, 28, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Feta sticks 0', 'Authentic feta cheese and red pepper wrapped in a crunchy sesame crust fried till golden and served with lemon wedges', 9.50 
+, 5, 28, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Feta sticks 0' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4230,7 +4593,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Feta sticks 0' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Feta sticks 0' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Eggplant rolls 0', 'A unique combination of fresh meditteranean eggplant with smoked cheese wrapped in crispy eggroll', 9.50 , 28, 60, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Eggplant rolls 0', 'A unique combination of fresh meditteranean eggplant with smoked cheese wrapped in crispy eggroll', 9.50 
+, 28, 60, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Eggplant rolls 0' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4239,7 +4603,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Eggplant rolls 0' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Eggplant rolls 0' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Niko s spring rolls 0', 'Six rolls with aromatic herbs and spinach combing wild mountain greens a variety of fresh vegetables and crunchy phyllo served with tzatziki', 9.50 , 38, 42, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Niko s spring rolls 0', 'Six rolls with aromatic herbs and spinach combing wild mountain greens a variety of fresh vegetables and crunchy phyllo served with tzatziki', 9.50 
+, 38, 42, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Niko s spring rolls 0' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4248,7 +4613,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Niko s spring rolls 0' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Niko s spring rolls 0' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Tzatziki and pita', 'Garlic cucumber and greek yogurt dip served with grilled or cripsy pita vegetarian', 6.95 , 21, 35, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Tzatziki and pita', 'Garlic cucumber and greek yogurt dip served with grilled or cripsy pita vegetarian', 6.95 
+, 21, 35, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Tzatziki and pita' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4257,7 +4623,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Tzatziki and pita' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Tzatziki and pita' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hummus and pita', 'Mediterranean dip of ground chickpeas sesame and fresh lemon juice served with grilled pita vegetarian', 6.95 , 73, 15, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hummus and pita', 'Mediterranean dip of ground chickpeas sesame and fresh lemon juice served with grilled pita vegetarian', 6.95 
+, 73, 15, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Hummus and pita' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4266,7 +4633,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hummus and pita' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hummus and pita' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Dolmades yalazani', 'Six grape leaves filled with rice and herbs served with pita tzatziki kalamata olives tomato and cucumber vegetarian', 7.95 , 90, 57, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Dolmades yalazani', 'Six grape leaves filled with rice and herbs served with pita tzatziki kalamata olives tomato and cucumber vegetarian', 7.95 
+, 90, 57, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Dolmades yalazani' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4275,7 +4643,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Dolmades yalazani' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Dolmades yalazani' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek nachos', 'Crispy pita topped with crumbled feta black olives tomatoes cucumbers red onion and tzatziki', 8.95 , 49, 67, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek nachos', 'Crispy pita topped with crumbled feta black olives tomatoes cucumbers red onion and tzatziki', 8.95 
+, 49, 67, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Greek nachos' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4284,7 +4653,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek nachos' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek nachos' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spanakopita', 'Spinach pie large flaky phyllo rectangle filled with sauteed spinach onion feta cheese and greek herbs vegetarian', 8.25 , 2, 79, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spanakopita', 'Spinach pie large flaky phyllo rectangle filled with sauteed spinach onion feta cheese and greek herbs vegetarian', 8.25 
+, 2, 79, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Spanakopita' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4293,7 +4663,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spanakopita' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spanakopita' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mega fries', 'Golden fries topped with gyro feta cheese red onions tomatoes and creamy feta garlic dressing vegetarian', 8.95 , 56, 63, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mega fries', 'Golden fries topped with gyro feta cheese red onions tomatoes and creamy feta garlic dressing vegetarian', 8.95 
+, 56, 63, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Mega fries' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4302,7 +4673,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mega fries' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mega fries' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Feta and falafel appetizer', 'Imported feta grilled pita 0 falafel greek olives tzatziki sauce cucumber and tomato vegetarian', 11.95 , 8, 65, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Feta and falafel appetizer', 'Imported feta grilled pita 0 falafel greek olives tzatziki sauce cucumber and tomato vegetarian', 11.95 
+, 8, 65, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Feta and falafel appetizer' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4311,7 +4683,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Feta and falafel appetizer' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Feta and falafel appetizer' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Wings', 'Buffalo bbq or our own greek wings marinated in garlic olive oil and oregano then cooked to perfection and served with tzatziki', 6.50 , 75, 26, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Wings', 'Buffalo bbq or our own greek wings marinated in garlic olive oil and oregano then cooked to perfection and served with tzatziki', 6.50 
+, 75, 26, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Wings' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4320,7 +4693,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Wings' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Wings' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Sampler trio', 'Includes tzatziki hummus and falafel with a grilled pita vegetarian', 11.95 , 28, 91, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Sampler trio', 'Includes tzatziki hummus and falafel with a grilled pita vegetarian', 11.95 
+, 28, 91, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Sampler trio' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4329,7 +4703,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Sampler trio' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Sampler trio' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Baba ganouj pita', 'Roasted eggplants dip with lebini tahini garlic and extra virgin olive oil served with pita', 7.50 , 26, 96, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Baba ganouj pita', 'Roasted eggplants dip with lebini tahini garlic and extra virgin olive oil served with pita', 7.50 
+, 26, 96, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Baba ganouj pita' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4338,7 +4713,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Baba ganouj pita' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Baba ganouj pita' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Muhammara pita', 'Roasted bell pepper ground roasted walnuts bread crumbs cumin hot peppers extra virgin olive oil and pomegranate molasses', 7.50 , 29, 38, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Muhammara pita', 'Roasted bell pepper ground roasted walnuts bread crumbs cumin hot peppers extra virgin olive oil and pomegranate molasses', 7.50 
+, 29, 38, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Muhammara pita' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4347,7 +4723,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Muhammara pita' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Muhammara pita' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Kibbie appetizer', 'Golden croquettes made with cracked whole wheat and mediterranean spiced stuffed with cooked ground lamb beef onions and fine nuts served with parsley sauce', 8.95 , 52, 54, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Kibbie appetizer', 'Golden croquettes made with cracked whole wheat and mediterranean spiced stuffed with cooked ground lamb beef onions and fine nuts served with parsley sauce', 8.95 
+, 52, 54, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Kibbie appetizer' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4356,7 +4733,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Kibbie appetizer' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Kibbie appetizer' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek salad', 'Chopped romaine crumbled feta plum tomato red onion kalamata olives pepperoncini stuffed grape leaf cucumbers and our own greek dressing vegetarian', 8.50 , 28, 18, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek salad', 'Chopped romaine crumbled feta plum tomato red onion kalamata olives pepperoncini stuffed grape leaf cucumbers and our own greek dressing vegetarian', 8.50 
+, 28, 18, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Greek salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4367,7 +4745,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Falafel salad', 'Chopped romaine plum tomatoes red onions pickles green pepper falafel and tahini dressing vegetarian', 8.50 , 86, 30, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Falafel salad', 'Chopped romaine plum tomatoes red onions pickles green pepper falafel and tahini dressing vegetarian', 8.50 
+, 86, 30, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Falafel salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4378,7 +4757,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Falafel salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Falafel salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken bacon salad', 'Chopped romaine grilled chicken bacon shredded cheddar plum tomatoes red onions and your choice of dressing', 9.95 , 55, 67, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken bacon salad', 'Chopped romaine grilled chicken bacon shredded cheddar plum tomatoes red onions and your choice of dressing', 9.95 
+, 55, 67, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Chicken bacon salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4389,7 +4769,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken bacon salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken bacon salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Buffalo chicken salad', 'Chopped romaine grilled buffalo chicken plum tomatoes carrots bleu cheese crumbles and ranch dressing', 9.95 , 10, 36, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Buffalo chicken salad', 'Chopped romaine grilled buffalo chicken plum tomatoes carrots bleu cheese crumbles and ranch dressing', 9.95 
+, 10, 36, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Buffalo chicken salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4400,7 +4781,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Buffalo chicken salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Buffalo chicken salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Caesar salad', 'Three cheese italian blend chopped romaine grilled pita and peppercorn caesar dressing vegetarian', 6.95 , 30, 30, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Caesar salad', 'Three cheese italian blend chopped romaine grilled pita and peppercorn caesar dressing vegetarian', 6.95 
+, 30, 30, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Caesar salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4411,7 +4793,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Caesar salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Caesar salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Santa fe salad', 'Chopped romaine grilled chicken grilled yellow corn grilled beans grilled carrots grilled green peppers plum tomatoes black olives cheddar cheese red onion and ranch dressing', 9.95 , 66, 47, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Santa fe salad', 'Chopped romaine grilled chicken grilled yellow corn grilled beans grilled carrots grilled green peppers plum tomatoes black olives cheddar cheese red onion and ranch dressing', 9.95 
+, 66, 47, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Santa fe salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4422,7 +4805,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Santa fe salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Santa fe salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Village salad', 'Lettuceless plum tomatoes feta cheese triangle cucumbers red onion olives green peppers stuffed grape leaves pepperoncini and oil and vinegar vegetarian', 8.95 , 13, 92, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Village salad', 'Lettuceless plum tomatoes feta cheese triangle cucumbers red onion olives green peppers stuffed grape leaves pepperoncini and oil and vinegar vegetarian', 8.95 
+, 13, 92, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Village salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4433,7 +4817,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Village salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Village salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Garden salad', 'Chopped romaine plum tomatoes red onions green peppers carrots and your choice of dressing vegetarian', 7.50 , 41, 51, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Garden salad', 'Chopped romaine plum tomatoes red onions green peppers carrots and your choice of dressing vegetarian', 7.50 
+, 41, 51, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Garden salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4444,7 +4829,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Garden salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Garden salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Gyro sandwich', 'Delicious rotisserie gyro beef lamb wrapped in a grilled pita topped with lettuce tomatoes onions and tzatziki', 8.35 , 46, 32, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Gyro sandwich', 'Delicious rotisserie gyro beef lamb wrapped in a grilled pita topped with lettuce tomatoes onions and tzatziki', 8.35 
+, 46, 32, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Gyro sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4461,7 +4847,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Gyro sandwich' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Gyro sandwich' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Souvlaki sandwich', 'Marinated charbroiled chicken breast or pork tenderloin or leg of lamb wrapped in a grilled pita topped with lettuce tomatoes onions and tzatziki', 8.35 , 80, 19, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Souvlaki sandwich', 'Marinated charbroiled chicken breast or pork tenderloin or leg of lamb wrapped in a grilled pita topped with lettuce tomatoes onions and tzatziki', 8.35 
+, 80, 19, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Souvlaki sandwich' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4478,7 +4865,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Souvlaki sandwich' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Souvlaki sandwich' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chipotle gyro', 'Gyro topped with chipotle mayo crispy bacon pepper jack cheese lettuce tomato and onion', 8.75 , 93, 1, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chipotle gyro', 'Gyro topped with chipotle mayo crispy bacon pepper jack cheese lettuce tomato and onion', 8.75 
+, 93, 1, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Chipotle gyro' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4495,7 +4883,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chipotle gyro' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chipotle gyro' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chipotle souvlaki', 'Souvlaki topped with chipotle mayo crispy bacon pepper jack cheese lettuce tomato and onion', 8.75 , 96, 12, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chipotle souvlaki', 'Souvlaki topped with chipotle mayo crispy bacon pepper jack cheese lettuce tomato and onion', 8.75 
+, 96, 12, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Chipotle souvlaki' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4512,7 +4901,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chipotle souvlaki' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chipotle souvlaki' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Russian gyro', 'Gyro topped with sauerkraut melted swiss and russian dressing', 8.35 , 20, 32, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Russian gyro', 'Gyro topped with sauerkraut melted swiss and russian dressing', 8.35 
+, 20, 32, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Russian gyro' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4529,7 +4919,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Russian gyro' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Russian gyro' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Russian souvlaki', 'Souvlaki topped with sauerkraut melted swiss and russian dressing', 8.35 , 70, 89, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Russian souvlaki', 'Souvlaki topped with sauerkraut melted swiss and russian dressing', 8.35 
+, 70, 89, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Russian souvlaki' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4546,7 +4937,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Russian souvlaki' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Russian souvlaki' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mega gyro', 'Double the meat stuffed pita topped with fries banana peppers olives tzatziki and red onion', 10.00 , 1, 69, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mega gyro', 'Double the meat stuffed pita topped with fries banana peppers olives tzatziki and red onion', 10.00 
+, 1, 69, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Mega gyro' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4563,7 +4955,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mega gyro' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mega gyro' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mega souvlaki', 'Double the meat stuffed pita topped with fries banana peppers olives tzatziki and red onion', 10.00 , 76, 29, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mega souvlaki', 'Double the meat stuffed pita topped with fries banana peppers olives tzatziki and red onion', 10.00 
+, 76, 29, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Mega souvlaki' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4580,7 +4973,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mega souvlaki' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mega souvlaki' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Athenian gyro', 'Gyro topped with fries ketchup and mustard', 8.35 , 18, 39, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Athenian gyro', 'Gyro topped with fries ketchup and mustard', 8.35 
+, 18, 39, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Athenian gyro' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4597,7 +4991,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Athenian gyro' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Athenian gyro' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Athenian souvlaki', 'Souvlaki topped with fries ketchup and mustard', 8.35 , 85, 9, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Athenian souvlaki', 'Souvlaki topped with fries ketchup and mustard', 8.35 
+, 85, 9, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Athenian souvlaki' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4614,7 +5009,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Athenian souvlaki' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Athenian souvlaki' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Extreme gyro', 'Gyro wrapped in a grilled pita topped with grilled peppers grilled onions melted provolone ranch and hot sauce', 8.50 , 89, 37, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Extreme gyro', 'Gyro wrapped in a grilled pita topped with grilled peppers grilled onions melted provolone ranch and hot sauce', 8.50 
+, 89, 37, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Extreme gyro' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4631,7 +5027,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Extreme gyro' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Extreme gyro' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Extreme souvlaki', 'Souvlaki wrapped in a grilled pita topped with grilled peppers grilled onions melted provolone ranch and hot sauce', 8.50 , 40, 46, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Extreme souvlaki', 'Souvlaki wrapped in a grilled pita topped with grilled peppers grilled onions melted provolone ranch and hot sauce', 8.50 
+, 40, 46, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Extreme souvlaki' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4648,7 +5045,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Extreme souvlaki' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Extreme souvlaki' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Buffalo gyro', 'Gyro topped with crispy onions jalapenos bleu cheese dressing hot sauce lettuce tomato and onions', 8.50 , 99, 3, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Buffalo gyro', 'Gyro topped with crispy onions jalapenos bleu cheese dressing hot sauce lettuce tomato and onions', 8.50 
+, 99, 3, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Buffalo gyro' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4665,7 +5063,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Buffalo gyro' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Buffalo gyro' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Buffalo souvlaki', 'Souvlaki topped with crispy onions jalapenos bleu cheese dressing hot sauce lettuce tomato and onions', 8.50 , 100, 55, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Buffalo souvlaki', 'Souvlaki topped with crispy onions jalapenos bleu cheese dressing hot sauce lettuce tomato and onions', 8.50 
+, 100, 55, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Buffalo souvlaki' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4682,7 +5081,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Buffalo souvlaki' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Buffalo souvlaki' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Italian gyro', 'Gyro topped with basil pesto mayo mozzarella cheese and roasted red peppers', 8.45 , 71, 80, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Italian gyro', 'Gyro topped with basil pesto mayo mozzarella cheese and roasted red peppers', 8.45 
+, 71, 80, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Italian gyro' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4699,7 +5099,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Italian gyro' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Italian gyro' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Italian souvlaki', 'Souvlaki topped with basil pesto mayo mozzarella cheese and roasted red peppers', 8.45 , 2, 20, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Italian souvlaki', 'Souvlaki topped with basil pesto mayo mozzarella cheese and roasted red peppers', 8.45 
+, 2, 20, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Italian souvlaki' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4716,7 +5117,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Italian souvlaki' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Italian souvlaki' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cordon bleu gyro', 'Gyro topped with melted mozzarella grilled ham banana peppers and honey mustard wrapped in a grilled pita', 8.50 , 74, 80, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cordon bleu gyro', 'Gyro topped with melted mozzarella grilled ham banana peppers and honey mustard wrapped in a grilled pita', 8.50 
+, 74, 80, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Cordon bleu gyro' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4733,7 +5135,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cordon bleu gyro' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cordon bleu gyro' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cordon bleu souvlaki', 'Souvlaki topped with melted mozzarella grilled ham banana peppers and honey mustard wrapped in a grilled pita', 8.50 , 3, 21, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cordon bleu souvlaki', 'Souvlaki topped with melted mozzarella grilled ham banana peppers and honey mustard wrapped in a grilled pita', 8.50 
+, 3, 21, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Cordon bleu souvlaki' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4750,7 +5153,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cordon bleu souvlaki' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cordon bleu souvlaki' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hummus gyro', 'Gyro topped with our own hummus pickles lettuce tomato and hot sauce', 8.50 , 35, 63, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hummus gyro', 'Gyro topped with our own hummus pickles lettuce tomato and hot sauce', 8.50 
+, 35, 63, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Hummus gyro' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4767,7 +5171,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hummus gyro' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hummus gyro' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hummus souvlaki', 'Souvlaki topped with our own hummus pickles lettuce tomato and hot sauce', 8.50 , 59, 23, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hummus souvlaki', 'Souvlaki topped with our own hummus pickles lettuce tomato and hot sauce', 8.50 
+, 59, 23, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Hummus souvlaki' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4784,7 +5189,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hummus souvlaki' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hummus souvlaki' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq gyro', 'Gyro topped with grilled peppers grilled onions lettuce cheddar cheese ranch and bbq sauce', 8.45 , 31, 35, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq gyro', 'Gyro topped with grilled peppers grilled onions lettuce cheddar cheese ranch and bbq sauce', 8.45 
+, 31, 35, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Bbq gyro' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4801,7 +5207,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq gyro' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq gyro' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq souvlaki', 'Souvlaki topped with grilled peppers grilled onions lettuce cheddar cheese ranch and bbq sauce', 8.45 , 85, 58, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq souvlaki', 'Souvlaki topped with grilled peppers grilled onions lettuce cheddar cheese ranch and bbq sauce', 8.45 
+, 85, 58, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Bbq souvlaki' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4818,7 +5225,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq souvlaki' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq souvlaki' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Philly gyro', 'Gyro or chicken souvlaki topped with grilled peppers and onions lettuce melted american cheese and mayo', 8.50 , 16, 19, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Philly gyro', 'Gyro or chicken souvlaki topped with grilled peppers and onions lettuce melted american cheese and mayo', 8.50 
+, 16, 19, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Philly gyro' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4835,7 +5243,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Philly gyro' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Philly gyro' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Philly souvlaki', 'Souvlaki topped with grilled peppers and onions lettuce melted american cheese and mayo', 8.50 , 8, 12, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Philly souvlaki', 'Souvlaki topped with grilled peppers and onions lettuce melted american cheese and mayo', 8.50 
+, 8, 12, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Philly souvlaki' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4852,7 +5261,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Philly souvlaki' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Philly souvlaki' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Sicilian gyro', 'Gyro topped with melted mozzarella marinara sauce grilled peppers and onions', 8.50 , 3, 79, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Sicilian gyro', 'Gyro topped with melted mozzarella marinara sauce grilled peppers and onions', 8.50 
+, 3, 79, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Sicilian gyro' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4869,7 +5279,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Sicilian gyro' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Sicilian gyro' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Sicilian souvlaki', 'Souvlaki topped with melted mozzarella marinara sauce grilled peppers and onions', 8.50 , 90, 98, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Sicilian souvlaki', 'Souvlaki topped with melted mozzarella marinara sauce grilled peppers and onions', 8.50 
+, 90, 98, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Sicilian souvlaki' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4886,7 +5297,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Sicilian souvlaki' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Sicilian souvlaki' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Gyro burrito', 'Gyro wrapped in a grilled tortilla stuffed with rice feta cheese tzatziki banana peppers lettuce tomatoes and onions', 9.00 , 64, 18, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Gyro burrito', 'Gyro wrapped in a grilled tortilla stuffed with rice feta cheese tzatziki banana peppers lettuce tomatoes and onions', 9.00 
+, 64, 18, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Gyro burrito' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4903,7 +5315,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Gyro burrito' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Gyro burrito' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Souvlaki burrito', 'Souvlaki wrapped in a grilled tortilla stuffed with rice feta cheese tzatziki banana peppers lettuce tomatoes and onions', 9.00 , 42, 7, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Souvlaki burrito', 'Souvlaki wrapped in a grilled tortilla stuffed with rice feta cheese tzatziki banana peppers lettuce tomatoes and onions', 9.00 
+, 42, 7, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('meat & bbq', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'meat & bbq' and d.name = 'Souvlaki burrito' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4920,7 +5333,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('peas', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Souvlaki burrito' AND i.name = 'peas' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('carrots', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Souvlaki burrito' AND i.name = 'carrots' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Basil pesto chicken', 'Grilled chicken roasted red peppers melted mozzarella cheese tomato basil pesto and mayo', 8.55 , 17, 90, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Basil pesto chicken', 'Grilled chicken roasted red peppers melted mozzarella cheese tomato basil pesto and mayo', 8.55 
+, 17, 90, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Basil pesto chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4933,7 +5347,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Basil pesto chicken' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Basil pesto chicken' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq steak on a wedge', 'Thinly sliced steak red onions bbq sauce mozzarella and cheddar cheese', 8.95 , 14, 46, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq steak on a wedge', 'Thinly sliced steak red onions bbq sauce mozzarella and cheddar cheese', 8.95 
+, 14, 46, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Bbq steak on a wedge' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4946,7 +5361,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq steak on a wedge' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq steak on a wedge' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Buffalo chicken', 'Crispy or grilled chicken pepper jack cheese lettuce tomato ranch and hot sauce', 8.65 , 57, 39, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Buffalo chicken', 'Crispy or grilled chicken pepper jack cheese lettuce tomato ranch and hot sauce', 8.65 
+, 57, 39, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Buffalo chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4959,7 +5375,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Buffalo chicken' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Buffalo chicken' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Caesar wrap', 'Romaine lettuce 0 cheese italian blend and caesar dressing vegetarian', 6.75 , 58, 73, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Caesar wrap', 'Romaine lettuce 0 cheese italian blend and caesar dressing vegetarian', 6.75 
+, 58, 73, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Caesar wrap' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4972,7 +5389,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Caesar wrap' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Caesar wrap' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Californian', 'Oven roasted turkey mozzarella cheese tomatoes red onion crispy bacon and ranch dressing', 8.25 , 46, 55, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Californian', 'Oven roasted turkey mozzarella cheese tomatoes red onion crispy bacon and ranch dressing', 8.25 
+, 46, 55, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Californian' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4985,7 +5403,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Californian' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Californian' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken bacon', 'Grilled or crispy chicken crispy bacon tomato lettuce red onion and melted cheddar cheese with your choice of ranch honey mustard or balsamic vinaigrette', 8.95 , 35, 8, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken bacon', 'Grilled or crispy chicken crispy bacon tomato lettuce red onion and melted cheddar cheese with your choice of ranch honey mustard or balsamic vinaigrette', 8.95 
+, 35, 8, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Chicken bacon' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -4998,7 +5417,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken bacon' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken bacon' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chipotle steak on a wrap', 'Grilled steak pepper jack cheese grilled onions roasted red peppers rice and chipotle mayo', 8.95 , 90, 11, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chipotle steak on a wrap', 'Grilled steak pepper jack cheese grilled onions roasted red peppers rice and chipotle mayo', 8.95 
+, 90, 11, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Chipotle steak on a wrap' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5011,7 +5431,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chipotle steak on a wrap' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chipotle steak on a wrap' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cluckin russian', 'Crispy chicken bacon mozzarella cheese lettuce and russian dressing', 8.65 , 77, 66, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cluckin russian', 'Crispy chicken bacon mozzarella cheese lettuce and russian dressing', 8.65 
+, 77, 66, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Cluckin russian' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5024,7 +5445,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cluckin russian' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cluckin russian' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chipotle chicken', 'Grilled chicken bacon pepper jack cheese lettuce tomato chipotle mayo and ranch dressing', 8.65 , 99, 89, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chipotle chicken', 'Grilled chicken bacon pepper jack cheese lettuce tomato chipotle mayo and ranch dressing', 8.65 
+, 99, 89, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Chipotle chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5037,7 +5459,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chipotle chicken' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chipotle chicken' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Classic club', 'Honey ham oven roasted turkey bacon cheddar cheese lettuce tomato and mayo', 8.50 , 96, 44, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Classic club', 'Honey ham oven roasted turkey bacon cheddar cheese lettuce tomato and mayo', 8.50 
+, 96, 44, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Classic club' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5050,7 +5473,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Classic club' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Classic club' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Falafel and hummus', 'Greek falafel hummus lettuce pepper jack cheese red onion tomato and cucumbers vegetarian', 7.95 , 74, 77, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Falafel and hummus', 'Greek falafel hummus lettuce pepper jack cheese red onion tomato and cucumbers vegetarian', 7.95 
+, 74, 77, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Falafel and hummus' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5063,7 +5487,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Falafel and hummus' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Falafel and hummus' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek chicken flatbread', 'Grilled chicken tzatziki mozzarella cheese cucumbers banana pppers tomato lettuce and black olives', 8.50 , 38, 36, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek chicken flatbread', 'Grilled chicken tzatziki mozzarella cheese cucumbers banana pppers tomato lettuce and black olives', 8.50 
+, 38, 36, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Greek chicken flatbread' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5076,7 +5501,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek chicken flatbread' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek chicken flatbread' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek falafel pita', 'Greek falafel lettuce tomato red onion topped with tzatziki vegetarian', 8.00 , 39, 100, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek falafel pita', 'Greek falafel lettuce tomato red onion topped with tzatziki vegetarian', 8.00 
+, 39, 100, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Greek falafel pita' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5089,7 +5515,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek falafel pita' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek falafel pita' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek feta wrap', 'Romaine lettuce feta cheese tzatziki cucumbers carrots tomato and olives vegetarian', 7.85 , 49, 61, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek feta wrap', 'Romaine lettuce feta cheese tzatziki cucumbers carrots tomato and olives vegetarian', 7.85 
+, 49, 61, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Greek feta wrap' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5102,7 +5529,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek feta wrap' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek feta wrap' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Grilled ham and swiss cheese', 'Grilled ham melted swiss cheese russian dressing and sauerkraut on toasted sourdough', 7.55 , 62, 68, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Grilled ham and swiss cheese', 'Grilled ham melted swiss cheese russian dressing and sauerkraut on toasted sourdough', 7.55 
+, 62, 68, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Grilled ham and swiss cheese' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5115,7 +5543,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Grilled ham and swiss cheese' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Grilled ham and swiss cheese' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Niko s philly chicken', 'Marinated grilled chicken topped with grilled peppers and onions melted mozzarella and your choice of sauce', 9.25 , 72, 35, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Niko s philly chicken', 'Marinated grilled chicken topped with grilled peppers and onions melted mozzarella and your choice of sauce', 9.25 
+, 72, 35, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Niko s philly chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5128,7 +5557,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Niko s philly chicken' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Niko s philly chicken' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Olympian falafel', 'Greek falafel pickles hummus feta cheese tomato and sliced olives vegetarian', 8.00 , 21, 76, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Olympian falafel', 'Greek falafel pickles hummus feta cheese tomato and sliced olives vegetarian', 8.00 
+, 21, 76, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Olympian falafel' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5141,7 +5571,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Olympian falafel' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Olympian falafel' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mediterranean wrap', 'Charbroiled chicken feta cheese greek dressing rice cucumbers olives tomato romaine lettuce and red onion', 8.85 , 68, 58, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Mediterranean wrap', 'Charbroiled chicken feta cheese greek dressing rice cucumbers olives tomato romaine lettuce and red onion', 8.85 
+, 68, 58, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Mediterranean wrap' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5154,7 +5585,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mediterranean wrap' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Mediterranean wrap' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Philly cheesesteak on a wedge', 'Thinly sliced steak grilled onions grilled peppers choice of cheese and mayo or chipotle mayo', 9.25 , 10, 2, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Philly cheesesteak on a wedge', 'Thinly sliced steak grilled onions grilled peppers choice of cheese and mayo or chipotle mayo', 9.25 
+, 10, 2, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Philly cheesesteak on a wedge' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5167,7 +5599,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Philly cheesesteak on a wedge' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Philly cheesesteak on a wedge' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spicy falafel pita', 'Greek falafel hummus hot sauce sliced black olives pickles tomato and red onion vegetarian', 7.75 , 20, 80, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spicy falafel pita', 'Greek falafel hummus hot sauce sliced black olives pickles tomato and red onion vegetarian', 7.75 
+, 20, 80, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Spicy falafel pita' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5180,7 +5613,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spicy falafel pita' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spicy falafel pita' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Swiss alps', 'Grilled chicken grilled ham melted swiss and honey mustard on a warm pita', 8.50 , 3, 19, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Swiss alps', 'Grilled chicken grilled ham melted swiss and honey mustard on a warm pita', 8.50 
+, 3, 19, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Swiss alps' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5193,7 +5627,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Swiss alps' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Swiss alps' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Turkey and cheese', 'Oven roasted turkey lettuce tomato and mayo or mustard with choice of cheese', 7.00 , 72, 82, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Turkey and cheese', 'Oven roasted turkey lettuce tomato and mayo or mustard with choice of cheese', 7.00 
+, 72, 82, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Turkey and cheese' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5206,7 +5641,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Turkey and cheese' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Turkey and cheese' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Turkey club', 'Oven roasted turkey crispy bacon lettuce tomato onion and mayo or mustard', 7.75 , 26, 78, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Turkey club', 'Oven roasted turkey crispy bacon lettuce tomato onion and mayo or mustard', 7.75 
+, 26, 78, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Turkey club' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5219,7 +5655,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Turkey club' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Turkey club' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Veggie', 'Black olives lettuce grilled peppers cucumbers tomato grilled onions mozzarella cheese cheddar cheese and italian dressing vegetarian', 8.00 , 63, 14, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Veggie', 'Black olives lettuce grilled peppers cucumbers tomato grilled onions mozzarella cheese cheddar cheese and italian dressing vegetarian', 8.00 
+, 63, 14, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sandwiches & bread', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sandwiches & bread' and d.name = 'Veggie' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5232,7 +5669,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('chicken', cu
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Veggie' AND i.name = 'chicken' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('mustard', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Veggie' AND i.name = 'mustard' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Gyro dinner platter', 'Served with tzatziki pita and choice of two sides', 19.00 , 94, 65, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Gyro dinner platter', 'Served with tzatziki pita and choice of two sides', 19.00 
+, 94, 65, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('plates & bowls', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'plates & bowls' and d.name = 'Gyro dinner platter' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5241,7 +5679,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Gyro dinner platter' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('corn', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Gyro dinner platter' AND i.name = 'corn' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken souvlaki dinner platter', 'Served with tzatziki pita and choice of two sides', 19.00 , 25, 50, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken souvlaki dinner platter', 'Served with tzatziki pita and choice of two sides', 19.00 
+, 25, 50, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('plates & bowls', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'plates & bowls' and d.name = 'Chicken souvlaki dinner platter' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5250,7 +5689,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken souvlaki dinner platter' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('corn', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken souvlaki dinner platter' AND i.name = 'corn' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pork souvlaki dinner platter', 'Served with tzatziki pita and choice of two sides', 19.00 , 16, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pork souvlaki dinner platter', 'Served with tzatziki pita and choice of two sides', 19.00 
+, 16, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('plates & bowls', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'plates & bowls' and d.name = 'Pork souvlaki dinner platter' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5259,7 +5699,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pork souvlaki dinner platter' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('corn', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pork souvlaki dinner platter' AND i.name = 'corn' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spinach pie platter', 'Served with tzatziki pita and choice of two sides vegetarian', 16.00 , 34, 22, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spinach pie platter', 'Served with tzatziki pita and choice of two sides vegetarian', 16.00 
+, 34, 22, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('plates & bowls', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'plates & bowls' and d.name = 'Spinach pie platter' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5268,7 +5709,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spinach pie platter' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('corn', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spinach pie platter' AND i.name = 'corn' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek falafel dinner platter', 'Served with tzatziki pita and choice of two sides vegetarian', 14.00 , 55, 33, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek falafel dinner platter', 'Served with tzatziki pita and choice of two sides vegetarian', 14.00 
+, 55, 33, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('plates & bowls', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'plates & bowls' and d.name = 'Greek falafel dinner platter' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5277,7 +5719,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek falafel dinner platter' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('corn', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek falafel dinner platter' AND i.name = 'corn' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Gyro and chicken souvlaki dinner platter', 'Served with tzatziki pita and choice of two sides', 19.00 , 73, 47, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Gyro and chicken souvlaki dinner platter', 'Served with tzatziki pita and choice of two sides', 19.00 
+, 73, 47, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('plates & bowls', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'plates & bowls' and d.name = 'Gyro and chicken souvlaki dinner platter' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5286,7 +5729,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Gyro and chicken souvlaki dinner platter' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('corn', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Gyro and chicken souvlaki dinner platter' AND i.name = 'corn' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Lamb souvlaki dinner platter', 'Served with tzatziki pita and choice of two sides', 22.00 , 41, 61, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Lamb souvlaki dinner platter', 'Served with tzatziki pita and choice of two sides', 22.00 
+, 41, 61, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('plates & bowls', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'plates & bowls' and d.name = 'Lamb souvlaki dinner platter' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5295,7 +5739,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Lamb souvlaki dinner platter' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('corn', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Lamb souvlaki dinner platter' AND i.name = 'corn' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Gyro with feta and eggs plate', 'Any time of the day this plate is served with delicious gyro 0 eggs feta tomato and pita', 13.00 , 50, 22, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Gyro with feta and eggs plate', 'Any time of the day this plate is served with delicious gyro 0 eggs feta tomato and pita', 13.00 
+, 50, 22, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('plates & bowls', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'plates & bowls' and d.name = 'Gyro with feta and eggs plate' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5304,7 +5749,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('potatoes', c
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Gyro with feta and eggs plate' AND i.name = 'potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('corn', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Gyro with feta and eggs plate' AND i.name = 'corn' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hamburger', '', 6.50 , 96, 39, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hamburger', '', 6.50 
+, 96, 39, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Hamburger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5317,7 +5763,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hamburger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hamburger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cheeseburger', '', 7.00 , 92, 71, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cheeseburger', '', 7.00 
+, 92, 71, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Cheeseburger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5330,7 +5777,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cheeseburger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cheeseburger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bacon burger', '', 7.00 , 47, 57, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bacon burger', '', 7.00 
+, 47, 57, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Bacon burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5343,7 +5791,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bacon burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bacon burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bacon cheeseburger', '', 7.50 , 56, 70, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bacon cheeseburger', '', 7.50 
+, 56, 70, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Bacon cheeseburger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5356,7 +5805,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bacon cheeseburger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bacon cheeseburger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Brazilian burger', 'Topped with a fried egg grilled ham bacon cheese lettuce tomato onion and mayo', 8.95 , 66, 19, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Brazilian burger', 'Topped with a fried egg grilled ham bacon cheese lettuce tomato onion and mayo', 8.95 
+, 66, 19, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Brazilian burger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5369,7 +5819,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Brazilian burger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Brazilian burger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Philly cheeseburger', 'Topped with grilled onions and peppers melted swiss and mayo', 7.50 , 32, 9, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Philly cheeseburger', 'Topped with grilled onions and peppers melted swiss and mayo', 7.50 
+, 32, 9, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Philly cheeseburger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5382,7 +5833,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Philly cheeseburger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Philly cheeseburger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq bacon onion ring cheeseburger', 'Topped with crispy bacon onion rings melted cheddar and bbq sauce', 7.95 , 33, 67, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bbq bacon onion ring cheeseburger', 'Topped with crispy bacon onion rings melted cheddar and bbq sauce', 7.95 
+, 33, 67, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Bbq bacon onion ring cheeseburger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5395,7 +5847,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq bacon onion ring cheeseburger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bbq bacon onion ring cheeseburger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chipotle cheeseburger', 'Topped with pepper jack cheese jalapeno chipotle mayo lettuce tomato and onions', 7.75 , 39, 59, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chipotle cheeseburger', 'Topped with pepper jack cheese jalapeno chipotle mayo lettuce tomato and onions', 7.75 
+, 39, 59, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Chipotle cheeseburger' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5408,7 +5861,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chipotle cheeseburger' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chipotle cheeseburger' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hot dog', 'Grilled and served plain or with mustard or ketchup', 2.25 , 84, 39, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hot dog', 'Grilled and served plain or with mustard or ketchup', 2.25 
+, 84, 39, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Hot dog' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5421,7 +5875,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hot dog' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hot dog' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bacon cheese dog', 'Grilled and served plain or with mustard or ketchup', 3.25 , 29, 22, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Bacon cheese dog', 'Grilled and served plain or with mustard or ketchup', 3.25 
+, 29, 22, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('burgers & hot dog', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'burgers & hot dog' and d.name = 'Bacon cheese dog' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.allergens (name, created_at, updated_at) VALUES ('meat', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5434,7 +5889,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('beef', curre
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bacon cheese dog' AND i.name = 'beef' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('onion', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Bacon cheese dog' AND i.name = 'onion' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fries', 'Vegetarian', 3.00 , 41, 9, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fries', 'Vegetarian', 3.00 
+, 41, 9, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Fries' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5445,7 +5901,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fries' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fries' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Onion rings', '', 4.25 , 87, 17, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Onion rings', '', 4.25 
+, 87, 17, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Onion rings' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5456,7 +5913,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Onion rings' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Onion rings' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pita bread', '', 1.00 , 9, 88, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Pita bread', '', 1.00 
+, 9, 88, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Pita bread' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5467,7 +5925,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pita bread' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Pita bread' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Soup', '', 3.50 , 55, 50, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Soup', '', 3.50 
+, 55, 50, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Soup' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5478,7 +5937,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Soup' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Soup' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Extra dressing', '', 1.00 , 86, 87, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Extra dressing', '', 1.00 
+, 86, 87, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Extra dressing' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5489,7 +5949,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Extra dressing' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Extra dressing' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Rice pilaf', '', 3.50 , 68, 28, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Rice pilaf', '', 3.50 
+, 68, 28, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Rice pilaf' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5500,7 +5961,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Rice pilaf' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Rice pilaf' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Gyro by the pound', '', 10.00 , 84, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Gyro by the pound', '', 10.00 
+, 84, 48, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Gyro by the pound' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5511,7 +5973,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Gyro by the pound' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Gyro by the pound' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Feta fries', 'Golden fries topped with crumbled feta and greek spices and a squeeze of lemon', 4.50 , 52, 37, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Feta fries', 'Golden fries topped with crumbled feta and greek spices and a squeeze of lemon', 4.50 
+, 52, 37, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Feta fries' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5522,7 +5985,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Feta fries' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Feta fries' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Sweet potato fries', 'Vegetarian', 3.50 , 29, 34, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Sweet potato fries', 'Vegetarian', 3.50 
+, 29, 34, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Sweet potato fries' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5533,7 +5997,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Sweet potato fries' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Sweet potato fries' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Falafel patty', '', 1.00 , 9, 56, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Falafel patty', '', 1.00 
+, 9, 56, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Falafel patty' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5544,7 +6009,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Falafel patty' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Falafel patty' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken tenders', 'Four pieces', 6.95 , 81, 54, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken tenders', 'Four pieces', 6.95 
+, 81, 54, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Chicken tenders' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5555,7 +6021,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken tenders' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken tenders' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Tzatziki souffle cup', 'Vegetarian', 1.00 , 50, 40, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Tzatziki souffle cup', 'Vegetarian', 1.00 
+, 50, 40, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Tzatziki souffle cup' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5566,7 +6033,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Tzatziki souffle cup' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Tzatziki souffle cup' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Oven roasted lemon potatoes', 'Vegetarian', 4.00 , 11, 86, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Oven roasted lemon potatoes', 'Vegetarian', 4.00 
+, 11, 86, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Oven roasted lemon potatoes' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5577,7 +6045,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Oven roasted lemon potatoes' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Oven roasted lemon potatoes' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Souvlaki skewer', '', 3.50 , 59, 16, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Souvlaki skewer', '', 3.50 
+, 59, 16, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Souvlaki skewer' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5588,7 +6057,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Souvlaki skewer' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Souvlaki skewer' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hummus', 'Vegetarian', 1.00 , 28, 29, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hummus', 'Vegetarian', 1.00 
+, 28, 29, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('sides', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'sides' and d.name = 'Hummus' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5599,7 +6069,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hummus' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hummus' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cinnamon sugar pita chips', 'Golden crisp pita chips sprinkled with cinnamon and sugar', 3.50 , 1, 61, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Cinnamon sugar pita chips', 'Golden crisp pita chips sprinkled with cinnamon and sugar', 3.50 
+, 1, 61, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Cinnamon sugar pita chips' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5610,7 +6081,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cinnamon sugar pita chips' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Cinnamon sugar pita chips' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Niko s rice pudding', 'Rice pudding dusted with cinnamon', 3.50 , 96, 82, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Niko s rice pudding', 'Rice pudding dusted with cinnamon', 3.50 
+, 96, 82, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Niko s rice pudding' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5621,7 +6093,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Niko s rice pudding' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Niko s rice pudding' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Grilled nutella pita', 'Warm baked pita triangles served with a creamy hazelnut spread then dusted with powdered sugar', 4.95 , 39, 3, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Grilled nutella pita', 'Warm baked pita triangles served with a creamy hazelnut spread then dusted with powdered sugar', 4.95 
+, 39, 3, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Grilled nutella pita' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5632,7 +6105,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Grilled nutella pita' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Grilled nutella pita' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Baklava', '', 3.50 , 9, 2, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Baklava', '', 3.50 
+, 9, 2, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('desserts', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'desserts' and d.name = 'Baklava' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5643,7 +6117,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Baklava' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Baklava' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chef cocktail', 'Served with avocado kiwi mango strawberry pineapple banana and honey', 4.99 , 47, 91, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chef cocktail', 'Served with avocado kiwi mango strawberry pineapple banana and honey', 4.99 
+, 47, 91, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Chef cocktail' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5654,7 +6129,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chef cocktail' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chef cocktail' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Milk smoothy', 'Served with strawberry and banana', 4.99 , 64, 85, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Milk smoothy', 'Served with strawberry and banana', 4.99 
+, 64, 85, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Milk smoothy' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5665,7 +6141,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Milk smoothy' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Milk smoothy' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Carrot juice', '', 4.99 , 100, 81, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Carrot juice', '', 4.99 
+, 100, 81, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Carrot juice' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5676,7 +6153,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Carrot juice' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Carrot juice' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Carrot mix', 'Served with orange apple and carrot', 4.99 , 68, 80, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Carrot mix', 'Served with orange apple and carrot', 4.99 
+, 68, 80, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Carrot mix' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5687,7 +6165,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Carrot mix' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Carrot mix' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Super health cocktail', 'Served with carrot spinach beet celery and parsley', 4.99 , 17, 88, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Super health cocktail', 'Served with carrot spinach beet celery and parsley', 4.99 
+, 17, 88, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Super health cocktail' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5698,7 +6177,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Super health cocktail' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Super health cocktail' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Iced tea', 'Served with lemonade', 4.99 , 78, 63, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Iced tea', 'Served with lemonade', 4.99 
+, 78, 63, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Iced tea' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5709,7 +6189,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Iced tea' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Iced tea' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Lemonade', '', 4.99 , 49, 94, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Lemonade', '', 4.99 
+, 49, 94, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Lemonade' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5720,7 +6201,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Lemonade' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Lemonade' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Lemonade power cocktail', 'Served with yogurt cucumbers garlic and mint', 4.99 , 82, 29, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Lemonade power cocktail', 'Served with yogurt cucumbers garlic and mint', 4.99 
+, 82, 29, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Lemonade power cocktail' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5731,7 +6213,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Lemonade power cocktail' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Lemonade power cocktail' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Coffee', '', 1.50 , 21, 24, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Coffee', '', 1.50 
+, 21, 24, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Coffee' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5742,7 +6225,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Coffee' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Coffee' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hot tea', '', 1.50 , 26, 72, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hot tea', '', 1.50 
+, 26, 72, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Hot tea' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5753,7 +6237,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hot tea' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hot tea' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Iced tea', '', 1.50 , 22, 84, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Iced tea', '', 1.50 
+, 22, 84, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Iced tea' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5764,7 +6249,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Iced tea' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Iced tea' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Milk', '', 1.50 , 99, 39, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Milk', '', 1.50 
+, 99, 39, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Milk' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5775,7 +6261,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Milk' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Milk' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Soft drink', '', 1.25 , 100, 85, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Soft drink', '', 1.25 
+, 100, 85, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Soft drink' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5786,7 +6273,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Soft drink' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Soft drink' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Arabic tea', '', 1.99 , 47, 5, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Arabic tea', '', 1.99 
+, 47, 5, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Arabic tea' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5797,7 +6285,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Arabic tea' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Arabic tea' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Turkish coffee pot', '', 3.99 , 10, 87, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Turkish coffee pot', '', 3.99 
+, 10, 87, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('drinks', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'drinks' and d.name = 'Turkish coffee pot' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5808,7 +6297,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Turkish coffee pot' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Turkish coffee pot' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hannah hommous with pine nuts', '', 7.99 , 64, 65, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hannah hommous with pine nuts', '', 7.99 
+, 64, 65, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Hannah hommous with pine nuts' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5817,7 +6307,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hannah hommous with pine nuts' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hannah hommous with pine nuts' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hommous', 'Chick peas with tahini sauce', 5.99 , 53, 22, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Hommous', 'Chick peas with tahini sauce', 5.99 
+, 53, 22, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Hommous' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5826,7 +6317,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hommous' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Hommous' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Baba ghanouge', 'Eggplant mashed with a blend of tahini sauce', 6.79 , 87, 73, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Baba ghanouge', 'Eggplant mashed with a blend of tahini sauce', 6.79 
+, 87, 73, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Baba ghanouge' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5835,7 +6327,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Baba ghanouge' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Baba ghanouge' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spinach pie', '', 5.99 , 50, 33, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spinach pie', '', 5.99 
+, 50, 33, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Spinach pie' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5844,7 +6337,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spinach pie' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spinach pie' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Meat pie', '', 5.99 , 23, 5, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Meat pie', '', 5.99 
+, 23, 5, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Meat pie' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5853,7 +6347,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Meat pie' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Meat pie' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fried kibbe', 'Sauteed lamb and onions stuffed into hand shaped balls of meat and cracked wheat', 7.95 , 77, 44, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fried kibbe', 'Sauteed lamb and onions stuffed into hand shaped balls of meat and cracked wheat', 7.95 
+, 77, 44, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Fried kibbe' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5862,7 +6357,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fried kibbe' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fried kibbe' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('House maza', 'Combination of tabbouli hommous baba ghounouge grape leaves falafel and vegetables', 12.99 , 73, 28, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('House maza', 'Combination of tabbouli hommous baba ghounouge grape leaves falafel and vegetables', 12.99 
+, 73, 28, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'House maza' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5871,7 +6367,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'House maza' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'House maza' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Raw kibbe', 'Lean ground lamb mixed with cracked wheat', 11.99 , 38, 52, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Raw kibbe', 'Lean ground lamb mixed with cracked wheat', 11.99 
+, 38, 52, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('appetizers & entrees', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'appetizers & entrees' and d.name = 'Raw kibbe' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('eggs', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5880,7 +6377,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Raw kibbe' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('3', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Raw kibbe' AND i.name = '3' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Lentil soup', '', 3.99 , 70, 70, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Lentil soup', '', 3.99 
+, 70, 70, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('soups', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'soups' and d.name = 'Lentil soup' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5891,7 +6389,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Lentil soup' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Lentil soup' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken lemon soup', '', 3.99 , 14, 58, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chicken lemon soup', '', 3.99 
+, 14, 58, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('soups', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'soups' and d.name = 'Chicken lemon soup' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5902,7 +6401,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken lemon soup' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chicken lemon soup' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fattoush salad', 'A blend of vegetable mixed with toasted pita bread', 5.99 , 16, 67, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Fattoush salad', 'A blend of vegetable mixed with toasted pita bread', 5.99 
+, 16, 67, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Fattoush salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5913,7 +6413,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fattoush salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Fattoush salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Tabbouli salad', 'Parsley tomatoes green onions and cracked wheat', 5.99 , 91, 76, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Tabbouli salad', 'Parsley tomatoes green onions and cracked wheat', 5.99 
+, 91, 76, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Tabbouli salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5924,7 +6425,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Tabbouli salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Tabbouli salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek salad', '', 7.99 , 7, 8, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Greek salad', '', 7.99 
+, 7, 8, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Greek salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5935,7 +6437,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Greek salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spinach salad', 'Spinach with chopped tomatoes and onions', 7.99 , 60, 82, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Spinach salad', 'Spinach with chopped tomatoes and onions', 7.99 
+, 60, 82, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Spinach salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5946,7 +6449,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spinach salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Spinach salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Yogurt salad', 'A blend of yogurt and cucumbers with a touch of garlic and mint', 5.99 , 45, 16, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Yogurt salad', 'A blend of yogurt and cucumbers with a touch of garlic and mint', 5.99 
+, 45, 16, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Yogurt salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5957,7 +6461,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Yogurt salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Yogurt salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chef salad', 'Cucumbers with onions green pepper parsley and tomatoes', 7.99 , 49, 26, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Chef salad', 'Cucumbers with onions green pepper parsley and tomatoes', 7.99 
+, 49, 26, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Chef salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
@@ -5968,7 +6473,8 @@ INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient',
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chef salad' AND i.name = 'ingredient' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('2', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_ingredients (dish_id, ingredient_id) SELECT d.id, i.id FROM tfm.dishes d, tfm.ingredients i WHERE d.name = 'Chef salad' AND i.name = '2' ON CONFLICT DO NOTHING;
-INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Rice almond salad', 'A fresh salad with rice pilaf and toasted silver almonds', 7.99 , 60, 34, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
+INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Rice almond salad', 'A fresh salad with rice pilaf and toasted silver almonds', 7.99 
+, 60, 34, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.categories (name, created_at, updated_at) VALUES ('salads', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
 INSERT INTO tfm.dish_categories (dish_id, category_id) SELECT d.id, c.id FROM tfm.categories c, tfm.dishes d WHERE c.name = 'salads' and d.name = 'Rice almond salad' ON CONFLICT DO NOTHING;
 INSERT INTO tfm.ingredients (name, created_at, updated_at) VALUES ('ingredient', current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;

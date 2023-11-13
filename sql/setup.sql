@@ -5,3 +5,5 @@ grant connect on database tfm to tfm;
 drop schema tfm;
 create schema tfm;
 alter schema tfm owner to tfm;
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
