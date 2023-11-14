@@ -2,6 +2,7 @@ package orm
 
 import (
 	"errors"
+	"fmt"
 	"tfm_backend/models"
 
 	"gorm.io/gorm"
@@ -34,9 +35,16 @@ func (d *Database) UserDetails(userId uint64) (models.User, error) {
 	return user, err
 }
 
-func (d *Database) UserList(limit uint64, offset uint64) ([]models.User, error) {
+func (d *Database) UserList(searchTerm string, limit uint64, offset uint64) ([]models.User, error) {
 	var users []models.User
-	err := d.db.Order("is_admin DESC, name, email").Limit(int(limit)).Offset(int(offset)).Find(&users).Error
+
+	scope := d.db
+	if len(searchTerm) > 0 {
+		filter := fmt.Sprintf(`%%%s%%`, searchTerm)
+		scope = scope.Where("name ILIKE ? OR surname ILIKE ? OR email ILIKE ?", filter, filter, filter)
+	}
+
+	err := scope.Order("is_admin DESC, name, email").Limit(int(limit)).Offset(int(offset)).Find(&users).Error
 	return users, err
 }
 

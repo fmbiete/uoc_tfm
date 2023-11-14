@@ -81,7 +81,9 @@ func (s *Server) UserDetails(c echo.Context) error {
 func (s *Server) UserList(c echo.Context) error {
 	limit, page, offset := parsePagination(c)
 
-	users, err := s.db.UserList(limit, offset)
+	searchTerm := c.QueryParam("searchTerm")
+
+	users, err := s.db.UserList(searchTerm, limit, offset)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to list users")
 		return err
