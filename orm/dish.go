@@ -181,18 +181,38 @@ func (d *Database) DishList(searchTerm string, limit uint64, offset uint64) ([]m
 }
 
 func (d *Database) DishModify(dish models.Dish) (models.Dish, error) {
-	// replace alergenos and ingredientes - Update adds new records, but doesn't delete old ones
-	alergenos := dish.Allergens
-	d.db.Unscoped().Model(&dish).Association("Allergens").Unscoped().Clear()
-	dish.Allergens = alergenos
+	var err error
 
-	ingredientes := dish.Ingredients
-	d.db.Unscoped().Model(&dish).Association("Ingredients").Unscoped().Clear()
-	dish.Ingredients = ingredientes
+	tx := d.db.Begin()
+	defer tx.Rollback()
 
-	err := d.db.Updates(&dish).Error
+	// replace allergens and ingredients - Update adds new records, but doesn't delete old ones
+	err = tx.Model(&dish).Association("Allergens").Replace(dish.Allergens)
+	if err != nil {
+		log.Error().Err(err).Interface("dish", dish).Msg("Failed to replace dish allergens")
+		return dish, err
+	}
+
+	err = tx.Model(&dish).Association("Ingredients").Replace(dish.Ingredients)
+	if err != nil {
+		log.Error().Err(err).Interface("dish", dish).Msg("Failed to replace dish ingredients")
+		return dish, err
+	}
+
+	err = tx.Model(&dish).Association("Categories").Replace(dish.Categories)
+	if err != nil {
+		log.Error().Err(err).Interface("dish", dish).Msg("Failed to replace dish categories")
+		return dish, err
+	}
+
+	err = tx.Updates(&dish).Error
 	if err != nil {
 		return dish, err
+	}
+
+	err = tx.Commit().Error
+	if err != nil {
+		log.Error().Err(err).Interface("dish", dish).Msg("Failed to commit modify dish")
 	}
 
 	return d.DishDetails(uint64(dish.ID))
