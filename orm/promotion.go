@@ -41,7 +41,9 @@ func (d *Database) PromotionList(activeOnly bool, limit uint64, offset uint64) (
 	if activeOnly {
 		scope = scope.Where("? BETWEEN start_time AND end_time", time.Now())
 	}
-	err := scope.Preload("Dish").Joins("LEFT JOIN dishes ON promotions.dish_id = dishes.id").Order("start_time DESC").Limit(int(limit)).Offset(int(offset)).Find(&promotions).Error
+	err := scope.Preload("Dish").Joins("LEFT JOIN dishes ON promotions.dish_id = dishes.id").
+		Preload("Dish.Allergens").
+		Order("start_time DESC").Limit(int(limit)).Offset(int(offset)).Find(&promotions).Error
 	return promotions, err
 }
 
