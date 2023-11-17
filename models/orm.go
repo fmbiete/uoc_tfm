@@ -98,6 +98,7 @@ type Order struct {
 	BaseModel
 	OrderLines []OrderLine
 	UserID     uint64  // FK - Order belongs to User
+	User       User    // For preload joins, not reflected in model
 	CostTotal  float64 `gorm:"scale:2"`
 	CostToPay  float64 `gorm:"scale:2"` // FK - cost to pay after subvention
 	Delivery   time.Time
