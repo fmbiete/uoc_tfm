@@ -41,7 +41,7 @@ func (s *Server) Login(c echo.Context) error {
 }
 
 // Assert that the JWT token is from a restaurador user
-func requiresRestaurador(next echo.HandlerFunc) echo.HandlerFunc {
+func requiresAdministrator(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		user := c.Get("user").(*jwt.Token)
 		claims := user.Claims.(jwt.MapClaims)
@@ -57,7 +57,7 @@ func authenticated(c echo.Context) bool {
 	return c.Get("user") != nil
 }
 
-func authenticatedIsRestaurador(c echo.Context) bool {
+func authenticatedIsAdministrator(c echo.Context) bool {
 	user := c.Get("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
 	return claims["restaurador"].(bool)

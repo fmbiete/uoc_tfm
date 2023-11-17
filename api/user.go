@@ -33,7 +33,7 @@ func (s *Server) UserDelete(c echo.Context) error {
 	var userId = authenticatedUserId(c)
 	var err error
 
-	if authenticatedIsRestaurador(c) {
+	if authenticatedIsAdministrator(c) {
 		// Only a restaurador can delete other users
 		userId, err = strconv.ParseUint(c.Param("id"), 10, 64)
 		if err != nil {
@@ -60,7 +60,7 @@ func (s *Server) UserDetails(c echo.Context) error {
 	var userId = authenticatedUserId(c)
 	var err error
 
-	if authenticatedIsRestaurador(c) {
+	if authenticatedIsAdministrator(c) {
 		// Only a restaurador can read other users
 		userId, err = strconv.ParseUint(c.Param("id"), 10, 64)
 		if err != nil {
@@ -111,7 +111,7 @@ func (s *Server) UserModify(c echo.Context) error {
 	}
 	user.ID = userId
 
-	if authenticatedIsRestaurador(c) {
+	if authenticatedIsAdministrator(c) {
 		// An administrator cannot remove its own admin access (mistake protection)
 		if authUserId == userId && !user.IsAdmin {
 			log.Warn().Uint64("authUserId", authUserId).Msg(`An Admin cannot remove its own admin access, ask another admin`)

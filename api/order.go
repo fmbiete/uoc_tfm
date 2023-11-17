@@ -61,7 +61,7 @@ func (s *Server) OrderDetails(c echo.Context) error {
 
 func (s *Server) OrderList(c echo.Context) error {
 	var userId int64 = int64(authenticatedUserId(c))
-	if authenticatedIsRestaurador(c) {
+	if authenticatedIsAdministrator(c) {
 		userId = -1
 	}
 
