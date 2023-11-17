@@ -8,6 +8,16 @@ import (
 	"gorm.io/gorm"
 )
 
+func (d *Database) PromotionCount(activeOnly bool) (int64, error) {
+	var count int64
+	scope := d.db.Model(&models.Promotion{})
+	if activeOnly {
+		scope = scope.Where("? BETWEEN start_time AND end_time", time.Now())
+	}
+	err := scope.Count(&count).Error
+	return count, err
+}
+
 func (d *Database) PromotionCreate(promotion models.Promotion) (models.Promotion, error) {
 	// don't allow 2 overlapping promotions for the same dish
 	err := d.db.Where("dish_id = ? and (? between start_time and end_time or ? between start_time and end_time)",

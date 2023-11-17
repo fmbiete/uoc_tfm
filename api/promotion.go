@@ -9,6 +9,18 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+func (s *Server) PromotionCount(c echo.Context) error {
+	activeOnly, _ := strconv.ParseBool(c.QueryParam("activeOnly"))
+
+	count, err := s.db.PromotionCount(activeOnly)
+	if err != nil {
+		log.Error().Err(err).Msg("Failed to count promotiones")
+		return err
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{"count": count})
+}
+
 func (s *Server) PromotionCreate(c echo.Context) error {
 	var promotion models.Promotion
 	err := c.Bind(&promotion)

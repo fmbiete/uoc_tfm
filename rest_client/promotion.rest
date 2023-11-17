@@ -16,6 +16,12 @@ GET http://localhost:8080/promotions?limit=10&page=1
 Content-Type: application/json
 
 
+### Promotions Count (requires login)
+GET http://localhost:8080/promotions/count?activeOnly=true
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+
 ### Promotions Delete (requires login)
 DELETE http://localhost:8080/promotion/{{promotionid}}
 Authorization: Bearer {{token}}

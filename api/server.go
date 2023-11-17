@@ -133,6 +133,7 @@ func (s *Server) Listen() error {
 	gPromotions.PATCH("/:id", s.PromotionModify, s.requiresLogin, requiresRestaurador)
 	gPromotions.DELETE("/:id", s.PromotionDelete, s.requiresLogin, requiresRestaurador)
 	s.e.GET("/promotions", s.PromotionList)
+	s.e.GET("/promotions/count", s.PromotionCount, s.requiresLogin, requiresRestaurador)
 
 	// Orders API
 	gOrders := s.e.Group("/order")
