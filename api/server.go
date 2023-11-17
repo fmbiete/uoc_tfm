@@ -140,11 +140,12 @@ func (s *Server) Listen() error {
 	gOrders.GET("/subvention", s.OrderSubvention, s.requiresLogin)
 	gOrders.POST("/", s.OrderCreate, s.requiresLogin)
 	gOrders.GET("/:id", s.OrderDetails, s.requiresLogin)
-	gOrders.DELETE("/:id", s.OrderCancel, s.requiresLogin)
+	gOrders.DELETE("/:id", s.OrderDelete, s.requiresLogin)
 	gOrders.POST("/:id/line/", s.OrderLineCreate, s.requiresLogin)
 	gOrders.PATCH("/:id/line/:lineid", s.OrderLineModify, s.requiresLogin)
 	gOrders.DELETE("/:id/line/:lineid", s.OrderLineDelete, s.requiresLogin)
 	s.e.GET("/orders", s.OrderList, s.requiresLogin)
+	s.e.GET("/orders/count", s.OrderCount, s.requiresLogin, requiresAdministrator)
 
 	return s.e.Start(fmt.Sprintf(`:%d`, s.cfg.Port))
 }

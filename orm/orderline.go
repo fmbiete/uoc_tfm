@@ -10,13 +10,19 @@ import (
 
 const errMsgTxCommit string = "Failed to commit changes to database for order conversion"
 
-func (d *Database) OrderLineCreate(orderId uint64, lineOrder models.OrderLine) (models.Order, error) {
+func (d *Database) OrderLineCreate(userId uint64, orderId uint64, lineOrder models.OrderLine) (models.Order, error) {
 	var err error
+
+	// Only the owner of the order can add lines to it
+	canProceed, err := d.orderOwnedByUser(userId, orderId)
+	if !canProceed {
+		return models.Order{}, err
+	}
 
 	// Changes must be done before kitchen starts preparing the food
 	err = d.configChangesAllowed()
 	if err != nil {
-		return d.OrderDetails(orderId)
+		return d.OrderDetails(int64(userId), orderId)
 	}
 
 	lineOrder.OrderID = orderId
@@ -26,7 +32,7 @@ func (d *Database) OrderLineCreate(orderId uint64, lineOrder models.OrderLine) (
 	err = d.db.Select("name").First(&dish, lineOrder.DishID).Error
 	if err != nil {
 		log.Error().Err(err).Interface("line", lineOrder).Msg("Failed to read dish from cart line")
-		return d.OrderDetails(orderId)
+		return d.OrderDetails(int64(userId), orderId)
 	}
 	lineOrder.Name = dish.Name
 
@@ -34,7 +40,7 @@ func (d *Database) OrderLineCreate(orderId uint64, lineOrder models.OrderLine) (
 	costUnit, err = d.dishCurrentCost(lineOrder.DishID)
 	if err != nil {
 		log.Error().Err(err).Uint64("dishId", lineOrder.DishID).Msg("Failed to read cost from dish")
-		return d.OrderDetails(orderId)
+		return d.OrderDetails(int64(userId), orderId)
 	}
 	lineOrder.CostUnit = costUnit
 
@@ -48,14 +54,14 @@ func (d *Database) OrderLineCreate(orderId uint64, lineOrder models.OrderLine) (
 			log.Error().Err(err).Interface("line", lineOrder).Msg("Failed to save line order")
 			// explicit rollback - we will call a non-tx function
 			tx.Rollback()
-			return d.OrderDetails(orderId)
+			return d.OrderDetails(int64(userId), orderId)
 		}
 
 		err = d.orderUpdateCost(tx, orderId)
 		if err != nil {
 			// explicit rollback - we will call a non-tx function
 			tx.Rollback()
-			return d.OrderDetails(orderId)
+			return d.OrderDetails(int64(userId), orderId)
 		}
 
 		err = tx.Commit().Error
@@ -63,20 +69,26 @@ func (d *Database) OrderLineCreate(orderId uint64, lineOrder models.OrderLine) (
 			log.Error().Err(err).Uint64("orderId", orderId).Msg(errMsgTxCommit)
 			// explicit rollback - we will call a non-tx function
 			tx.Rollback()
-			return d.OrderDetails(orderId)
+			return d.OrderDetails(int64(userId), orderId)
 		}
 	}
 
-	return d.OrderDetails(orderId)
+	return d.OrderDetails(int64(userId), orderId)
 }
 
-func (d *Database) OrderLineDelete(orderId uint64, lineId uint64) (models.Order, error) {
+func (d *Database) OrderLineDelete(userId uint64, orderId uint64, lineId uint64) (models.Order, error) {
 	var err error
+
+	// Only the owner of the order can delete lines to it
+	canProceed, err := d.orderOwnedByUser(userId, orderId)
+	if !canProceed {
+		return models.Order{}, err
+	}
 
 	// Changes must be done before kitchen starts preparing the food
 	err = d.configChangesAllowed()
 	if err != nil {
-		return d.OrderDetails(orderId)
+		return d.OrderDetails(int64(userId), orderId)
 	}
 
 	// transaction block
@@ -89,14 +101,14 @@ func (d *Database) OrderLineDelete(orderId uint64, lineId uint64) (models.Order,
 			log.Error().Err(err).Uint64("lineId", lineId).Msg("Failed to delete line order")
 			// explicit rollback - we will call a non-tx function
 			tx.Rollback()
-			return d.OrderDetails(orderId)
+			return d.OrderDetails(int64(userId), orderId)
 		}
 
 		err = d.orderUpdateCost(tx, orderId)
 		if err != nil {
 			// explicit rollback - we will call a non-tx function
 			tx.Rollback()
-			return d.OrderDetails(orderId)
+			return d.OrderDetails(int64(userId), orderId)
 		}
 
 		err = tx.Commit().Error
@@ -104,20 +116,26 @@ func (d *Database) OrderLineDelete(orderId uint64, lineId uint64) (models.Order,
 			log.Error().Err(err).Uint64("orderId", orderId).Msg(errMsgTxCommit)
 			// explicit rollback - we will call a non-tx function
 			tx.Rollback()
-			return d.OrderDetails(orderId)
+			return d.OrderDetails(int64(userId), orderId)
 		}
 	}
 
-	return d.OrderDetails(orderId)
+	return d.OrderDetails(int64(userId), orderId)
 }
 
-func (d *Database) OrderLineModify(line models.OrderLine) (models.Order, error) {
+func (d *Database) OrderLineModify(userId uint64, line models.OrderLine) (models.Order, error) {
 	var err error
+
+	// Only the owner of the order can add lines to it
+	canProceed, err := d.orderOwnedByUser(userId, line.OrderID)
+	if !canProceed {
+		return models.Order{}, err
+	}
 
 	// Changes must be done before kitchen starts preparing the food
 	err = d.configChangesAllowed()
 	if err != nil {
-		return d.OrderDetails(line.OrderID)
+		return d.OrderDetails(int64(userId), line.OrderID)
 	}
 
 	// transaction block
@@ -131,7 +149,7 @@ func (d *Database) OrderLineModify(line models.OrderLine) (models.Order, error) 
 			log.Error().Err(err).Interface("line", line).Msg("Failed to save order line")
 			// explicit rollback - we will call a non-tx function
 			tx.Rollback()
-			return d.OrderDetails(line.OrderID)
+			return d.OrderDetails(int64(userId), line.OrderID)
 		}
 
 		// use save to update or create line as required
@@ -139,7 +157,7 @@ func (d *Database) OrderLineModify(line models.OrderLine) (models.Order, error) 
 		if err != nil {
 			// explicit rollback - we will call a non-tx function
 			tx.Rollback()
-			return d.OrderDetails(line.OrderID)
+			return d.OrderDetails(int64(userId), line.OrderID)
 		}
 
 		err = tx.Commit().Error
@@ -147,11 +165,11 @@ func (d *Database) OrderLineModify(line models.OrderLine) (models.Order, error) 
 			log.Error().Err(err).Uint64("orderId", line.OrderID).Msg(errMsgTxCommit)
 			// explicit rollback - we will call a non-tx function
 			tx.Rollback()
-			return d.OrderDetails(line.OrderID)
+			return d.OrderDetails(int64(userId), line.OrderID)
 		}
 	}
 
-	return d.OrderDetails(line.OrderID)
+	return d.OrderDetails(int64(userId), line.OrderID)
 }
 
 func (d *Database) orderUpdateCost(tx *gorm.DB, orderId uint64) error {

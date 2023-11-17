@@ -4,19 +4,44 @@ import (
 	"net/http"
 	"strconv"
 	"tfm_backend/models"
+	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog/log"
 )
 
-func (s *Server) OrderCancel(c echo.Context) error {
+func (s *Server) OrderCount(c echo.Context) error {
+	fromDate, err := time.Parse("2006-01-02", c.QueryParam("from"))
+	if err != nil {
+		log.Error().Err(err).Str("from", c.QueryParam("from")).Msg("Failed to convert to date")
+		return c.NoContent(http.StatusBadRequest)
+	}
+	toDate, err := time.Parse("2006-01-02", c.QueryParam("to"))
+	if err != nil {
+		log.Error().Err(err).Str("to", c.QueryParam("to")).Msg("Failed to convert to date")
+		return c.NoContent(http.StatusBadRequest)
+	}
+
+	counts, err := s.db.OrderCount(fromDate, toDate)
+	if err != nil {
+		log.Error().Err(err).Msg("Failed to count Order")
+		return err
+	}
+
+	return c.JSON(http.StatusOK, counts)
+}
+
+func (s *Server) OrderDelete(c echo.Context) error {
 	orderId, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
 		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
 		return c.NoContent(http.StatusBadRequest)
 	}
 
-	err = s.db.OrderDelete(orderId)
+	var userId = authenticatedUserId(c)
+
+	// Only the owner of the Order can delete it
+	err = s.db.OrderDelete(userId, orderId)
 	if err != nil {
 		log.Error().Err(err).Uint64("id", orderId).Msg("Failed to delete order")
 		return err
@@ -50,7 +75,14 @@ func (s *Server) OrderDetails(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	order, err := s.db.OrderDetails(orderId)
+	var userId int64 = int64(authenticatedUserId(c))
+	if authenticatedIsAdministrator(c) {
+		userId = -1
+	}
+
+	// Only the owner of the Order or an Administrator can see details
+
+	order, err := s.db.OrderDetails(userId, orderId)
 	if err != nil {
 		log.Error().Err(err).Uint64("id", orderId).Msg("Failed to read order")
 		return err
@@ -93,7 +125,10 @@ func (s *Server) OrderLineCreate(c echo.Context) error {
 	}
 	line.OrderID = orderId
 
-	order, err := s.db.OrderLineCreate(orderId, line)
+	// Only the owner of the Order can add lines
+	var userId = authenticatedUserId(c)
+
+	order, err := s.db.OrderLineCreate(userId, orderId, line)
 	if err != nil {
 		log.Error().Err(err).Interface("order", order).Msg("Failed to create order line")
 		return err
@@ -115,7 +150,10 @@ func (s *Server) OrderLineDelete(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	order, err := s.db.OrderLineDelete(orderId, lineId)
+	var userId = authenticatedUserId(c)
+
+	// Only the owner of the Order can delete lines
+	order, err := s.db.OrderLineDelete(userId, orderId, lineId)
 	if err != nil {
 		log.Error().Err(err).Interface("order", order).Msg("Failed to delete order line")
 		return err
@@ -146,7 +184,10 @@ func (s *Server) OrderLineModify(c echo.Context) error {
 	line.OrderID = orderId
 	line.ID = lineId
 
-	order, err := s.db.OrderLineModify(line)
+	var userId = authenticatedUserId(c)
+
+	// Only the owner of the Order can modify lines
+	order, err := s.db.OrderLineModify(userId, line)
 	if err != nil {
 		log.Error().Err(err).Interface("order", order).Msg("Failed to modify order line")
 		return err

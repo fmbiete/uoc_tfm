@@ -9,6 +9,14 @@ import (
 	"gorm.io/gorm"
 )
 
+func (d *Database) OrderCount(fromDate time.Time, toDate time.Time) ([]models.CountOrders, error) {
+	var counts []models.CountOrders
+	var err error = d.db.Model(&models.Order{}).Select("TO_CHAR(created_at::date, 'yyyy-mm-dd') AS day, count(*)").
+		Where("created_at::date >= ? AND created_at::date <= ?", fromDate, toDate).
+		Group("created_at::date").Order("created_at::date DESC").Find(&counts).Error
+	return counts, err
+}
+
 func (d *Database) OrderCreate(order models.Order) (models.Order, error) {
 	var err error
 
@@ -72,13 +80,33 @@ func (d *Database) OrderCreate(order models.Order) (models.Order, error) {
 	return order, err
 }
 
-func (d *Database) OrderDelete(orderId uint64) error {
-	return d.db.Delete(&models.Order{}, orderId).Error
+func (d *Database) OrderDelete(userId uint64, orderId uint64) error {
+	// Only the owner of the order can delete it
+	canProceed, err := d.orderOwnedByUser(userId, orderId)
+	if canProceed {
+		return d.db.Delete(&models.Order{}, orderId).Error
+	}
+
+	return err
 }
 
-func (d *Database) OrderDetails(orderId uint64) (models.Order, error) {
+func (d *Database) OrderDetails(userId int64, orderId uint64) (models.Order, error) {
+	var err error
+	var canProceed bool
 	var order models.Order
-	err := d.db.Preload("OrderLines", func(db *gorm.DB) *gorm.DB {
+
+	// Only the owner of the order or an administrator can see it
+	if userId == -1 {
+		canProceed = true
+	} else {
+		canProceed, err = d.orderOwnedByUser(uint64(userId), orderId)
+	}
+
+	if !canProceed {
+		return order, err
+	}
+
+	err = d.db.Preload("OrderLines", func(db *gorm.DB) *gorm.DB {
 		return db.Order("order_lines.name")
 	}).First(&order, orderId).Error
 	return order, err
@@ -158,4 +186,18 @@ func (d *Database) orderCalculateSubvention(userId uint64) (float64, error) {
 	}
 
 	return subvention, err
+}
+
+func (d *Database) orderOwnedByUser(userId uint64, orderId uint64) (bool, error) {
+	var err error = d.db.Where("user_id = ? AND id = ?", userId, orderId).First(&models.Order{}).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return false, errors.New("Order doesn't belong to this User")
+		} else {
+			log.Error().Err(err).Uint64("userId", userId).Uint64("orderId", orderId).Msg("Failed to check if order belongs to user")
+			return false, err
+		}
+	}
+
+	return true, nil
 }

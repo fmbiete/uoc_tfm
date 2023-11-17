@@ -15,6 +15,12 @@ Content-Type: application/json
 { "orderLines": [{ "dishId": 1, "quantity": 1 }, { "dishId": 2, "quantity": 2 }] }
 
 
+### Orders Count
+GET http://localhost:8080/orders/count?from=2023-10-01&to=2023-12-01
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+
 ### Orders List
 GET http://localhost:8080/orders?day=2023-10-15&limit=10&page=1
 Authorization: Bearer {{token}}
