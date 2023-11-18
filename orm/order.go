@@ -115,12 +115,12 @@ func (d *Database) OrderDetails(userId int64, orderId uint64) (models.Order, err
 func (d *Database) OrderList(userId int64, day string, limit uint64, offset uint64) ([]models.Order, error) {
 	var orders []models.Order
 
-	queryDb := d.db.Preload("OrderLines")
+	queryDb := d.db.Preload("OrderLines").Preload("User", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id", "name", "surname")
+	})
 
 	if len(day) > 0 {
-		queryDb = queryDb.Preload("User", func(db *gorm.DB) *gorm.DB {
-			return db.Select("id", "name", "surname")
-		}).Where("date(created_at) = ?", day)
+		queryDb = queryDb.Where("date(created_at) = ?", day)
 	}
 	if userId > 0 {
 		queryDb = queryDb.Where("user_id = ?", userId)
