@@ -1,7 +1,6 @@
 package orm
 
 import (
-	"errors"
 	"tfm_backend/models"
 
 	"github.com/rs/zerolog/log"
@@ -143,7 +142,7 @@ func (d *Database) OrderLineModify(userId uint64, line models.OrderLine) (models
 		tx := d.db.Begin()
 		defer tx.Rollback()
 
-		// existing line - update cantidad ONLY
+		// existing line - update quantity ONLY
 		err = tx.Model(&line).Update("quantity", line.Quantity).Error
 		if err != nil {
 			log.Error().Err(err).Interface("line", line).Msg("Failed to save order line")
@@ -152,7 +151,7 @@ func (d *Database) OrderLineModify(userId uint64, line models.OrderLine) (models
 			return d.OrderDetails(int64(userId), line.OrderID)
 		}
 
-		// use save to update or create line as required
+		// update costs in Order
 		err = d.orderUpdateCost(tx, line.OrderID)
 		if err != nil {
 			// explicit rollback - we will call a non-tx function
@@ -177,18 +176,13 @@ func (d *Database) orderUpdateCost(tx *gorm.DB, orderId uint64) error {
 	var err error
 	var subvention float64 = 0
 
-	// Only the first order has subvention
-	err = tx.Select("id").Where("id = ? AND cost_total != cost_to_pay").Find(&models.Order{}).Error
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		// If the costTotal != costToPay, this order has subvention applied. This is the first, so get subvention
-		var config models.Configuration
-		err = tx.Select("subvention").First(&config).Error
-		if err != nil {
-			log.Error().Err(err).Uint64("id", orderId).Msg("Failed to read subvention")
-			return err
-		}
-		subvention = config.Subvention
+	var aux models.Order
+	err = tx.Select("subvention").Where("id = ?", orderId).Find(&aux).Error
+	if err != nil {
+		log.Error().Err(err).Uint64("id", orderId).Msg("Failed to read order subvention")
+		return err
 	}
+	subvention = aux.Subvention
 
 	// Get lines
 	var lines []models.OrderLine

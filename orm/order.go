@@ -126,7 +126,7 @@ func (d *Database) OrderList(userId int64, day string, limit uint64, offset uint
 		queryDb = queryDb.Where("user_id = ?", userId)
 	}
 
-	err := queryDb.Limit(int(limit)).Offset(int(offset)).Find(&orders).Error
+	err := queryDb.Order("created_at DESC").Limit(int(limit)).Offset(int(offset)).Find(&orders).Error
 	return orders, err
 }
 
@@ -147,15 +147,14 @@ func (d *Database) OrderSubvention(userId uint64) (float64, error) {
 
 func (d *Database) orderCalculateCost(order models.Order) (models.Order, error) {
 	var err error
-	var subvention float64 = 0
 
-	subvention, err = d.orderCalculateSubvention(order.UserID)
+	order.Subvention, err = d.orderCalculateSubvention(order.UserID)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to calculate cost - calculate subvention")
 		return order, err
 	}
 
-	order.CostTotal, order.CostToPay = d.orderCalculateCostNoDB(order.OrderLines, subvention)
+	order.CostTotal, order.CostToPay = d.orderCalculateCostNoDB(order.OrderLines, order.Subvention)
 
 	return order, nil
 }

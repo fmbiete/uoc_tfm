@@ -96,10 +96,19 @@ type OrderLine struct {
 
 type Order struct {
 	BaseModel
-	OrderLines []OrderLine
-	UserID     uint64  // FK - Order belongs to User
-	User       User    // For preload joins, not reflected in model
-	CostTotal  float64 `gorm:"scale:2"`
-	CostToPay  float64 `gorm:"scale:2"` // FK - cost to pay after subvention
-	Delivery   time.Time
+	OrderLines    []OrderLine
+	UserID        uint64  // FK - Order belongs to User
+	User          User    // For preload joins, not reflected in model
+	CostTotal     float64 `gorm:"scale:2"`
+	CostToPay     float64 `gorm:"scale:2"` // cost to pay after subvention
+	Subvention    float64 `gorm:"scale:2"` // subvention applied
+	Delivery      time.Time
+	Address1      string `gorm:"size:250"`
+	Address2      string `gorm:"size:250"`
+	Address3      string `gorm:"size:250"`
+	City          string `gorm:"size:250"`
+	PostalCode    string `gorm:"size:10"`
+	Phone         string `gorm:"size:20"`
+	PaymentMethod string `gorm:"size:250"`
+	PaymentSecret string `gorm:"size:250"`
 }
