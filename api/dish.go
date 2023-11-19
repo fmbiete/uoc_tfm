@@ -9,6 +9,16 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+func (s *Server) DishCount(c echo.Context) error {
+	count, err := s.db.DishCount()
+	if err != nil {
+		log.Error().Err(err).Msg("Failed to count dishes")
+		return err
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{"count": count})
+}
+
 func (s *Server) DishCreate(c echo.Context) error {
 	var dish models.Dish
 	err := c.Bind(&dish)

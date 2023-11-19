@@ -8,6 +8,16 @@ import (
 	"gorm.io/gorm"
 )
 
+func (d *Database) UserCount(includeAdmin bool) (int64, error) {
+	var count int64
+	scope := d.db.Model(&models.User{})
+	if !includeAdmin {
+		scope = scope.Where("is_admin = false")
+	}
+	err := scope.Count(&count).Error
+	return count, err
+}
+
 func (d *Database) UserCreate(user models.User) (models.User, error) {
 	err := d.db.Where("email = ?", user.Email).First(&models.User{}).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {

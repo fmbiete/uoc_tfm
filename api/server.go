@@ -85,6 +85,7 @@ func (s *Server) Listen() error {
 	gUser.PATCH("/:id", s.UserModify, s.requiresLogin)
 	gUser.DELETE("/:id", s.UserDelete, s.requiresLogin)
 	s.e.GET("/users", s.UserList, s.requiresLogin, requiresAdministrator)
+	s.e.GET("/users/count", s.UserCount, s.requiresLogin, requiresAdministrator)
 
 	// Allergens API
 	gAllergen := s.e.Group("/allergen")
@@ -123,6 +124,7 @@ func (s *Server) Listen() error {
 	gDishes.PATCH("/:id", s.DishModify, s.requiresLogin, requiresAdministrator)
 	gDishes.DELETE("/:id", s.DishDelete, s.requiresLogin, requiresAdministrator)
 	s.e.GET("/dishes", s.DishList, s.optionalLogin)
+	s.e.GET("/dishes/count", s.DishCount, s.requiresLogin, requiresAdministrator)
 	gDishes.POST("/:id/like", s.DishLike, s.requiresLogin)
 	gDishes.POST("/:id/dislike", s.DishDislike, s.requiresLogin)
 

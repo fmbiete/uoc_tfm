@@ -9,6 +9,18 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+func (s *Server) UserCount(c echo.Context) error {
+	includeAdmin, _ := strconv.ParseBool(c.QueryParam("includeAdmin"))
+
+	count, err := s.db.UserCount(includeAdmin)
+	if err != nil {
+		log.Error().Err(err).Msg("Failed to count users")
+		return err
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{"count": count})
+}
+
 func (s *Server) UserCreate(c echo.Context) error {
 	var user models.User
 	err := c.Bind(&user)

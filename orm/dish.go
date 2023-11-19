@@ -9,6 +9,12 @@ import (
 	"gorm.io/gorm"
 )
 
+func (d *Database) DishCount() (int64, error) {
+	var count int64
+	err := d.db.Model(&models.Dish{}).Count(&count).Error
+	return count, err
+}
+
 func (d *Database) DishCreate(dish models.Dish) (models.Dish, error) {
 	err := d.db.Where("name = ?", dish.Name).First(&models.Dish{}).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {

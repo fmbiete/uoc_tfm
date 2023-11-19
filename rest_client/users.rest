@@ -2,6 +2,13 @@
 @token = 
 @userid = 2
 
+
+### User Count (requires login as administrator)
+GET http://localhost:8080/users/count
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+
 ### User Create
 POST http://localhost:8080/user/
 Content-Type: application/json

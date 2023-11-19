@@ -2,12 +2,19 @@
 @token = 
 @dishid = 1
 
+### Dishes Count (requires login as administrator)
+GET http://localhost:8080/dishes/count
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+
 ### Dishes Create (requires login)
 POST http://localhost:8080/dish/
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 { "name": "Paella", "description": "Plato de arroz valenciano", "ingredients": [ { "name": "arroz" }, { "name": "pollo" }, { "name": "pimiento" } ], "allergens": [ { "name": "gluten" }, { "name": "carne" }], "cost": 6.50  }
+
 
 ### Dishes Create (requires login)
 POST http://localhost:8080/dish/
@@ -16,9 +23,11 @@ Content-Type: application/json
 
 { "name": "Pasta Carbonara", "description": "Plato de pasta al estilo carbonara", "ingredients": [ { "name": "pasta" }, { "name": "bacon" }, { "name": "nata" } ], "allergens": [ { "name": "lacteo" } ], "cost": 5.50  }
 
+
 ### Dishes Favourites
 GET http://localhost:8080/dish/favourites?limit=10&page=1
 Content-Type: application/json
+
 
 ### Dishes Favourites (optional login)
 GET http://localhost:8080/dish/favourites?limit=10&page=1
@@ -29,6 +38,7 @@ Content-Type: application/json
 ### Dishes List
 GET http://localhost:8080/dishes?limit=10&page=1
 Content-Type: application/json
+
 
 ### Dishes List (optional login)
 GET http://localhost:8080/dishes?limit=10&page=1
