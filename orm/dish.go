@@ -42,7 +42,8 @@ func (d *Database) DishDetails(dishId uint64) (models.Dish, error) {
 		return db.Order("ingredients.name")
 	}).Preload("Categories", func(db *gorm.DB) *gorm.DB {
 		return db.Order("categories.name")
-	}).First(&dish, dishId).Error
+	}).Preload("Promotions").
+		First(&dish, dishId).Error
 	return dish, err
 }
 
@@ -101,7 +102,8 @@ func (d *Database) DishFavourites(userId int64, limit uint64, offset uint64) ([]
 			return db.Order("allergens.name")
 		}).Preload("Categories", func(db *gorm.DB) *gorm.DB {
 			return db.Order("categories.name")
-		}).Joins("RIGHT JOIN dish_likes ON dish_likes.dish_id = dishes.id").Where(`dish_likes.user_id = ?`, userId).Order("name").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
+		}).Preload("Promotions").
+			Joins("RIGHT JOIN dish_likes ON dish_likes.dish_id = dishes.id").Where(`dish_likes.user_id = ?`, userId).Order("name").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
 	}
 
 	if len(dishes) == 0 {
@@ -110,7 +112,8 @@ func (d *Database) DishFavourites(userId int64, limit uint64, offset uint64) ([]
 			return db.Order("allergens.name")
 		}).Preload("Categories", func(db *gorm.DB) *gorm.DB {
 			return db.Order("categories.name")
-		}).Order("likes desc").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
+		}).Preload("Promotions").
+			Order("likes desc").Limit(int(limit)).Offset(int(offset)).Find(&dishes).Error
 	}
 
 	return dishes, err
@@ -227,9 +230,18 @@ func (d *Database) DishModify(dish models.Dish) (models.Dish, error) {
 func (d *Database) dishCurrentCost(dishId uint64) (float64, error) {
 	var err error
 	var dish models.Dish
+	var promotion models.Promotion
 
-	err = d.db.Select("cost").First(&dish, dishId).Error
-	return dish.Cost, err
-
-	// TODO: promociones
+	err = d.db.Select("cost").Where("dish_id = ? AND current_date BETWEEN start_time AND end_time", dishId).First(&promotion).Error
+	if err == nil {
+		// Dish has active Promotion
+		return promotion.Cost, nil
+	} else {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			// Dish doesn't have promotion
+			err = d.db.Select("cost").First(&dish, dishId).Error
+			return dish.Cost, err
+		}
+	}
+	return 0, err
 }
