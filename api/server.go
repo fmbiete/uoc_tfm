@@ -142,6 +142,7 @@ func (s *Server) Listen() error {
 	gOrders.GET("/subvention", s.OrderSubvention, s.requiresLogin)
 	gOrders.POST("/", s.OrderCreate, s.requiresLogin)
 	gOrders.GET("/:id", s.OrderDetails, s.requiresLogin)
+	gOrders.GET("/:id/modifiable", s.OrderModifiable, s.requiresLogin)
 	gOrders.DELETE("/:id", s.OrderDelete, s.requiresLogin)
 	gOrders.POST("/:id/line/", s.OrderLineCreate, s.requiresLogin)
 	gOrders.PATCH("/:id/line/:lineid", s.OrderLineModify, s.requiresLogin)

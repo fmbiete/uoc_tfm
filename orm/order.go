@@ -20,14 +20,15 @@ func (d *Database) OrderCount(fromDate time.Time, toDate time.Time) ([]models.Co
 func (d *Database) OrderCreate(order models.Order) (models.Order, error) {
 	var err error
 
-	// is the kitchen open?
-	err = d.configChangesAllowed()
+	// when we would deliver today
+	order.Delivery, err = d.configTodayDelivery()
 	if err != nil {
 		return models.Order{}, err
 	}
+	log.Debug().Time("delivery", order.Delivery).Msg("Calculated delivery")
 
-	// initialize order
-	order.Delivery, err = d.configTodayDelivery()
+	// is the kitchen open?
+	err = d.configChangesAllowed(order.Delivery)
 	if err != nil {
 		return models.Order{}, err
 	}
@@ -82,9 +83,14 @@ func (d *Database) OrderCreate(order models.Order) (models.Order, error) {
 
 func (d *Database) OrderDelete(userId uint64, orderId uint64) error {
 	// Only the owner of the order can delete it
-	canProceed, err := d.orderOwnedByUser(userId, orderId)
+	canProceed, deliveryTime, err := d.orderOwnedByUser(userId, orderId)
 	if canProceed {
 		return d.db.Delete(&models.Order{}, orderId).Error
+	}
+
+	err = d.configChangesAllowed(deliveryTime)
+	if err != nil {
+		return err
 	}
 
 	return err
@@ -99,7 +105,7 @@ func (d *Database) OrderDetails(userId int64, orderId uint64) (models.Order, err
 	if userId == -1 {
 		canProceed = true
 	} else {
-		canProceed, err = d.orderOwnedByUser(uint64(userId), orderId)
+		canProceed, _, err = d.orderOwnedByUser(uint64(userId), orderId)
 	}
 
 	if !canProceed {
@@ -130,18 +136,26 @@ func (d *Database) OrderList(userId int64, day string, limit uint64, offset uint
 	return orders, err
 }
 
-func (d *Database) OrderSubvention(userId uint64) (float64, error) {
-	var err error
-	var subvention float64 = 0
-
-	// is the kitchen open?
-	err = d.configChangesAllowed()
+func (d *Database) OrderModifiable(orderId uint64, userId uint64) (bool, error) {
+	canProceed, deliveryTime, err := d.orderOwnedByUser(userId, orderId)
 	if err != nil {
-		return subvention, err
+		log.Error().Err(err).Uint64("userId", userId).Uint64("orderId", orderId).Msg("Failed to check if order is owner by user")
+		return false, err
+	}
+	if !canProceed {
+		return false, errors.New("Order doesn't belong to this user")
 	}
 
-	subvention, err = d.orderCalculateSubvention(userId)
+	err = d.configChangesAllowed(deliveryTime)
+	if err != nil {
+		return false, err
+	}
 
+	return true, nil
+}
+
+func (d *Database) OrderSubvention(userId uint64) (float64, error) {
+	subvention, err := d.orderCalculateSubvention(userId)
 	return subvention, err
 }
 
@@ -189,16 +203,17 @@ func (d *Database) orderCalculateSubvention(userId uint64) (float64, error) {
 	return subvention, err
 }
 
-func (d *Database) orderOwnedByUser(userId uint64, orderId uint64) (bool, error) {
-	var err error = d.db.Where("user_id = ? AND id = ?", userId, orderId).First(&models.Order{}).Error
+func (d *Database) orderOwnedByUser(userId uint64, orderId uint64) (bool, time.Time, error) {
+	var order models.Order
+	var err error = d.db.Select("delivery").Where("user_id = ? AND id = ?", userId, orderId).First(&order).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return false, errors.New("Order doesn't belong to this User")
+			return false, order.Delivery, errors.New("Order doesn't belong to this User")
 		} else {
 			log.Error().Err(err).Uint64("userId", userId).Uint64("orderId", orderId).Msg("Failed to check if order belongs to user")
-			return false, err
+			return false, order.Delivery, err
 		}
 	}
 
-	return true, nil
+	return true, order.Delivery, nil
 }

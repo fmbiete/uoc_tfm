@@ -10,16 +10,14 @@ import (
 const errMsgTxCommit string = "Failed to commit changes to database for order conversion"
 
 func (d *Database) OrderLineCreate(userId uint64, orderId uint64, lineOrder models.OrderLine) (models.Order, error) {
-	var err error
-
 	// Only the owner of the order can add lines to it
-	canProceed, err := d.orderOwnedByUser(userId, orderId)
+	canProceed, deliveryTime, err := d.orderOwnedByUser(userId, orderId)
 	if !canProceed {
 		return models.Order{}, err
 	}
 
 	// Changes must be done before kitchen starts preparing the food
-	err = d.configChangesAllowed()
+	err = d.configChangesAllowed(deliveryTime)
 	if err != nil {
 		return d.OrderDetails(int64(userId), orderId)
 	}
@@ -76,16 +74,14 @@ func (d *Database) OrderLineCreate(userId uint64, orderId uint64, lineOrder mode
 }
 
 func (d *Database) OrderLineDelete(userId uint64, orderId uint64, lineId uint64) (models.Order, error) {
-	var err error
-
 	// Only the owner of the order can delete lines to it
-	canProceed, err := d.orderOwnedByUser(userId, orderId)
+	canProceed, deliveryTime, err := d.orderOwnedByUser(userId, orderId)
 	if !canProceed {
 		return models.Order{}, err
 	}
 
 	// Changes must be done before kitchen starts preparing the food
-	err = d.configChangesAllowed()
+	err = d.configChangesAllowed(deliveryTime)
 	if err != nil {
 		return d.OrderDetails(int64(userId), orderId)
 	}
@@ -123,16 +119,14 @@ func (d *Database) OrderLineDelete(userId uint64, orderId uint64, lineId uint64)
 }
 
 func (d *Database) OrderLineModify(userId uint64, line models.OrderLine) (models.Order, error) {
-	var err error
-
 	// Only the owner of the order can add lines to it
-	canProceed, err := d.orderOwnedByUser(userId, line.OrderID)
+	canProceed, deliveryTime, err := d.orderOwnedByUser(userId, line.OrderID)
 	if !canProceed {
 		return models.Order{}, err
 	}
 
 	// Changes must be done before kitchen starts preparing the food
-	err = d.configChangesAllowed()
+	err = d.configChangesAllowed(deliveryTime)
 	if err != nil {
 		return d.OrderDetails(int64(userId), line.OrderID)
 	}

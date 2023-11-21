@@ -2,6 +2,7 @@ package orm
 
 import (
 	"errors"
+	"fmt"
 	"tfm_backend/models"
 	"time"
 
@@ -25,7 +26,13 @@ func (d *Database) ConfigurationModify(config models.Configuration) (models.Conf
 	return d.ConfigurationDetails()
 }
 
-func (d *Database) configChangesAllowed() error {
+func (d *Database) configChangesAllowed(orderDelivery time.Time) error {
+	if orderDelivery.Day() != time.Now().Day() ||
+		orderDelivery.Month() != time.Now().Month() ||
+		orderDelivery.Year() != time.Now().Year() {
+		return errors.New("this order has been already delivered")
+	}
+
 	// Read ChangesTime
 	var config models.Configuration
 	err := d.db.Select("changes_time").First(&config).Error
@@ -34,11 +41,12 @@ func (d *Database) configChangesAllowed() error {
 		return err
 	}
 
-	// current time is before ChangesTime
-	todayLimit := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), config.ChangesTime.Hour(), config.ChangesTime.Minute(), 0, 0, time.Now().Location())
+	// order time is before ChangesTime
+	orderLimit := time.Date(orderDelivery.Year(), orderDelivery.Month(), orderDelivery.Day(),
+		config.ChangesTime.Hour(), config.ChangesTime.Minute(), 0, 0, orderDelivery.Location())
 
-	if time.Now().After(todayLimit) {
-		return errors.New("kitchen is closed, no more orders or changes allowed")
+	if time.Now().After(orderLimit) {
+		return fmt.Errorf("kitchen is closed, no more orders or changes allowed after %s", orderLimit.Format("15:04"))
 	}
 
 	return nil

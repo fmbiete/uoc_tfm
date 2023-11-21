@@ -196,6 +196,23 @@ func (s *Server) OrderLineModify(c echo.Context) error {
 	return c.JSON(http.StatusOK, order)
 }
 
+func (s *Server) OrderModifiable(c echo.Context) error {
+	var userId = authenticatedUserId(c)
+	orderId, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	if err != nil {
+		log.Error().Err(err).Str("id", c.Param("id")).Msg(msgErrorIdToInt)
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	modifiable, err := s.db.OrderModifiable(orderId, userId)
+	if err != nil {
+		log.Error().Err(err).Uint64("orderId", orderId).Uint64("userId", userId).Msg("Failed to check if order is modifiable")
+		return err
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{"modifiable": modifiable})
+}
+
 func (s *Server) OrderSubvention(c echo.Context) error {
 	var userId = authenticatedUserId(c)
 
