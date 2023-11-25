@@ -3,9 +3,9 @@ CREATE INDEX idx_users_name_trgm ON tfm.users USING GIN (name GIN_TRGM_OPS);
 CREATE INDEX idx_users_surname_trgm ON tfm.users USING GIN (surname GIN_TRGM_OPS);
 CREATE INDEX idx_users_email_trgm ON tfm.users USING GIN (email GIN_TRGM_OPS);
 
-insert into users (email, name, surname, address1, address2, address3, city, postal_code, is_admin, password, created_at, updated_at)
+insert into tfm.users (email, name, surname, address1, address2, address3, city, postal_code, is_admin, password, created_at, updated_at)
 values ('admin@tfm.es', 'Administrator', 'Administrator', 'Company Name', null, null, 'City', '00000', true, 'b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a2ea6d103fd07c95385ffab0cacbc86', current_timestamp, current_timestamp);
-insert into configurations (id, delivery_time, changes_time, subvention, created_at, updated_at)
+insert into tfm.configurations (id, delivery_time, changes_time, subvention, created_at, updated_at)
 values (1, '2000-01-01 22:00:00+00', '2000-01-01 20:30:00+00', 10.00, current_timestamp, current_timestamp);
 INSERT INTO tfm.dishes (name, description, cost, likes, dislikes, created_at, updated_at) VALUES ('Tex mex breakfast specialty', 'Quesadilla stuffed with eggs jalapenos sausage and cheddar cheese served with guacamole and home fries', 12.79 
 , 92, 37, current_timestamp, current_timestamp) ON CONFLICT DO NOTHING;
